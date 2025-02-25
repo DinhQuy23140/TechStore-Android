@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Tech Store</string>
+    <string name="login_title">Login to your Account</string>
+    <string name="login_saveInformation">Save information</string>
+    <string name="login_forgotPassword">Forgot Password</string>
+    <string name="login_btnLogin">Login</string>
+    <string name="login_btnSignUp">Sign Up</string>
 </resources>

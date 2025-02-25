@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tech Store</string>
+    <string name="login_title">Đăng nhập với tài khoản của bạn</string>
+    <string name="login_saveInformation">Lưu thống tin đăng nhập</string>
+    <string name="login_forgotPassword">Quên mật khất</string>
+    <string name="login_btnLogin">Đăng nhập</string>
+    <string name="login_btnSignUp">Đăng ký</string>
+</resources>
