@@ -5,4 +5,8 @@
     <string name="login_forgotPassword">Forgot Password</string>
     <string name="login_btnLogin">Login</string>
     <string name="login_btnSignUp">Sign Up</string>
+    <string name="login_error_email">Email is required</string>
+    <string name="login_error_email_format">Invalid email format</string>
+    <string name="login_error_password">Password is required</string>
+    <string name="login_error_password_length">Password must be at least 8 characters</string>
 </resources>
