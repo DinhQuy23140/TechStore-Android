@@ -1,4 +1,5 @@
 <resources>
+<!--    login activity      -->
     <string name="app_name">Tech Store</string>
     <string name="login_title">Login to your Account</string>
     <string name="login_saveInformation">Save information</string>
@@ -11,6 +12,7 @@
     <string name="login_error_password_length">Password must be at least 8 characters</string>
     <string name="login_falure">Check email or password againt</string>
 
+<!--    signup activity     -->
     <string name="signup_title">Sign Up</string>
     <string name="signup_btnSignUp">Sign Up</string>
     <string name="signup_btnLogin">Login</string>
@@ -23,4 +25,20 @@
     <string name="signup_create_success">Create account succes</string>
     <string name="signup_create_failure">Try againt later</string>
     <string name="signup_error_input_inf">Check information againt</string>
+    <string name="signup_error_email_exits">Email already exists</string>
+
+<!--    navigation bottom bar-->
+    <string name="nav_bottom_home">Home</string>
+    <string name="nav_bottom_bag">Carts</string>
+    <string name="nav_bottom_orders">Orders</string>
+    <string name="nav_bottom_wallets">Wallets</string>
+    <string name="nav_bottom_person">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+<!--    home fragment   -->
+    <string name="homeFrg_time_morning">Good morning</string>
+    <string name="homeFrg_time_afternoon">Good Afternoon</string>
+    <string name="homeFrg_time_evening">Good Evening</string>
+    <string name="homeFrg_time_night">Good Night</string>
 </resources>

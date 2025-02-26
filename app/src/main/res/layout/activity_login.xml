@@ -72,6 +72,7 @@
         android:drawablePadding="10dp"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
+        android:hint="Email"
         android:inputType="text|textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,6 +90,7 @@
         android:inputType="text|textPassword"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
+        android:hint="Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_et_email" />
