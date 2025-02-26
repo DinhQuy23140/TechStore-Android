@@ -1,6 +1,9 @@
 package com.example.techstore.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -13,11 +16,14 @@ import com.example.techstore.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.regex.Pattern;
+
 public class SignUpActivity extends AppCompatActivity {
 
     LinearLayout signup_layout_login;
     TextInputEditText signup_et_email, signup_et_password, signup_et_confirm_password, signup_et_phone;
     MaterialButton signup_btn_signup;
+    Boolean flagEmail = false, flagPassword = false, flagConfirmPassword = false, flagPhone = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +33,95 @@ public class SignUpActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        signup_layout_login = findViewById(R.id.signup_layout_login);
+        signup_et_email = findViewById(R.id.signup_et_email);
+        signup_et_password = findViewById(R.id.signup_et_password);
+        signup_et_confirm_password = findViewById(R.id.signup_et_confirm_password);
+        signup_et_phone = findViewById(R.id.signup_et_phone);
+        signup_btn_signup = findViewById(R.id.signup_btn_signup);
+
+        signup_layout_login.setOnClickListener(viewLogin -> {
+            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
+
+        signup_et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String email = signup_et_email.getText().toString();
+                if(!hasFocus) {
+                    if(email.isEmpty()) {
+                        signup_et_email.setError(getString(R.string.login_error_email));
+                        flagEmail = false;
+                    } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        signup_et_email.setError(getString(R.string.login_error_email_format));
+                        flagEmail = false;
+                    } else {
+                        signup_et_email.setError(null);
+                        flagEmail = true;
+                    }
+                }
+            }
+        });
+
+        signup_et_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String password = signup_et_password.getText().toString();
+                if(!hasFocus) {
+                    if(password.isEmpty()) {
+                        signup_et_password.setError(getString(R.string.login_error_password));
+                        flagPassword = false;
+                    } else if (password.length() < 8) {
+                        signup_et_password.setError(getString(R.string.login_error_password_length ));
+                        flagPassword = false;
+                    } else {
+                        signup_et_password.setError(null);
+                        flagPassword = true;
+                    }
+                }
+            }
+        });
+
+        signup_et_confirm_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String confirmPassword = signup_et_confirm_password.getText().toString();
+                String password = signup_et_password.getText().toString();
+                if(!hasFocus) {
+                    if(confirmPassword.isEmpty()) {
+                        signup_et_confirm_password.setError(getString(R.string.login_error_password));
+                        flagConfirmPassword = false;
+                    } else if (!confirmPassword.equals(password)) {
+                        signup_et_confirm_password.setError(getString(R.string.signup_error_password_not_match));
+                        flagConfirmPassword = false;
+                    } else {
+                        signup_et_confirm_password.setError(null);
+                        flagConfirmPassword = true;
+                    }
+                }
+            }
+        });
+
+        signup_et_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String phone = signup_et_phone.getText().toString();
+                if(!hasFocus) {
+                    if (phone.isEmpty()) {
+                        signup_et_phone.setError(getString(R.string.signup_error_phone));
+                        flagPhone = false;
+                    } else if (phone.length() < 10) {
+                        signup_et_phone.setError(getString(R.string.signup_error_phone_format));
+                        flagPhone = false;
+                    } else {
+                        signup_et_phone.setError(null);
+                        flagPhone = true;
+                    }
+                }
+            }
         });
     }
 }

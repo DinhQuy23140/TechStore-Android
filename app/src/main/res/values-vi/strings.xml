@@ -17,4 +17,7 @@
     <string name="signup_et_password">Mật khẩu</string>
     <string name="signup_et_confirm">Xác nhận mật khẩu</string>
     <string name="sigup_et_phone">Số điện thoại</string>
+    <string name="signup_error_password_not_match">Mật khẩu xác nhận không trùng khớp</string>
+    <string name="signup_error_phone">Vui lòng nhập số điện thoại</string>
+    <string name="signup_error_phone_format">Số điện thoại nhập không hợp lệ</string>
 </resources>
