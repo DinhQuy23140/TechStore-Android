@@ -5,17 +5,27 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.techstore.R;
+import com.example.techstore.untilities.Constants;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -23,7 +33,8 @@ public class SignUpActivity extends AppCompatActivity {
     LinearLayout signup_layout_login;
     TextInputEditText signup_et_email, signup_et_password, signup_et_confirm_password, signup_et_phone;
     MaterialButton signup_btn_signup;
-    Boolean flagEmail = false, flagPassword = false, flagConfirmPassword = false, flagPhone = false;
+    Boolean flagEmail = true, flagPassword = true, flagConfirmPassword = true, flagPhone = true;
+    FirebaseFirestore firestore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
             return insets;
         });
 
+        firestore = FirebaseFirestore.getInstance();
         signup_layout_login = findViewById(R.id.signup_layout_login);
         signup_et_email = findViewById(R.id.signup_et_email);
         signup_et_password = findViewById(R.id.signup_et_password);
@@ -123,5 +135,46 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+
+        signup_btn_signup.setOnClickListener(signup_act -> {
+            signup();
+        });
+    }
+
+    public Boolean validation() {
+        if (flagEmail && flagPassword && flagConfirmPassword && flagPhone) return true;
+        else return false;
+    }
+
+    public void signup() {
+        if (validation()) {
+            String email = signup_et_email.getText().toString();
+            String password = signup_et_password.getText().toString();
+            String phone = signup_et_phone.getText().toString();
+            Map<String, String> newUser = new HashMap();
+            newUser.put(Constants.KEY_EMAIL, email);
+            newUser.put(Constants.KEY_PASSWORD, password);
+            newUser.put(Constants.KEY_PHONE, phone);
+            firestore.collection(Constants.KEY_COLLECTION_USER)
+                    .add(newUser)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Intent toLogin = new Intent(SignUpActivity.this, LoginActivity.class);
+                            toLogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            Toast.makeText(SignUpActivity.this, R.string.signup_create_success, Toast.LENGTH_SHORT).show();
+                            startActivity(toLogin);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SignUpActivity.this, R.string.signup_create_failure, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        else {
+            Toast.makeText(SignUpActivity.this, R.string.signup_error_input_inf, Toast.LENGTH_SHORT).show();
+        }
     }
 }

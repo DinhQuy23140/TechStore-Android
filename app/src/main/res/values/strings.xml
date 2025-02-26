@@ -19,4 +19,7 @@
     <string name="signup_error_password_not_match">Password not match</string>
     <string name="signup_error_phone">Phone is required</string>
     <string name="signup_error_phone_format">Invalid phone format</string>
+    <string name="signup_create_success">Create account succes</string>
+    <string name="signup_create_failure">Try againt later</string>
+    <string name="signup_error_input_inf">Check information againt</string>
 </resources>
