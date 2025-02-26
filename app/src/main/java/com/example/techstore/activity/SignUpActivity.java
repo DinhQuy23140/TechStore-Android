@@ -19,12 +19,16 @@ import com.example.techstore.untilities.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -67,13 +71,31 @@ public class SignUpActivity extends AppCompatActivity {
                     if(email.isEmpty()) {
                         signup_et_email.setError(getString(R.string.login_error_email));
                         flagEmail = false;
-                    } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        return;
+                    }
+                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                         signup_et_email.setError(getString(R.string.login_error_email_format));
                         flagEmail = false;
-                    } else {
-                        signup_et_email.setError(null);
-                        flagEmail = true;
+                        return;
                     }
+
+                    firestore.collection(Constants.KEY_COLLECTION_USER)
+                            .whereEqualTo(Constants.KEY_EMAIL, email)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        if (!task.getResult().isEmpty()) {
+                                            signup_et_email.setError(getString(R.string.signup_error_email_exits));
+                                            flagEmail = false;
+                                        } else {
+                                            signup_et_email.setError(null);
+                                            flagEmail = true;
+                                        }
+                                    }
+                                }
+                            });
                 }
             }
         });

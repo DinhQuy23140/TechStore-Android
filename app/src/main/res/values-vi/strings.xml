@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!--    login activity     -->
     <string name="app_name">Tech Store</string>
     <string name="login_title">Đăng nhập với tài khoản của bạn</string>
     <string name="login_saveInformation">Lưu thống tin đăng nhập</string>
@@ -12,6 +13,7 @@
     <string name="login_error_password_length">Mật khất phái nhất 8 ký tự</string>
     <string name="login_falure">Kiểm tra lại thông tin đăng nhập</string>
 
+<!--    signup activity     -->
     <string name="signup_title">Đăng ký tài khoản mới</string>
     <string name="signup_btnSignUp">Đăng ký</string>
     <string name="signup_btnLogin">Đăng nhập</string>
@@ -24,4 +26,20 @@
     <string name="signup_create_success">Tạo tài khoản thành công.</string>
     <string name="signup_create_failure">Đăng kí thất bại. Vui lòng thử lại sau.</string>
     <string name="signup_error_input_inf">Kiểm tra lại thông tin</string>
+    <string name="signup_error_email_exits">Email đã tồn tại</string>
+
+<!--    bottom navigation bar    -->
+    <string name="nav_bottom_home">Trang chủ</string>
+    <string name="nav_bottom_bag">Giỏ hàng</string>
+    <string name="nav_bottom_orders">Đơn hàng</string>
+    <string name="nav_bottom_wallets">Ví</string>
+    <string name="nav_bottom_person">Hồ sơ</string>
+
+<!--    home fragment   -->
+    <string name="homeFrg_time_morning">Good morning</string>
+    <string name="homeFrg_time_afternoon">Good Afternoon</string>
+    <string name="homeFrg_time_evening">Good Evening</string>
+    <string name="homeFrg_time_night">Good Night</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
