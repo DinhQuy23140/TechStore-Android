@@ -10,4 +10,11 @@
     <string name="login_error_email_format">Email không hợp lệ</string>
     <string name="login_error_password">Vui lòng nhập mật khẩu</string>
     <string name="login_error_password_length">Mật khất phái nhất 8 ký tự</string>
+
+    <string name="signup_title">Đăng ký tài khoản mới</string>
+    <string name="signup_btnSignUp">Đăng ký</string>
+    <string name="signup_btnLogin">Đăng nhập</string>
+    <string name="signup_et_password">Mật khẩu</string>
+    <string name="signup_et_confirm">Xác nhận mật khẩu</string>
+    <string name="sigup_et_phone">Số điện thoại</string>
 </resources>
