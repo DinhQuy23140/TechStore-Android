@@ -9,6 +9,7 @@
     <string name="login_error_email_format">Invalid email format</string>
     <string name="login_error_password">Password is required</string>
     <string name="login_error_password_length">Password must be at least 8 characters</string>
+    <string name="login_falure">Check email or password againt</string>
 
     <string name="signup_title">Sign Up</string>
     <string name="signup_btnSignUp">Sign Up</string>

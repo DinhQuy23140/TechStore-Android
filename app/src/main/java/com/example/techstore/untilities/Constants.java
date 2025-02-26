@@ -11,4 +11,5 @@ public class Constants {
     public static final String KEY_IS_LOGIN = "is_login";
     public static final String KEY_IS_SAVE_INF = "is_save_inf";
     public static final String KEY_COLLECTION_USER = "users";
+    public static final String KEY_SHARE_PREFERENCE = "TechStorePref";
 }
