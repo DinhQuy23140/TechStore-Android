@@ -41,4 +41,9 @@
     <string name="homeFrg_time_afternoon">Good Afternoon</string>
     <string name="homeFrg_time_evening">Good Evening</string>
     <string name="homeFrg_time_night">Good Night</string>
+    <string name="homeFrg_et_search">Search</string>
+    <string name="homeFr_tv_special_offer">Special Offers</string>
+
+<!--    commont     -->
+    <string name="common_see_all">See all</string>
 </resources>

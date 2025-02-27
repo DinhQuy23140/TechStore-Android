@@ -40,6 +40,12 @@
     <string name="homeFrg_time_afternoon">Good Afternoon</string>
     <string name="homeFrg_time_evening">Good Evening</string>
     <string name="homeFrg_time_night">Good Night</string>
+    <string name="homeFrg_et_search">Tìm kiếm</string>
+    <string name="homeFr_tv_special_offer">Ưu đãi đặc biệt</string>
+
+
+<!--    commont     -->
+    <string name="common_see_all">Xem tất cả</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
