@@ -2,13 +2,20 @@ package com.example.techstore.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.techstore.Adapter.CarouselAdapter;
 import com.example.techstore.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +28,10 @@ public class HomeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    ViewPager2 homeFrg_viewPager;
+    ArrayList<Integer> listPathImage;
+    CarouselAdapter carouselAdapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,5 +73,29 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        homeFrg_viewPager = view.findViewById(R.id.homeFrg_viewPager);
+        listPathImage = new ArrayList<>();
+        listPathImage.add(R.drawable.img);
+        listPathImage.add(R.drawable.img_1);
+        listPathImage.add(R.drawable.img_2);
+        listPathImage.add(R.drawable.img_3);
+        carouselAdapter = new CarouselAdapter(getContext(), listPathImage);
+        homeFrg_viewPager.setAdapter(carouselAdapter);
+
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                int nextItem = (homeFrg_viewPager.getCurrentItem() + 1) % listPathImage.size();
+                homeFrg_viewPager.setCurrentItem(nextItem, true);
+                handler.postDelayed(this, 3000);
+            }
+        };
+        handler.postDelayed(runnable, 3000);
     }
 }
