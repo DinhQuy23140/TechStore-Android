@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -15,9 +16,12 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.LinearLayout;
 
 import com.example.techstore.Adapter.CarouselAdapter;
 import com.example.techstore.Adapter.CategoryAdapter;
+import com.example.techstore.Adapter.FilterAdapter;
 import com.example.techstore.R;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 
@@ -44,6 +48,10 @@ public class HomeFragment extends Fragment {
     private ArrayList<String> listNameCategory;
     CategoryAdapter categoryAdapter;
     RecyclerView homeFrg_rv_category;
+
+    ArrayList<String> listFilter;
+    RecyclerView homeFrg_rv_filter;
+    FilterAdapter adapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -123,9 +131,17 @@ public class HomeFragment extends Fragment {
                 R.drawable.baseline_keyboard_24, R.drawable.baseline_laptop_24, R.drawable.baseline_mouse_24, R.drawable.baseline_router_24, R.drawable.baseline_sd_storage_24,
                 R.drawable.baseline_smartphone_24, R.drawable.baseline_speaker_24, R.drawable.baseline_tablet_24, R.drawable.baseline_watch_24));
         listNameCategory = new ArrayList<>();
-        listNameCategory.addAll(Arrays.asList("Battery change", "Camera", "Headphone", "Keyboard", "Laptop", "Mouse", "Router", "Storage", "Smartphone", "Speaker", "Tablet", "Watch"));
+        listNameCategory.addAll(Arrays.asList("Battery change", "Camera", "Headphone", "Keyboard", "Laptop", "Mouse",
+                "Router", "Storage", "Smartphone", "Speaker", "Tablet", "Watch"));
         categoryAdapter = new CategoryAdapter(getContext(), listNameCategory, listPathImageCategory);
         homeFrg_rv_category.setAdapter(categoryAdapter);
+
+        homeFrg_rv_filter = view.findViewById(R.id.homeFrg_rv_filter);
+        homeFrg_rv_filter.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        listFilter = new ArrayList<>();
+        listFilter.addAll(Arrays.asList("All", "Battery change", "Camera", "Headphone", "Keyboard", "Laptop", "Mouse", "Router", "Storage", "Smartphone", "Speaker", "Tablet", "Watch"));
+        adapter = new FilterAdapter(getContext(), listFilter);
+        homeFrg_rv_filter.setAdapter(adapter);
     }
 
     private int dpToPx(Context context, int dp) {
