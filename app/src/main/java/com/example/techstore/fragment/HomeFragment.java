@@ -1,21 +1,28 @@
 package com.example.techstore.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.techstore.Adapter.CarouselAdapter;
+import com.example.techstore.Adapter.CategoryAdapter;
 import com.example.techstore.R;
+import com.example.techstore.untilities.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +39,11 @@ public class HomeFragment extends Fragment {
     ViewPager2 homeFrg_viewPager;
     ArrayList<Integer> listPathImage;
     CarouselAdapter carouselAdapter;
+
+    private ArrayList<Integer> listPathImageCategory;
+    private ArrayList<String> listNameCategory;
+    CategoryAdapter categoryAdapter;
+    RecyclerView homeFrg_rv_category;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -78,6 +90,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //banner
         homeFrg_viewPager = view.findViewById(R.id.homeFrg_viewPager);
         listPathImage = new ArrayList<>();
         listPathImage.add(R.drawable.img);
@@ -97,5 +111,26 @@ public class HomeFragment extends Fragment {
             }
         };
         handler.postDelayed(runnable, 3000);
+
+        //category
+        int spanCount = 4;
+        int itemPx = dpToPx(getContext(),70);
+        homeFrg_rv_category = view.findViewById(R.id.homeFrg_rv_category);
+        homeFrg_rv_category.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
+        homeFrg_rv_category.addItemDecoration(new GridSpacingItemDecoration(spanCount, itemPx));
+        listPathImageCategory = new ArrayList<>();
+        listPathImageCategory.addAll(Arrays.asList(R.drawable.baseline_battery_charging_full_24, R.drawable.baseline_camera_alt_24, R.drawable.baseline_headphones_24,
+                R.drawable.baseline_keyboard_24, R.drawable.baseline_laptop_24, R.drawable.baseline_mouse_24, R.drawable.baseline_router_24, R.drawable.baseline_sd_storage_24,
+                R.drawable.baseline_smartphone_24, R.drawable.baseline_speaker_24, R.drawable.baseline_tablet_24, R.drawable.baseline_watch_24));
+        listNameCategory = new ArrayList<>();
+        listNameCategory.addAll(Arrays.asList("Battery change", "Camera", "Headphone", "Keyboard", "Laptop", "Mouse", "Router", "Storage", "Smartphone", "Speaker", "Tablet", "Watch"));
+        categoryAdapter = new CategoryAdapter(getContext(), listNameCategory, listPathImageCategory);
+        homeFrg_rv_category.setAdapter(categoryAdapter);
+    }
+
+    private int dpToPx(Context context, int dp) {
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics()
+        );
     }
 }
