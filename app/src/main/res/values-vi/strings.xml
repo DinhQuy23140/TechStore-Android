@@ -45,6 +45,9 @@
     <string name="homeFr_tv_most_popular">Thịnh hành</string>
 
 
+<!--    notification    -->
+    <string name="notification_title">Thông báo</string>
+
 <!--    commont     -->
     <string name="common_see_all">Xem tất cả</string>
 
