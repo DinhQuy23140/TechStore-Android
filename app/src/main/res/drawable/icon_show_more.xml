@@ -8,12 +8,13 @@
         >
         <shape>
             <solid android:color="@color/white"/>
+            <corners android:radius="24dp"/>
         </shape>
     </item>
 
     <!-- Icon hình người -->
     <item
-        android:drawable="@drawable/baseline_person_black_24"
+        android:drawable="@drawable/baseline_more_horiz_34"
         android:width="24dp"
         android:height="24dp"
         android:gravity="center"/>

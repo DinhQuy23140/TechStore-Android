@@ -1,5 +1,5 @@
 <resources>
-<!--    login activity      -->
+    <!--    login activity      -->
     <string name="app_name">Tech Store</string>
     <string name="login_title">Login to your Account</string>
     <string name="login_saveInformation">Save information</string>
@@ -12,7 +12,7 @@
     <string name="login_error_password_length">Password must be at least 8 characters</string>
     <string name="login_falure">Check email or password againt</string>
 
-<!--    signup activity     -->
+    <!--    signup activity     -->
     <string name="signup_title">Sign Up</string>
     <string name="signup_btnSignUp">Sign Up</string>
     <string name="signup_btnLogin">Login</string>
@@ -27,7 +27,7 @@
     <string name="signup_error_input_inf">Check information againt</string>
     <string name="signup_error_email_exits">Email already exists</string>
 
-<!--    navigation bottom bar-->
+    <!--    navigation bottom bar-->
     <string name="nav_bottom_home">Home</string>
     <string name="nav_bottom_bag">Carts</string>
     <string name="nav_bottom_orders">Orders</string>
@@ -36,7 +36,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-<!--    home fragment   -->
+    <!--    home fragment   -->
     <string name="homeFrg_time_morning">Good morning</string>
     <string name="homeFrg_time_afternoon">Good Afternoon</string>
     <string name="homeFrg_time_evening">Good Evening</string>
@@ -45,6 +45,10 @@
     <string name="homeFr_tv_special_offer">Special Offers</string>
     <string name="homeFr_tv_most_popular">Most Popular</string>
 
-<!--    commont     -->
+    <!--    notification activity   -->
+    <string name="notification_title">Notification</string>
+
+
+    <!--    commont     -->
     <string name="common_see_all">See all</string>
 </resources>
