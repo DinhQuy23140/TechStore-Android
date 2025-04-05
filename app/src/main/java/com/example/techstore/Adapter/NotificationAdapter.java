@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.techstore.R;
+import com.example.techstore.activity.NotificationActivity;
+import com.example.techstore.activity.ViewNotifiActivity;
 import com.example.techstore.model.Notifi;
 import com.google.gson.Gson;
 
@@ -46,7 +48,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 .into(holder.notification_iv_img);
 
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, NotificationDetailActivity.class);
+            Intent intent = new Intent(context, ViewNotifiActivity  .class);
             Gson gson = new Gson();
             String json = gson.toJson(notifi);
             intent.putExtra("notifi", json);

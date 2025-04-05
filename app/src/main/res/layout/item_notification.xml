@@ -55,7 +55,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="25dp"
             android:ellipsize="end"
-            android:margin="25dp"
             android:maxLines="1"
             android:text="Notification"
             android:textColor="@color/white"

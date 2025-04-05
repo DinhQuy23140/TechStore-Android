@@ -185,11 +185,5 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/homeFrg_rv_product"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"/>
-
     </LinearLayout>
 </ScrollView>
