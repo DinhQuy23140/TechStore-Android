@@ -12,21 +12,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.techstore.Adapter.CarouselAdapter;
 import com.example.techstore.Adapter.CategoryAdapter;
+import com.example.techstore.Adapter.CategoryNameAdapter;
 import com.example.techstore.Adapter.FilterAdapter;
+import com.example.techstore.ApiService.ApiService;
+import com.example.techstore.Client.RetrofitClient;
 import com.example.techstore.R;
+import com.example.techstore.model.product;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,8 +60,11 @@ public class HomeFragment extends Fragment {
     RecyclerView homeFrg_rv_category;
 
     ArrayList<String> listFilter;
-    RecyclerView homeFrg_rv_filter;
+    RecyclerView homeFrg_rv_filter, homeFrg_rv_product;
     FilterAdapter adapter;
+
+    CategoryNameAdapter categoryNameAdapter;
+    ArrayList<product> listProduct;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -139,14 +152,37 @@ public class HomeFragment extends Fragment {
         homeFrg_rv_filter = view.findViewById(R.id.homeFrg_rv_filter);
         homeFrg_rv_filter.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         listFilter = new ArrayList<>();
-        listFilter.addAll(Arrays.asList("All", "Battery change", "Camera", "Headphone", "Keyboard", "Laptop", "Mouse", "Router", "Storage", "Smartphone", "Speaker", "Tablet", "Watch"));
+        listFilter.addAll(Arrays.asList("All", "Battery chande", "Camera", "Headphone", "Keyboard", "Laptop", "Mouse", "Router", "Storage", "Smartphone", "Speaker", "Tablet", "Watch"));
         adapter = new FilterAdapter(getContext(), listFilter);
-        homeFrg_rv_filter.setAdapter(adapter);
+        categoryNameAdapter = new CategoryNameAdapter(getContext(), listFilter);
+        homeFrg_rv_filter.setAdapter(categoryNameAdapter);
+
+        homeFrg_rv_product = view.findViewById(R.id.homeFrg_rv_product);
+        homeFrg_rv_product.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        homeFrg_rv_product.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(getContext(), 10)));
+        ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
+        Call<ArrayList<product>> call = apiService.getProduct();
+        call.enqueue(new Callback<ArrayList<product>>() {
+            @Override
+            public void onResponse(Call<ArrayList<product>> call, Response<ArrayList<product>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listProduct = response.body();
+                    Toast.makeText(getContext(), Integer.toString(listProduct.size()), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<product>> call, Throwable throwable) {
+                Log.e("Retrofit", "Error " + throwable.getMessage());
+            }
+        });
     }
 
-    private int dpToPx(Context context, int dp) {
-        return (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics()
-        );
-    }
+        private int dpToPx(Context context, int dp) {
+            return (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics()
+            );
+        }
 }
