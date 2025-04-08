@@ -159,7 +159,7 @@ public class HomeFragment extends Fragment {
 
         homeFrg_rv_product = view.findViewById(R.id.homeFrg_rv_product);
         homeFrg_rv_product.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        homeFrg_rv_product.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(getContext(), 190)));
+        homeFrg_rv_product.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(getContext(), 180)));
         ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
         Call<ArrayList<Product>> call = apiService.getProduct();
         call.enqueue(new Callback<ArrayList<Product>>() {
