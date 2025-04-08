@@ -1,10 +1,10 @@
 package com.example.techstore.model;
 
-public class rating {
+public class Rating {
     private float rate;
     private int count;
 
-    public rating(int count, float rate) {
+    public Rating(int count, float rate) {
         this.count = count;
         this.rate = rate;
     }
