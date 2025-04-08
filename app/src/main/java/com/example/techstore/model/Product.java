@@ -1,15 +1,15 @@
 package com.example.techstore.model;
 
-public class product {
+public class Product {
     private int id;
     private String title;
     private float price;
     private String description;
     private String category;
     private String image;
-    private rating rating;
+    private Rating rating;
 
-    public product(String category, String description, int id, String image, float price, com.example.techstore.model.rating rating, String title) {
+    public Product(String category, String description, int id, String image, float price, Rating rating, String title) {
         this.category = category;
         this.description = description;
         this.id = id;
@@ -59,11 +59,11 @@ public class product {
         this.price = price;
     }
 
-    public rating getRating() {
+    public Rating getRating() {
         return rating;
     }
 
-    public void setRating(rating rating) {
+    public void setRating(Rating rating) {
         this.rating = rating;
     }
 

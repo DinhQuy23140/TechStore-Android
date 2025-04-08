@@ -17,8 +17,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.techstore.Adapter.CarouselAdapter;
@@ -28,7 +26,7 @@ import com.example.techstore.Adapter.FilterAdapter;
 import com.example.techstore.ApiService.ApiService;
 import com.example.techstore.Client.RetrofitClient;
 import com.example.techstore.R;
-import com.example.techstore.model.product;
+import com.example.techstore.model.Product;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
@@ -64,7 +62,7 @@ public class HomeFragment extends Fragment {
     FilterAdapter adapter;
 
     CategoryNameAdapter categoryNameAdapter;
-    ArrayList<product> listProduct;
+    ArrayList<Product> listProduct;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -161,10 +159,10 @@ public class HomeFragment extends Fragment {
         homeFrg_rv_product.setLayoutManager(new GridLayoutManager(getContext(), 2));
         homeFrg_rv_product.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(getContext(), 10)));
         ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
-        Call<ArrayList<product>> call = apiService.getProduct();
-        call.enqueue(new Callback<ArrayList<product>>() {
+        Call<ArrayList<Product>> call = apiService.getProduct();
+        call.enqueue(new Callback<ArrayList<Product>>() {
             @Override
-            public void onResponse(Call<ArrayList<product>> call, Response<ArrayList<product>> response) {
+            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     listProduct = response.body();
                     Toast.makeText(getContext(), Integer.toString(listProduct.size()), Toast.LENGTH_SHORT).show();
@@ -174,7 +172,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<product>> call, Throwable throwable) {
+            public void onFailure(Call<ArrayList<Product>> call, Throwable throwable) {
                 Log.e("Retrofit", "Error " + throwable.getMessage());
             }
         });
