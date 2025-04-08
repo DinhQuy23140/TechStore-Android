@@ -12,7 +12,7 @@ public class SharedPrefManager {
         sharedPreferences = context.getSharedPreferences(Constants.KEY_SHARE_PREFERENCE, Context.MODE_PRIVATE);
     }
 
-    public void svaeUserName(String username) {
+    public void savaeUserName(String username) {
         sharedPreferences.edit().putString(Constants.KEY_USERNAME, username).apply();
     }
 
