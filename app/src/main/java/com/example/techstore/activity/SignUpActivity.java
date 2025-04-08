@@ -3,34 +3,25 @@ package com.example.techstore.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.techstore.R;
+import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
+import com.example.techstore.viewmodel.SignUpViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
+import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -39,6 +30,9 @@ public class SignUpActivity extends AppCompatActivity {
     MaterialButton signup_btn_signup;
     Boolean flagEmail = true, flagPassword = true, flagConfirmPassword = true, flagPhone = true;
     FirebaseFirestore firestore;
+    SignUpViewModel signupViewModel;
+    UserRepository userRepository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +44,8 @@ public class SignUpActivity extends AppCompatActivity {
             return insets;
         });
 
+        userRepository = new UserRepository(this);
+        signupViewModel = new SignUpViewModel(userRepository);
         firestore = FirebaseFirestore.getInstance();
         signup_layout_login = findViewById(R.id.signup_layout_login);
         signup_et_email = findViewById(R.id.signup_et_email);
@@ -63,137 +59,107 @@ public class SignUpActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        signup_et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                String email = signup_et_email.getText().toString();
-                if(!hasFocus) {
-                    if(email.isEmpty()) {
-                        signup_et_email.setError(getString(R.string.login_error_email));
-                        flagEmail = false;
-                        return;
-                    }
-                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                        signup_et_email.setError(getString(R.string.login_error_email_format));
-                        flagEmail = false;
-                        return;
-                    }
+        signup_et_email.setOnFocusChangeListener((v, hasFocus) -> {
+            String email = Objects.requireNonNull(signup_et_email.getText()).toString();
+            if(!hasFocus) {
+                if(email.isEmpty()) {
+                    signup_et_email.setError(getString(R.string.login_error_email));
+                    flagEmail = false;
+                    return;
+                }
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    signup_et_email.setError(getString(R.string.login_error_email_format));
+                    flagEmail = false;
+                    return;
+                }
+                signupViewModel.checkEmailExis(email);
+            }
+        });
 
-                    firestore.collection(Constants.KEY_COLLECTION_USER)
-                            .whereEqualTo(Constants.KEY_EMAIL, email)
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        if (!task.getResult().isEmpty()) {
-                                            signup_et_email.setError(getString(R.string.signup_error_email_exits));
-                                            flagEmail = false;
-                                        } else {
-                                            signup_et_email.setError(null);
-                                            flagEmail = true;
-                                        }
-                                    }
-                                }
-                            });
+        signupViewModel.getCheckEmail().observe(this, checkEmail -> {
+            if (checkEmail) {
+                flagEmail = false;
+                signup_et_email.setError("Email already exists");
+            } else {
+                flagEmail = true;
+            }
+        });
+
+        signup_et_password.setOnFocusChangeListener((v, hasFocus) -> {
+            String password = Objects.requireNonNull(signup_et_password.getText()).toString();
+            if(!hasFocus) {
+                if(password.isEmpty()) {
+                    signup_et_password.setError(getString(R.string.login_error_password));
+                    flagPassword = false;
+                } else if (password.length() < 8) {
+                    signup_et_password.setError(getString(R.string.login_error_password_length ));
+                    flagPassword = false;
+                } else {
+                    signup_et_password.setError(null);
+                    flagPassword = true;
                 }
             }
         });
 
-        signup_et_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                String password = signup_et_password.getText().toString();
-                if(!hasFocus) {
-                    if(password.isEmpty()) {
-                        signup_et_password.setError(getString(R.string.login_error_password));
-                        flagPassword = false;
-                    } else if (password.length() < 8) {
-                        signup_et_password.setError(getString(R.string.login_error_password_length ));
-                        flagPassword = false;
-                    } else {
-                        signup_et_password.setError(null);
-                        flagPassword = true;
-                    }
+        signup_et_confirm_password.setOnFocusChangeListener((v, hasFocus) -> {
+            String confirmPassword = Objects.requireNonNull(signup_et_confirm_password.getText()).toString();
+            String password = Objects.requireNonNull(signup_et_password.getText()).toString();
+            if(!hasFocus) {
+                if(confirmPassword.isEmpty()) {
+                    signup_et_confirm_password.setError(getString(R.string.login_error_password));
+                    flagConfirmPassword = false;
+                } else if (!confirmPassword.equals(password)) {
+                    signup_et_confirm_password.setError(getString(R.string.signup_error_password_not_match));
+                    flagConfirmPassword = false;
+                } else {
+                    signup_et_confirm_password.setError(null);
+                    flagConfirmPassword = true;
                 }
             }
         });
 
-        signup_et_confirm_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                String confirmPassword = signup_et_confirm_password.getText().toString();
-                String password = signup_et_password.getText().toString();
-                if(!hasFocus) {
-                    if(confirmPassword.isEmpty()) {
-                        signup_et_confirm_password.setError(getString(R.string.login_error_password));
-                        flagConfirmPassword = false;
-                    } else if (!confirmPassword.equals(password)) {
-                        signup_et_confirm_password.setError(getString(R.string.signup_error_password_not_match));
-                        flagConfirmPassword = false;
-                    } else {
-                        signup_et_confirm_password.setError(null);
-                        flagConfirmPassword = true;
-                    }
+        signup_et_phone.setOnFocusChangeListener((v, hasFocus) -> {
+            String phone = Objects.requireNonNull(signup_et_phone.getText()).toString();
+            if(!hasFocus) {
+                if (phone.isEmpty()) {
+                    signup_et_phone.setError(getString(R.string.signup_error_phone));
+                    flagPhone = false;
+                } else if (phone.length() < 10) {
+                    signup_et_phone.setError(getString(R.string.signup_error_phone_format));
+                    flagPhone = false;
+                } else {
+                    signup_et_phone.setError(null);
+                    flagPhone = true;
                 }
             }
         });
 
-        signup_et_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                String phone = signup_et_phone.getText().toString();
-                if(!hasFocus) {
-                    if (phone.isEmpty()) {
-                        signup_et_phone.setError(getString(R.string.signup_error_phone));
-                        flagPhone = false;
-                    } else if (phone.length() < 10) {
-                        signup_et_phone.setError(getString(R.string.signup_error_phone_format));
-                        flagPhone = false;
-                    } else {
-                        signup_et_phone.setError(null);
-                        flagPhone = true;
-                    }
-                }
+        signup_btn_signup.setOnClickListener(signup_act -> signup());
+        signupViewModel.getIsSignup().observe(this, isSignup -> {
+            if (isSignup) {
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
 
-        signup_btn_signup.setOnClickListener(signup_act -> {
-            signup();
-        });
+        signupViewModel.getMessageSignup().observe(this, message -> Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show());
     }
 
     public Boolean validation() {
-        if (flagEmail && flagPassword && flagConfirmPassword && flagPhone) return true;
-        else return false;
+        return flagEmail && flagPassword && flagConfirmPassword && flagPhone;
     }
 
     public void signup() {
         if (validation()) {
-            String email = signup_et_email.getText().toString();
-            String password = signup_et_password.getText().toString();
-            String phone = signup_et_phone.getText().toString();
-            Map<String, String> newUser = new HashMap();
+            String email = Objects.requireNonNull(signup_et_email.getText()).toString();
+            String password = Objects.requireNonNull(signup_et_password.getText()).toString();
+            String phone = Objects.requireNonNull(signup_et_phone.getText()).toString();
+            Map<String, String> newUser = new HashMap<>();
             newUser.put(Constants.KEY_EMAIL, email);
             newUser.put(Constants.KEY_PASSWORD, password);
             newUser.put(Constants.KEY_PHONE, phone);
-            firestore.collection(Constants.KEY_COLLECTION_USER)
-                    .add(newUser)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Intent toLogin = new Intent(SignUpActivity.this, LoginActivity.class);
-                            toLogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            Toast.makeText(SignUpActivity.this, R.string.signup_create_success, Toast.LENGTH_SHORT).show();
-                            startActivity(toLogin);
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(SignUpActivity.this, R.string.signup_create_failure, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            signupViewModel.signup(newUser);
         }
         else {
             Toast.makeText(SignUpActivity.this, R.string.signup_error_input_inf, Toast.LENGTH_SHORT).show();
