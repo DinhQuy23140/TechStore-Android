@@ -143,7 +143,9 @@
             android:id="@+id/homeFrg_rv_category"
             android:layout_width="match_parent"
             android:layout_height="345dp"
-            android:layout_margin="15dp"/>
+            android:layout_margin="15dp"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
