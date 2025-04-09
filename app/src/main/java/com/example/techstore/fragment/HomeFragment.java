@@ -28,7 +28,9 @@ import com.example.techstore.ApiService.ApiService;
 import com.example.techstore.Client.RetrofitClient;
 import com.example.techstore.R;
 import com.example.techstore.model.Product;
+import com.example.techstore.repository.ProductRepository;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
+import com.example.techstore.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,6 +65,8 @@ public class HomeFragment extends Fragment {
     FilterAdapter adapter;
 
     CategoryNameAdapter categoryNameAdapter;
+    ProductRepository productRepository;
+    HomeViewModel homeViewModel;
     ArrayList<Product> listProduct;
     ProductAdapter productAdapter;
 
@@ -156,28 +160,17 @@ public class HomeFragment extends Fragment {
         adapter = new FilterAdapter(getContext(), listFilter);
         categoryNameAdapter = new CategoryNameAdapter(getContext(), listFilter);
         homeFrg_rv_filter.setAdapter(categoryNameAdapter);
-
+        productRepository = new ProductRepository();
+        homeViewModel = new HomeViewModel(productRepository);
         homeFrg_rv_product = view.findViewById(R.id.homeFrg_rv_product);
         homeFrg_rv_product.setLayoutManager(new GridLayoutManager(getContext(), 2));
         homeFrg_rv_product.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(getContext(), 190)));
-        ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
-        Call<ArrayList<Product>> call = apiService.getProduct();
-        call.enqueue(new Callback<ArrayList<Product>>() {
-            @Override
-            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    listProduct = response.body();
-                    Toast.makeText(getContext(), Integer.toString(listProduct.size()), Toast.LENGTH_SHORT).show();
-                    productAdapter = new ProductAdapter(getContext(), listProduct);
-                    homeFrg_rv_product.setAdapter(productAdapter);
-                } else {
-                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<Product>> call, Throwable throwable) {
-                Log.e("Retrofit", "Error " + throwable.getMessage());
+        homeViewModel.getProduct();
+        homeViewModel.getListProduct().observe(getViewLifecycleOwner(), products -> {
+            if (!products.isEmpty()) {
+                listProduct = products;
+                productAdapter = new ProductAdapter(getContext(), listProduct);
+                homeFrg_rv_product.setAdapter(productAdapter);
             }
         });
     }

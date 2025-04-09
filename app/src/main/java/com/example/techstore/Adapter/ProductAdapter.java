@@ -1,6 +1,7 @@
 package com.example.techstore.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.techstore.R;
+import com.example.techstore.activity.ViewProductActivity;
 import com.example.techstore.model.Product;
+import com.example.techstore.untilities.Constants;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -40,8 +44,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                         .load(image)
                                 .into(holder.imageProduct);
         holder.nameProduct.setText(product.getTitle());
-        holder.priceProduct.setText(String.valueOf(product.getPrice()));
+        holder.priceProduct.setText(String.valueOf(product.getPrice()) + " $");
         holder.ratingProduct.setText(String.valueOf(product.getRating().getCount()));
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ViewProductActivity.class);
+            Gson gson = new Gson();
+            String productStr = gson.toJson(product);
+            intent.putExtra(Constants.KEY_SHARE_PRODUCT, productStr);
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     @Override
