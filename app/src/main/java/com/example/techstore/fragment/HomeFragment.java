@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.techstore.Adapter.CarouselAdapter;
@@ -69,6 +72,8 @@ public class HomeFragment extends Fragment {
     HomeViewModel homeViewModel;
     ArrayList<Product> listProduct;
     ProductAdapter productAdapter;
+
+    TextView tvSeeAll;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -172,6 +177,15 @@ public class HomeFragment extends Fragment {
                 productAdapter = new ProductAdapter(getContext(), listProduct);
                 homeFrg_rv_product.setAdapter(productAdapter);
             }
+        });
+
+        tvSeeAll = view.findViewById(R.id.homeFrg_tv_seeAll_specialOffer);
+        tvSeeAll.setOnClickListener(viewAll -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameContainer, new PopularProductFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         });
     }
 
