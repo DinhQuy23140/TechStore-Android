@@ -54,12 +54,4 @@ public class HomeViewModel {
         listPathImageCategory.setValue(listImg);
         listNameCategory.setValue(listName);
     }
-
-    public MutableLiveData<List<String>> getListNameCategory() {
-        return listNameCategory;
-    }
-
-    public MutableLiveData<List<Integer>> getListPathImageCategory() {
-        return listPathImageCategory;
-    }
 }
