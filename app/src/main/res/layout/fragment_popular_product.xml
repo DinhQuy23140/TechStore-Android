@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:gravity="center|start"
                 android:paddingStart="15dp"
-                android:text="TextView"
+                android:text="Most Popular"
                 android:textColor="#ffffff"
                 android:textSize="25sp"
                 android:textStyle="bold" />

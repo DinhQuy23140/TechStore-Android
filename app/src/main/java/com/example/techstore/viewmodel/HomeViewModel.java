@@ -16,6 +16,7 @@ public class HomeViewModel {
     MutableLiveData<ArrayList<Product>> listProduct = new MutableLiveData<>();
     MutableLiveData<List<Integer>> listPathImageCategory = new MutableLiveData<>();
     MutableLiveData<List<String>> listNameCategory = new MutableLiveData<>();
+    MutableLiveData<List<Integer>> listImgViewPage = new MutableLiveData<>();
 
     public HomeViewModel(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -23,18 +24,6 @@ public class HomeViewModel {
 
     public MutableLiveData<ArrayList<Product>> getListProduct() {
         return listProduct;
-    }
-
-    public void setListProduct(MutableLiveData<ArrayList<Product>> listProduct) {
-        this.listProduct = listProduct;
-    }
-
-    public ProductRepository getProductRepository() {
-        return productRepository;
-    }
-
-    public void setProductRepository(ProductRepository productRepository) {
-        this.productRepository = productRepository;
     }
 
     public void getProduct() {
@@ -46,13 +35,27 @@ public class HomeViewModel {
     }
 
     public void loadCategories() {
-        List<Integer> listImg = Arrays.asList(R.drawable.baseline_battery_charging_full_24, R.drawable.baseline_camera_alt_24, R.drawable.baseline_headphones_24,
+        List<Integer> listImg = Arrays.asList(R.drawable.baseline_border_all_34, R.drawable.baseline_battery_charging_full_24, R.drawable.baseline_camera_alt_24, R.drawable.baseline_headphones_24,
                 R.drawable.baseline_keyboard_24, R.drawable.baseline_laptop_24, R.drawable.baseline_mouse_24, R.drawable.baseline_router_24, R.drawable.baseline_sd_storage_24,
                 R.drawable.baseline_smartphone_24, R.drawable.baseline_speaker_24, R.drawable.baseline_tablet_24, R.drawable.baseline_watch_24);
-        List<String> listName = Arrays.asList("Battery change", "Camera", "Headphone", "Keyboard", "Laptop", "Mouse",
+        List<String> listName = Arrays.asList("All", "Battery change", "Camera", "Headphone", "Keyboard", "Laptop", "Mouse",
                 "Router", "Storage", "Smartphone", "Speaker", "Tablet", "Watch");
         listPathImageCategory.setValue(listImg);
         listNameCategory.setValue(listName);
+    }
+
+    public void loadImgViewPage() {
+        List<Integer> listPathImage = new ArrayList<>();
+        listPathImage = new ArrayList<>();
+        listPathImage.add(R.drawable.img);
+        listPathImage.add(R.drawable.img_1);
+        listPathImage.add(R.drawable.img_2);
+        listPathImage.add(R.drawable.img_3);
+        listImgViewPage.setValue(listPathImage);
+    }
+
+    public MutableLiveData<List<Integer>> getListImgViewPage() {
+        return listImgViewPage;
     }
 
     public MutableLiveData<List<String>> getListNameCategory() {
