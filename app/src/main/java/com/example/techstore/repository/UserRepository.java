@@ -4,6 +4,7 @@ import android.content.Context;
 import com.example.techstore.model.User;
 import com.example.techstore.sharepreference.SharedPrefManager;
 import com.example.techstore.untilities.Constants;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
@@ -47,10 +48,13 @@ public class UserRepository {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                        sharedPrefManager.saveEmail(user.getEmail());
-                        sharedPrefManager.savePassword(user.getPassword());
+                        DocumentSnapshot userResult = task.getResult().getDocuments().get(0);
+                        sharedPrefManager.saveEmail(userResult.getString(Constants.KEY_EMAIL));
+                        sharedPrefManager.savePassword(userResult.getString(Constants.KEY_PASSWORD));
                         sharedPrefManager.setIsLogin(true);
                         sharedPrefManager.setSaveInf(isSaveInf);
+                        sharedPrefManager.saveUsername(userResult.getString(Constants.KEY_USERNAME));
+                        sharedPrefManager.saveImg(userResult.getString(Constants.KEY_IMG));
                         callback.onResult(true);
                     } else {
                         callback.onResult(false);

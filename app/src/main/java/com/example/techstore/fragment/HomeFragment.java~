@@ -182,7 +182,7 @@ public class HomeFragment extends Fragment {
         int itemPx = dpToPx(getContext(),70);
         homeFrg_rv_category = view.findViewById(R.id.homeFrg_rv_category);
         homeFrg_rv_category.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
-        homeFrg_rv_category.addItemDecoration(new GridSpacingItemDecoration(spanCount, itemPx));
+        homeFrg_rv_category.addItemDecoration(new GridSpacingItemDecoration(spanCount, itemPx, true));
 
         homeViewModel.loadCategories();
         listPathImageCategory = new ArrayList<>();
@@ -204,7 +204,7 @@ public class HomeFragment extends Fragment {
 
         homeFrg_rv_product = view.findViewById(R.id.homeFrg_rv_product);
         homeFrg_rv_product.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        homeFrg_rv_product.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(getContext(), 190)));
+        homeFrg_rv_product.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(getContext(), 190), true));
         homeViewModel.getProduct();
         homeViewModel.getListProduct().observe(getViewLifecycleOwner(), products -> {
             if (!products.isEmpty()) {

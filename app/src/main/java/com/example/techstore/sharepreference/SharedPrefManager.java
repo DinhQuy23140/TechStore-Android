@@ -51,4 +51,20 @@ public class SharedPrefManager {
     public boolean isSaveInf() {
         return sharedPreferences.getBoolean(Constants.KEY_IS_SAVE_INF, false);
     }
+
+    public void saveUsername(String username) {
+        sharedPreferences.edit().putString(Constants.KEY_USERNAME, username).apply();
+    }
+
+    public String getUsername() {
+        return sharedPreferences.getString(Constants.KEY_USERNAME, "");
+    }
+
+    public void saveImg(String img) {
+        sharedPreferences.edit().putString(Constants.KEY_IMG, img).apply();
+    }
+
+    public String getImg() {
+        return sharedPreferences.getString(Constants.KEY_IMG, "");
+    }
 }

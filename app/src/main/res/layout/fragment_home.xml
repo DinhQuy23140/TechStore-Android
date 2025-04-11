@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_frg_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.HomeFragment">
@@ -142,7 +143,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeFrg_rv_category"
             android:layout_width="match_parent"
-            android:layout_height="345dp"
+            android:layout_height="480dp"
             android:layout_margin="15dp"
             android:overScrollMode="never"
             android:scrollbars="none" />
@@ -150,7 +151,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="0dp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
@@ -185,13 +186,13 @@
             android:id="@+id/homeFrg_rv_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"/>
+            android:layout_margin="15dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeFrg_rv_product"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp" />
 
     </LinearLayout>
 </ScrollView>
