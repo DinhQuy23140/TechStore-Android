@@ -135,15 +135,15 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         signup_btn_signup.setOnClickListener(signup_act -> signup());
-        signupViewModel.getIsSignup().observe(this, isSignup -> {
-            if (isSignup) {
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
-
-        signupViewModel.getMessageSignup().observe(this, message -> Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show());
+//        signupViewModel.getIsSignup().observe(this, isSignup -> {
+//            if (isSignup) {
+//                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        signupViewModel.getMessageSignup().observe(this, message -> Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show());
     }
 
     public Boolean validation() {
@@ -155,11 +155,18 @@ public class SignUpActivity extends AppCompatActivity {
             String email = Objects.requireNonNull(signup_et_email.getText()).toString();
             String password = Objects.requireNonNull(signup_et_password.getText()).toString();
             String phone = Objects.requireNonNull(signup_et_phone.getText()).toString();
-            Map<String, String> newUser = new HashMap<>();
-            newUser.put(Constants.KEY_EMAIL, email);
-            newUser.put(Constants.KEY_PASSWORD, password);
-            newUser.put(Constants.KEY_PHONE, phone);
-            signupViewModel.signup(newUser);
+            Intent intent = new Intent(SignUpActivity.this, SignUpImgActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.KEY_EMAIL, email);
+            bundle.putString(Constants.KEY_PASSWORD, password);
+            bundle.putString(Constants.KEY_PHONE, phone);
+            intent.putExtra(Constants.KEY_COLLECTION_USER, bundle);
+            startActivity(intent);
+//            Map<String, String> newUser = new HashMap<>();
+//            newUser.put(Constants.KEY_EMAIL, email);
+//            newUser.put(Constants.KEY_PASSWORD, password);
+//            newUser.put(Constants.KEY_PHONE, phone);
+//            signupViewModel.signup(newUser);
         }
         else {
             Toast.makeText(SignUpActivity.this, R.string.signup_error_input_inf, Toast.LENGTH_SHORT).show();

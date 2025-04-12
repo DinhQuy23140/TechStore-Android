@@ -134,7 +134,7 @@
         android:backgroundTint="@color/white"
         android:drawablePadding="10dp"
         android:fontFamily="sans-serif"
-        android:text="@string/signup_btnSignUp"
+        android:text="@string/signup_btn_next"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
