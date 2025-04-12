@@ -15,6 +15,7 @@
     <!--    signup activity     -->
     <string name="signup_title">Sign Up</string>
     <string name="signup_btnSignUp">Sign Up</string>
+    <string name="signup_btn_next">Next</string>
     <string name="signup_btnLogin">Login</string>
     <string name="signup_et_password">Password</string>
     <string name="signup_et_confirm">Confirm password</string>

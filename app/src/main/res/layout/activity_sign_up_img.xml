@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background_color"
-    tools:context=".activity.SignUpActivity">
-
+    tools:context=".activity.SignUpImgActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -16,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <LinearLayout
-            android:id="@+id/signup_layout_login"
+            android:id="@+id/signup_next_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
@@ -60,76 +59,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/signup_et_email"
-        android:layout_width="330dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/background_input_text"
-        android:drawableStart="@drawable/baseline_email_34"
-        android:drawablePadding="10dp"
-        android:hint="Email"
-        android:inputType="text|textEmailAddress"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="70dp"
+        app:cardCornerRadius="110dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView">
+
+        <ImageView
+            android:id="@+id/signup_next_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/background_default_user" />
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/signup_et_password"
-        android:layout_width="330dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="30dp"
-        android:hint="@string/signup_et_password"
+        android:id="@+id/signup_next_username"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/background_input_text"
-        android:drawableStart="@drawable/baseline_lock_outline_34"
-        android:drawableEnd="@drawable/baseline_remove_eye_34"
-        android:drawablePadding="10dp"
-        android:inputType="text|textPassword"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
+        android:hint="User name"
+        android:paddingLeft="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_et_email" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/signup_et_confirm_password"
-        android:layout_width="330dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="20dp"
-        android:drawableStart="@drawable/baseline_lock_outline_34"
-        android:paddingStart="15dp"
-        android:drawablePadding="10dp"
-        android:drawableEnd="@drawable/baseline_remove_eye_34"
-        android:paddingEnd="15dp"
-        android:hint="@string/signup_et_confirm"
-        android:inputType="text|textPassword"
-        android:background="@drawable/background_input_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_et_password"/>
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/signup_et_phone"
-        android:layout_width="330dp"
-        android:layout_height="60dp"
-        android:background="@drawable/background_input_text"
-        android:drawableStart="@drawable/baseline_local_phone_34"
-        android:paddingStart="15dp"
-        android:drawablePadding="10dp"
-        android:paddingEnd="15dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/sigup_et_phone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_et_confirm_password"/>
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/signup_btn_signup"
+        android:id="@+id/signup_btn_signup_comp"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:backgroundTint="@color/white"
         android:drawablePadding="10dp"
         android:fontFamily="sans-serif"
@@ -139,7 +102,8 @@
         android:textStyle="bold"
         app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_et_phone" />
+        app:layout_constraintTop_toBottomOf="@+id/signup_next_username" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
