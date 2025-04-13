@@ -68,4 +68,12 @@ public class UserRepository {
                 .addOnSuccessListener(documentReference -> result.onResult(true))
                 .addOnFailureListener(e -> result.onResult(false));
     }
+
+    public String getUserName() {
+        return sharedPrefManager.getUserName();
+    }
+
+    public String getImg() {
+        return sharedPrefManager.getImg();
+    }
 }

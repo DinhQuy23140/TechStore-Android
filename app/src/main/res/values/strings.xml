@@ -46,6 +46,11 @@
     <string name="homeFr_tv_special_offer">Special Offers</string>
     <string name="homeFr_tv_most_popular">Most Popular</string>
 
+    <string name="setTimeMorining">Good morning</string>
+    <string name="setTimeAfternoon">Good afternoon</string>
+    <string name="setTimeEvening">Good evening</string>
+    <string name="setTimeNight">Good night</string>
+
     <!--    notification activity   -->
     <string name="notification_title">Notification</string>
 

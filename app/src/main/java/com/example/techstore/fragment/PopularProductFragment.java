@@ -23,6 +23,7 @@ import com.example.techstore.Adapter.CategoryNameAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
 import com.example.techstore.repository.ProductRepository;
+import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 import com.example.techstore.viewmodel.HomeViewModel;
 
@@ -41,6 +42,7 @@ public class PopularProductFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     ProductRepository productRepository;
+    UserRepository userRepository;
     HomeViewModel homeViewModel;
     ImageView btnBack, btnSearch;
     TextView tvTitle;
@@ -95,7 +97,8 @@ public class PopularProductFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         productRepository = new ProductRepository();
-        homeViewModel = new HomeViewModel(productRepository);
+        userRepository = new UserRepository(getContext());
+        homeViewModel = new HomeViewModel(productRepository, userRepository);
         btnBack = view.findViewById(R.id.btn_back);
         btnSearch = view.findViewById(R.id.btn_search);
         tvTitle = view.findViewById(R.id.tv_title);
