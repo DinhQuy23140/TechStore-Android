@@ -22,14 +22,6 @@ public class HomeViewModel {
     MutableLiveData<String> username = new MutableLiveData<>("");
     MutableLiveData<String> img = new MutableLiveData<>("");
 
-    public MutableLiveData<String> getImg() {
-        return img;
-    }
-
-    public MutableLiveData<String> getUsername() {
-        return username;
-    }
-
     public HomeViewModel(ProductRepository productRepository, UserRepository userRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;

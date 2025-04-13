@@ -45,6 +45,10 @@
     <string name="homeFr_tv_special_offer">Ưu đãi đặc biệt</string>
     <string name="homeFr_tv_most_popular">Thịnh hành</string>
 
+    <string name="setTimeMorining">Chào buổi sáng</string>
+    <string name="setTimeAfternoon">Chào buổi chiều</string>
+    <string name="setTimeEvening">Chào buổi tối</string>
+    <string name="setTimeNight">Đêm ngủ ngon</string>
 
 <!--    notification    -->
     <string name="notification_title">Thông báo</string>

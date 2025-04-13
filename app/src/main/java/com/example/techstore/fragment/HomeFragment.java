@@ -2,6 +2,8 @@ package com.example.techstore.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,11 +39,13 @@ import com.example.techstore.Client.RetrofitClient;
 import com.example.techstore.R;
 import com.example.techstore.model.Product;
 import com.example.techstore.repository.ProductRepository;
+import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 import com.example.techstore.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,23 +63,23 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    ScrollView layout_frg_home;
+    ImageView ivAvatar;
+    TextView tvUserName, tvTime;
 
+    ScrollView layout_frg_home;
     ViewPager2 homeFrg_viewPager;
     ArrayList<Integer> listPathImage;
     CarouselAdapter carouselAdapter;
-
     private ArrayList<Integer> listPathImageCategory;
     private ArrayList<String> listNameCategory;
     CategoryAdapter categoryAdapter;
     RecyclerView homeFrg_rv_category;
-
     ArrayList<String> listFilter;
     RecyclerView homeFrg_rv_filter, homeFrg_rv_product;
     FilterAdapter adapter;
-
     CategoryNameAdapter categoryNameAdapter;
     ProductRepository productRepository;
+    UserRepository userRepository;
     HomeViewModel homeViewModel;
     ArrayList<Product> listProduct;
     ProductAdapter productAdapter;
@@ -127,6 +133,28 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        productRepository = new ProductRepository();
+        userRepository = new UserRepository(getContext());
+        homeViewModel = new HomeViewModel(productRepository, userRepository);
+
+        ivAvatar = view.findViewById(R.id.homeFrg_iv_Avt);
+        tvUserName = view.findViewById(R.id.homeFrg_tv_Username);
+        tvTime = view.findViewById(R.id.homeFrg_tv_time);
+        homeViewModel.loadUser();
+        homeViewModel.getUsername().observe(getViewLifecycleOwner(), username -> {
+            tvUserName.setText(username);
+        });
+        homeViewModel.getImg().observe(getViewLifecycleOwner(), img -> {
+            if (img != null) {
+                byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                ivAvatar.setImageBitmap(decodedByte);
+            } else {
+                ivAvatar.setImageResource(R.drawable.background_default_user);
+            }
+        });
+        setTvTime();
+
         layout_frg_home = view.findViewById(R.id.layout_frg_home);
         layout_frg_home.setOnTouchListener(new View.OnTouchListener() {
             float startY = 0;
@@ -151,8 +179,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        productRepository = new ProductRepository();
-        homeViewModel = new HomeViewModel(productRepository);
         //banner
         homeFrg_viewPager = view.findViewById(R.id.homeFrg_viewPager);
 
@@ -226,5 +252,33 @@ public class HomeFragment extends Fragment {
 
     private int dpToPx(Context context, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
+
+    public static Bitmap stringToBitmap(String encodedString) {
+        try {
+            byte[] decodedBytes = Base64.decode(encodedString, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setTvTime() {
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        //Toast.makeText(requireContext(), Integer.toString(hour), Toast.LENGTH_SHORT).show();
+        if(hour >= 7 && hour <12) {
+            tvTime.setText(R.string.setTimeMorining);
+        }
+        else if(hour >=12 && hour < 18) {
+            tvTime.setText(R.string.setTimeAfternoon);
+        }
+        else if(hour>= 18 && hour < 21) {
+            tvTime.setText(R.string.setTimeEvening);
+        }
+        else {
+            tvTime.setText(R.string.setTimeNight);
+        }
     }
 }
