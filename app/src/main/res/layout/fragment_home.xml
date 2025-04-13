@@ -87,7 +87,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="330dp"
+            android:layout_width="350dp"
             android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
