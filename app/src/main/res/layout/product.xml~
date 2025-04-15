@@ -42,7 +42,7 @@
                         android:id="@+id/product_iv_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitCenter"
+                        android:scaleType="center"
                         android:src="@drawable/background_image_default" />
                 </com.google.android.material.card.MaterialCardView>
             </androidx.constraintlayout.widget.ConstraintLayout>

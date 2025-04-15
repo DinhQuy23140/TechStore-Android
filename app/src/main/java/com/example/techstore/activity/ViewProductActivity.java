@@ -127,12 +127,12 @@ public class ViewProductActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 getColor = colors.get(position);
-                Toast.makeText(getApplicationContext(), Integer.toString(getColor), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), Integer.toString(getColor), Toast.LENGTH_SHORT).show();
             }
         });
         rvColor = findViewById(R.id.colorRecyclerView);
-        rvColor.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
-        rvColor.addItemDecoration(new GridSpacingItemDecoration(3, dpToPx(this, 40)));
+        rvColor.setLayoutManager(new GridLayoutManager(getApplicationContext(), 5));
+        rvColor.addItemDecoration(new GridSpacingItemDecoration(5, 10));
         rvColor.setAdapter(colorAdapter);
 
 
