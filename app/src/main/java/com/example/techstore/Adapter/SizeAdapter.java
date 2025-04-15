@@ -12,12 +12,20 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnItemClickListener;
 
 import java.util.List;
 
 public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.MyViewHolder>{
     Context context;
     List<String> listSize;
+    OnItemClickListener listener;
+
+    public SizeAdapter(Context context, List<String> listSize, OnItemClickListener listener) {
+        this.context = context;
+        this.listSize = listSize;
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -30,6 +38,13 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.MyViewHolder>{
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         String size = listSize.get(position);
         holder.tvSize.setText(size);
+        holder.itemView.setOnClickListener(click -> {
+            holder.cvSize.setCardBackgroundColor(context.getResources().getColor(R.color.gray, null));
+        });
+        
+        if (listener != null) {
+            listener.onItemClick(position);
+        }
     }
 
     @Override
