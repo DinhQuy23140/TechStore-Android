@@ -2,12 +2,14 @@ package com.example.techstore.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -37,9 +39,11 @@ import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.ApiService.ApiService;
 import com.example.techstore.Client.RetrofitClient;
 import com.example.techstore.R;
+import com.example.techstore.activity.SearchActivity;
 import com.example.techstore.model.Product;
 import com.example.techstore.repository.ProductRepository;
 import com.example.techstore.repository.UserRepository;
+import com.example.techstore.untilities.Decoration;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 import com.example.techstore.viewmodel.HomeViewModel;
 
@@ -83,6 +87,7 @@ public class HomeFragment extends Fragment {
     HomeViewModel homeViewModel;
     ArrayList<Product> listProduct;
     ProductAdapter productAdapter;
+    ConstraintLayout ctrSearch;
 
     TextView tvSeeAll;
 
@@ -179,6 +184,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        ctrSearch = view.findViewById(R.id.ctr_search);
+        ctrSearch.setOnClickListener(search -> {
+            Intent intent = new Intent(getActivity(), SearchActivity.class);
+            startActivity(intent);
+        });
+
         //banner
         homeFrg_viewPager = view.findViewById(R.id.homeFrg_viewPager);
 
@@ -196,8 +207,10 @@ public class HomeFragment extends Fragment {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                int nextItem = (homeFrg_viewPager.getCurrentItem() + 1) % listPathImage.size();
-                homeFrg_viewPager.setCurrentItem(nextItem, true);
+                if (listPathImage.size() > 0) {
+                    int nextItem = (homeFrg_viewPager.getCurrentItem() + 1) % listPathImage.size();
+                    homeFrg_viewPager.setCurrentItem(nextItem, true);
+                }
                 handler.postDelayed(this, 3000);
             }
         };
@@ -208,7 +221,7 @@ public class HomeFragment extends Fragment {
         int itemPx = dpToPx(getContext(),70);
         homeFrg_rv_category = view.findViewById(R.id.homeFrg_rv_category);
         homeFrg_rv_category.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
-        homeFrg_rv_category.addItemDecoration(new GridSpacingItemDecoration(spanCount, itemPx));
+        homeFrg_rv_category.addItemDecoration(new Decoration(spanCount, itemPx));
 
         homeViewModel.loadCategories();
         listPathImageCategory = new ArrayList<>();
@@ -230,7 +243,8 @@ public class HomeFragment extends Fragment {
 
         homeFrg_rv_product = view.findViewById(R.id.homeFrg_rv_product);
         homeFrg_rv_product.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        homeFrg_rv_product.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(getContext(), 190)));
+        homeFrg_rv_product.addItemDecoration(new GridSpacingItemDecoration(2, 30));
+        //homeFrg_rv_product.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         homeViewModel.getProduct();
         homeViewModel.getListProduct().observe(getViewLifecycleOwner(), products -> {
             if (!products.isEmpty()) {

@@ -41,7 +41,7 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.MyViewHolder>{
         holder.itemView.setOnClickListener(click -> {
             holder.cvSize.setCardBackgroundColor(context.getResources().getColor(R.color.gray, null));
         });
-        
+
         if (listener != null) {
             listener.onItemClick(position);
         }
