@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,18 +26,26 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.techstore.Adapter.ColorAdapter;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.model.Product;
+import com.example.techstore.model.ProductInCart;
+import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
+import com.example.techstore.viewmodel.CartViewModel;
 import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ViewProductActivity extends AppCompatActivity {
 
+    CartViewModel cartViewModel;
+    UserRepository userRepository;
     ImageView btnBack, favorite, starRating;
     ImageView imageProduct;
     TextView nameProduct, rating, ratingCount, description, tvPriceProduct, tvQuantity;
@@ -46,6 +56,8 @@ public class ViewProductActivity extends AppCompatActivity {
     List<Integer> colors;
     int defaultQuantity = 1;
     float priceProduct;
+    OnItemClickListener listener;
+    int getColor = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +69,10 @@ public class ViewProductActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        userRepository = new UserRepository(getApplicationContext());
+        cartViewModel = new CartViewModel(userRepository);
+
         btnBack = findViewById(R.id.productBack);
         imageProduct = findViewById(R.id.imgVP);
         favorite = findViewById(R.id.favoriteBtn);
@@ -66,7 +82,6 @@ public class ViewProductActivity extends AppCompatActivity {
         ratingCount = findViewById(R.id.ratingCount);
         description = findViewById(R.id.desContent);
         tvPriceProduct = findViewById(R.id.priceProduct);
-        addToCart = findViewById(R.id.addToCart);
         tvQuantity = findViewById(R.id.tv_quantity);
 
         Intent intent = getIntent();
@@ -108,12 +123,27 @@ public class ViewProductActivity extends AppCompatActivity {
                 ContextCompat.getColor(this, R.color.quantity_color)
         );
 
-        colorAdapter = new ColorAdapter(this, colors);
+        colorAdapter = new ColorAdapter(this, colors, new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                getColor = colors.get(position);
+                Toast.makeText(getApplicationContext(), Integer.toString(getColor), Toast.LENGTH_SHORT).show();
+            }
+        });
         rvColor = findViewById(R.id.colorRecyclerView);
         rvColor.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
         rvColor.addItemDecoration(new GridSpacingItemDecoration(3, dpToPx(this, 40)));
         rvColor.setAdapter(colorAdapter);
 
+
+        addToCart = findViewById(R.id.addToCart);
+        addToCart.setOnClickListener(addToCart -> {
+            ProductInCart productInCart = new ProductInCart(product.getId(), defaultQuantity);
+            cartViewModel.addCart(productInCart);
+        });
+        cartViewModel.getMessage().observe(this, message -> {
+            if (message != null) Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        });
     }
 
     @SuppressLint("SetTextI18n")

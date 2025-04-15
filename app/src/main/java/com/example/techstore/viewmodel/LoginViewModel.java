@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.techstore.model.User;
 import com.example.techstore.repository.UserRepository;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginViewModel extends ViewModel {
     UserRepository userRepository;

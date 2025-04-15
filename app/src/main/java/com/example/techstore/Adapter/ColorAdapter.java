@@ -1,5 +1,6 @@
 package com.example.techstore.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnItemClickListener;
 
 import java.util.List;
 
@@ -18,10 +20,12 @@ public class ColorAdapter extends RecyclerView .Adapter<ColorAdapter.MyViewHolde
     Context context;
     List<Integer> listColor;
     private int selectedPosition = -1;
+    OnItemClickListener listener;
 
-    public ColorAdapter(Context context, List<Integer> listColor) {
+    public ColorAdapter(Context context, List<Integer> listColor, OnItemClickListener listener) {
         this.context = context;
         this.listColor = listColor;
+        this.listener = listener;
     }
 
     @NonNull
@@ -32,7 +36,7 @@ public class ColorAdapter extends RecyclerView .Adapter<ColorAdapter.MyViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         int color = listColor.get(position);
         holder.colorCV.setCardBackgroundColor(color);
 
@@ -54,6 +58,10 @@ public class ColorAdapter extends RecyclerView .Adapter<ColorAdapter.MyViewHolde
                 notifyItemChanged(selectedPosition);
             }
         });
+
+        if (listener != null) {
+            listener.onItemClick(position);
+        }
     }
 
     @Override
