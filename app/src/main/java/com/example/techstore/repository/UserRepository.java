@@ -1,13 +1,26 @@
 package com.example.techstore.repository;
 
 import android.content.Context;
+
+import androidx.annotation.NonNull;
+
+import com.example.techstore.model.Product;
+import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.User;
 import com.example.techstore.sharepreference.SharedPrefManager;
 import com.example.techstore.untilities.Constants;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserRepository {
     private SharedPrefManager sharedPrefManager;
@@ -75,5 +88,29 @@ public class UserRepository {
 
     public String getImg() {
         return sharedPrefManager.getImg();
+    }
+
+    public void addProduct(ProductInCart product, Callback callback){
+        String email = sharedPrefManager.getEmail();
+        List<ProductInCart> listProduct = new ArrayList<>();
+        if (email != null) {
+//            firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+//                            .get()
+//                                    .addOnCompleteListener(getProducts -> {
+//                                        if (getProducts.isSuccessful() && !getProducts.getResult().isEmpty()) {
+//                                            for (DocumentSnapshot documentSnapshot : getProducts.getResult().getDocuments()) {
+//                                                if (documentSnapshot.getString(Constants.))
+//                                            }
+//                                        }
+//                                    })
+
+            Map<String, Object> products = new HashMap<>();
+            products.put(Constants.KEY_SHARE_PRODUCT, FieldValue.arrayUnion(product));
+            firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                    .document(email)
+                    .set(products, SetOptions.merge())
+                    .addOnSuccessListener(unused -> callback.onResult(true))
+                    .addOnFailureListener(e -> callback.onResult(false));
+        }
     }
 }

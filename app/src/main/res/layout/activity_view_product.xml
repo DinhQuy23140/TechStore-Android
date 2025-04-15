@@ -25,7 +25,9 @@
                 <ImageView
                     android:id="@+id/imgVP"
                     android:layout_width="match_parent"
-                    android:layout_height="330dp" />
+                    android:layout_height="330dp"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="50dp"
