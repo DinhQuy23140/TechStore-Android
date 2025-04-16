@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +38,10 @@ public class UserRepository {
 
     public interface Callback {
         void onResult(boolean result);
+    }
+
+    public interface ListCallback {
+        void onResult(List<String> result);
     }
 
     public void checkEmailisExits(String email, Callback callback) {
@@ -90,26 +95,62 @@ public class UserRepository {
         return sharedPrefManager.getImg();
     }
 
-    public void addProduct(ProductInCart product, Callback callback){
+    public void addOrUpdateProduct(ProductInCart product, Callback callback){
+
         String email = sharedPrefManager.getEmail();
-        List<ProductInCart> listProduct = new ArrayList<>();
-        if (email != null) {
-//            firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
-//                            .get()
-//                                    .addOnCompleteListener(getProducts -> {
-//                                        if (getProducts.isSuccessful() && !getProducts.getResult().isEmpty()) {
-//                                            for (DocumentSnapshot documentSnapshot : getProducts.getResult().getDocuments()) {
-//                                                if (documentSnapshot.getString(Constants.))
-//                                            }
-//                                        }
-//                                    })
-            Map<String, Object> products = new HashMap<>();
-            products.put(Constants.KEY_SHARE_PRODUCT, FieldValue.arrayUnion(product));
+        if (!email.isEmpty()) {
             firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
                     .document(email)
-                    .set(products, SetOptions.merge())
-                    .addOnSuccessListener(unused -> callback.onResult(true))
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        List<String> currentList = (List<String>) documentSnapshot.get(Constants.KEY_SHARE_PRODUCT);
+                        Gson gson = new Gson();
+                        boolean productExist = false;
+
+                        List<String> correctList = new ArrayList<>();
+                        if (currentList != null) {
+                            for (String strProductInCart : currentList) {
+                                ProductInCart productInCart = gson.fromJson(strProductInCart, ProductInCart.class);
+                                if (productInCart.equals(product)) {
+                                    productExist = true;
+                                    productInCart.setQuantity(productInCart.getQuantity() + product.getQuantity());
+                                }
+                                String strCorrectProduct = gson.toJson(productInCart);
+                                correctList.add(strCorrectProduct);
+                            }
+                        }
+
+                        if (!productExist) {
+                            String productInCart = gson.toJson(product);
+                            correctList.add(productInCart);
+                        }
+
+                        Map<String, Object> updateData = new HashMap<>();
+                        updateData.put(Constants.KEY_SHARE_PRODUCT, correctList);
+
+                        firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                                .document(email)
+                                .set(updateData, SetOptions.merge())
+                                .addOnSuccessListener(unused -> callback.onResult(true))
+                                .addOnFailureListener(e -> callback.onResult(false));
+                    })
                     .addOnFailureListener(e -> callback.onResult(false));
+        }
+    }
+
+    public void getProductInCart(ListCallback callback) {
+        String email = sharedPrefManager.getEmail();
+        if (!email.isEmpty()) {
+            firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                    .document(email)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            List<String> currentList = (List<String>) documentSnapshot.get(Constants.KEY_SHARE_PRODUCT);
+                            callback.onResult(currentList);
+                        }
+                    });
         }
     }
 }
