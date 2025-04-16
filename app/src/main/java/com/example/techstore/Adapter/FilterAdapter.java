@@ -8,19 +8,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnItemClickListener;
 
 import java.util.ArrayList;
 
 public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.MyViewholder> {
     Context context;
     ArrayList<String> listFilter;
+    OnItemClickListener onItemClickListener;
 
-    public FilterAdapter(Context context, ArrayList<String> listFilter) {
+    public FilterAdapter(Context context, ArrayList<String> listFilter, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.listFilter = listFilter;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -33,6 +38,11 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.MyViewhold
     @Override
     public void onBindViewHolder(@NonNull MyViewholder holder, int position) {
         holder.tvFilter.setText(listFilter.get(position));
+        holder.itemView.setOnClickListener(filter -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(position);
+            }
+        });
     }
 
     @Override

@@ -10,16 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnItemClickListener;
 
 import java.util.ArrayList;
 
 public class CategoryNameAdapter extends RecyclerView.Adapter<CategoryNameAdapter.MyViewHolder>{
     Context context;
     ArrayList<String> listCategory;
+    OnItemClickListener listener;
 
-    public CategoryNameAdapter(Context context, ArrayList<String> listCategory) {
+    public CategoryNameAdapter(Context context, ArrayList<String> listCategory, OnItemClickListener listener) {
         this.context = context;
         this.listCategory = listCategory;
+        this.listener = listener;
     }
 
     @NonNull
@@ -33,6 +36,7 @@ public class CategoryNameAdapter extends RecyclerView.Adapter<CategoryNameAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         String categoryName = listCategory.get(position);
         holder.categoryName.setText(categoryName);
+        holder.itemView.setOnClickListener(click-> listener.onItemClick(position));
     }
 
     @Override
