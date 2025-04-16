@@ -22,8 +22,10 @@ import android.widget.TextView;
 import com.example.techstore.Adapter.CategoryNameAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.repository.ProductRepository;
 import com.example.techstore.repository.UserRepository;
+import com.example.techstore.untilities.Constants;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 import com.example.techstore.viewmodel.HomeViewModel;
 
@@ -111,7 +113,17 @@ public class PopularProductFragment extends Fragment {
         homeViewModel.getListNameCategory().observe(getViewLifecycleOwner(), filters -> {
             if (!filters.isEmpty()) {
                 listFilter.addAll(filters);
-                categoryNameAdapter = new CategoryNameAdapter(getContext(), listFilter);
+                categoryNameAdapter = new CategoryNameAdapter(getContext(), listFilter, position -> {
+                    String title = listFilter.get(position);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.KEY_TITLE_SCREEN, title);
+                    ResultFilterFragment resultFilterFragment = new ResultFilterFragment();
+                    resultFilterFragment.setArguments(bundle);
+                    FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frameContainer, new ResultFilterFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                });
                 rvFilter.setAdapter(categoryNameAdapter);
             }
         });
@@ -121,16 +133,17 @@ public class PopularProductFragment extends Fragment {
             if (!listProduct.isEmpty()) {
                 productAdapter = new ProductAdapter(getContext(), listProduct);
                 rvProduct.setLayoutManager(new GridLayoutManager(getContext(), 2));
-                rvProduct.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(getContext(), 190)));
+                rvProduct.addItemDecoration(new GridSpacingItemDecoration(2, 20));
                 rvProduct.setAdapter(productAdapter);
             }
         });
 
         btnBack.setOnClickListener(back -> {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.popBackStack();
         });
     }
+
     private int dpToPx(Context context, int dp) {
         return (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics()

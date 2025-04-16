@@ -236,20 +236,7 @@ public class HomeFragment extends Fragment {
             listNameCategory.addAll(listNameCate);
 
         });
-        categoryAdapter = new CategoryAdapter(getContext(), listNameCategory, listPathImageCategory, new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                String title = listNameCategory.get(position);
-                Bundle bundle = new Bundle();
-                bundle.putString(Constants.KEY_TITLE_SCREEN, title);
-                ResultFilterFragment resultFilterFragment = new ResultFilterFragment();
-                resultFilterFragment.setArguments(bundle);
-                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frameContainer, resultFilterFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+        categoryAdapter = new CategoryAdapter(getContext(), listNameCategory, listPathImageCategory);
         homeFrg_rv_category.setAdapter(categoryAdapter);
 
         homeFrg_rv_filter = view.findViewById(R.id.homeFrg_rv_filter);

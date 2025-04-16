@@ -17,11 +17,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.techstore.Adapter.HistoryAdapter;
+import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
+import com.example.techstore.repository.ProductRepository;
+import com.example.techstore.repository.UserRepository;
+import com.example.techstore.untilities.GridSpacingItemDecoration;
+import com.example.techstore.viewmodel.HomeViewModel;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -30,11 +36,14 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
-    RecyclerView rvHistory;
+    RecyclerView rvHistory, rvResult;
     List<String> listSearch;
     HistoryAdapter historyAdapter;
-    TextView tvTitle, tvClear;
+    TextView tvTitle, tvClear, tvBtnSearch;
     EditText edtSearch;
+    HomeViewModel homeViewModel;
+    ProductRepository productRepository;
+    UserRepository userRepository;
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +56,23 @@ public class SearchActivity extends AppCompatActivity {
             return insets;
         });
 
+        productRepository = new ProductRepository();
+        userRepository = new UserRepository(this);
+        homeViewModel = new HomeViewModel(productRepository, userRepository);
         tvTitle = findViewById(R.id.tv_title);
+        rvHistory = findViewById(R.id.rv_history);
+        rvResult = findViewById(R.id.rv_result);
+        rvResult.setLayoutManager(new GridLayoutManager(this, 2));
+        rvResult.addItemDecoration(new GridSpacingItemDecoration(2, 20));
+        rvHistory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        listSearch = new ArrayList<>(Arrays.asList(
+                "search1", "search2", "search1", "search2",
+                "search1", "search2", "search1", "search2",
+                "search1", "search2", "search1", "search2"
+        ));
+
+        historyAdapter = new HistoryAdapter(this, listSearch);
+        rvHistory.setAdapter(historyAdapter);
         tvClear = findViewById(R.id.tv_clear);
         tvClear.setOnClickListener(clear -> {
             listSearch.clear();
@@ -66,6 +91,8 @@ public class SearchActivity extends AppCompatActivity {
                 if (s.length() == 0) {
                     tvTitle.setText("Recent");
                     tvClear.setText("Clear All");
+                    rvHistory.setVisibility(View.VISIBLE);
+                    rvResult.setVisibility(View.GONE);
                 }
             }
 
@@ -75,31 +102,21 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        edtSearch.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
-                String search = "Results for \"" + edtSearch.getText().toString() + "\"";
-                tvTitle.setText(search);  // Cập nhật tiêu đề kết quả tìm kiếm
-                tvClear.setText("Clear"); // Chỉnh lại nút Clear
-
-                // Ẩn bàn phím
-                InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        tvBtnSearch = findViewById(R.id.tv_btn_search);
+        tvBtnSearch.setOnClickListener(v -> {
+            String search = "Results for \"" + edtSearch.getText().toString() + "\"";
+            tvTitle.setText(search);  // Cập nhật tiêu đề kết quả tìm kiếm
+            rvHistory.setVisibility(View.GONE);
+            rvResult.setVisibility(View.VISIBLE);
+            homeViewModel.getProduct();
+            homeViewModel.getListProduct().observe(this, listProduct -> {
+                if (!listProduct.isEmpty()) {
+                    String result = listProduct.size() + " found";
+                    tvClear.setText(result);
+                    rvResult.setAdapter(new ProductAdapter(this, listProduct));
                 }
-                return true;
-            }
-            return false;
+            });
         });
 
-        rvHistory = findViewById(R.id.rv_history);
-        rvHistory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        listSearch = new ArrayList<>(Arrays.asList(
-                "search1", "search2", "search1", "search2",
-                "search1", "search2", "search1", "search2",
-                "search1", "search2", "search1", "search2"
-        ));
-
-        historyAdapter = new HistoryAdapter(this, listSearch);
-        rvHistory.setAdapter(historyAdapter);
     }
 }

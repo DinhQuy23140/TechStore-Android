@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnItemClickListener;
 
 import java.util.ArrayList;
 
@@ -21,11 +22,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     Context context;
     ArrayList<Integer> listPathImageCategory;
     ArrayList<String> listNameCategory;
+    OnItemClickListener listener;
 
-    public CategoryAdapter(Context context, ArrayList<String> listNameCategory, ArrayList<Integer> listPathImageCategory) {
+    public CategoryAdapter(Context context, ArrayList<String> listNameCategory, ArrayList<Integer> listPathImageCategory, OnItemClickListener listener) {
         context = context;
         this.listNameCategory = listNameCategory;
         this.listPathImageCategory = listPathImageCategory;
+        this.listener = listener;
     }
 
     @NonNull
@@ -45,6 +48,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 .placeholder(R.drawable.baseline_category_24)
                 .error(R.drawable.baseline_error_24)
                 .into(holder.ivCategory);
+        holder.itemView.setOnClickListener(click -> listener.onItemClick(position));
     }
 
     @Override
