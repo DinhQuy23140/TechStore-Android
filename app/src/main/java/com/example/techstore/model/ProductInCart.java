@@ -9,6 +9,9 @@ public class ProductInCart {
     String img, title, size;
     float price;
 
+    public ProductInCart() {
+    }
+
     public ProductInCart(int id, int quantity) {
         this.id = id;
         this.quantity = quantity;

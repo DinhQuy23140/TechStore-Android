@@ -87,13 +87,5 @@ public class CartFragment extends Fragment {
         cartViewModel = new CartViewModel(userRepository);
         rvCartItem = view.findViewById(R.id.rv_cart_item);
         rvCartItem.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        cartViewModel.getCart();
-        cartViewModel.getListProduct().observe(getViewLifecycleOwner(), listProduct -> {
-            if (!listProduct.isEmpty()) {
-                listProductInCart = listProduct;
-                cartAdapter = new CartAdapter(getContext(), listProductInCart);
-                rvCartItem.setAdapter(cartAdapter);
-            }
-        });
     }
 }
