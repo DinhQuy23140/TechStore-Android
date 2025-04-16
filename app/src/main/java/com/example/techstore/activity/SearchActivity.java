@@ -104,18 +104,21 @@ public class SearchActivity extends AppCompatActivity {
 
         tvBtnSearch = findViewById(R.id.tv_btn_search);
         tvBtnSearch.setOnClickListener(v -> {
-            String search = "Results for \"" + edtSearch.getText().toString() + "\"";
-            tvTitle.setText(search);  // Cập nhật tiêu đề kết quả tìm kiếm
-            rvHistory.setVisibility(View.GONE);
-            rvResult.setVisibility(View.VISIBLE);
-            homeViewModel.getProduct();
-            homeViewModel.getListProduct().observe(this, listProduct -> {
-                if (!listProduct.isEmpty()) {
-                    String result = listProduct.size() + " found";
-                    tvClear.setText(result);
-                    rvResult.setAdapter(new ProductAdapter(this, listProduct));
-                }
-            });
+            String strSearch = edtSearch.getText().toString().trim();
+            if (!strSearch.isEmpty()) {
+                String search = "Results for \"" + strSearch + "\"";
+                tvTitle.setText(search);
+                rvHistory.setVisibility(View.GONE);
+                rvResult.setVisibility(View.VISIBLE);
+                homeViewModel.getProduct();
+                homeViewModel.getListProduct().observe(this, listProduct -> {
+                    if (!listProduct.isEmpty()) {
+                        String result = listProduct.size() + " found";
+                        tvClear.setText(result);
+                        rvResult.setAdapter(new ProductAdapter(this, listProduct));
+                    }
+                });
+            }
         });
 
     }

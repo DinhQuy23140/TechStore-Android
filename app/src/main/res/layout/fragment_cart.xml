@@ -1,68 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_background_color"
     tools:context=".fragment.CartFragment">
 
     <!-- TODO: Update blank fragment layout -->
-<!--    <?xml version="1.0" encoding="utf-8"?>-->
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--        android:id="@+id/layout_login"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:padding="@dimen/input_padding">-->
+    <!--    <?xml version="1.0" encoding="utf-8"?>-->
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--        android:id="@+id/layout_login"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:padding="@dimen/input_padding">-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/title"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Welcome Back"-->
-<!--            android:textSize="@dimen/text_size"-->
-<!--            android:textStyle="bold"-->
-<!--            android:gravity="center"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            android:layout_marginTop="32dp" />-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/title"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Welcome Back"-->
+    <!--            android:textSize="@dimen/text_size"-->
+    <!--            android:textStyle="bold"-->
+    <!--            android:gravity="center"-->
+    <!--            app:layout_constraintTop_toTopOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            android:layout_marginTop="32dp" />-->
 
-<!--        <EditText-->
-<!--            android:id="@+id/input_email"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Email"-->
-<!--            android:textSize="@dimen/text_size"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/title"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            android:layout_marginTop="16dp" />-->
+    <!--        <EditText-->
+    <!--            android:id="@+id/input_email"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:hint="Email"-->
+    <!--            android:textSize="@dimen/text_size"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/title"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            android:layout_marginTop="16dp" />-->
 
-<!--        <EditText-->
-<!--            android:id="@+id/input_password"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Password"-->
-<!--            android:inputType="textPassword"-->
-<!--            android:textSize="@dimen/text_size"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/input_email"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            android:layout_marginTop="8dp" />-->
+    <!--        <EditText-->
+    <!--            android:id="@+id/input_password"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:hint="Password"-->
+    <!--            android:inputType="textPassword"-->
+    <!--            android:textSize="@dimen/text_size"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/input_email"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            android:layout_marginTop="8dp" />-->
 
-<!--        <Button-->
-<!--            android:id="@+id/btn_login"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="@dimen/button_height"-->
-<!--            android:text="Login"-->
-<!--            android:textSize="@dimen/text_size"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/input_password"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            android:layout_marginTop="24dp" />-->
+    <!--        <Button-->
+    <!--            android:id="@+id/btn_login"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="@dimen/button_height"-->
+    <!--            android:text="Login"-->
+    <!--            android:textSize="@dimen/text_size"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/input_password"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            android:layout_marginTop="24dp" />-->
 
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView11"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/logo_app_dark" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="My Cart"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/materialCardView2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.523" />
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/baseline_search_40"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total price"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/totalPrice"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    android:text="TextView"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checkout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_add_cart"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="Checkout"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    app:srcCompat="@drawable/baseline_arrow_right_alt_24" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

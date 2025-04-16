@@ -1,6 +1,7 @@
 package com.example.techstore.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.example.techstore.Adapter.CategoryNameAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
+import com.example.techstore.activity.SearchActivity;
 import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.repository.ProductRepository;
 import com.example.techstore.repository.UserRepository;
@@ -136,6 +138,11 @@ public class PopularProductFragment extends Fragment {
                 rvProduct.addItemDecoration(new GridSpacingItemDecoration(2, 20));
                 rvProduct.setAdapter(productAdapter);
             }
+        });
+
+        btnSearch.setOnClickListener(search -> {
+            Intent intent = new Intent(PopularProductFragment.this.getContext(), SearchActivity.class);
+            startActivity(intent);
         });
 
         btnBack.setOnClickListener(back -> {

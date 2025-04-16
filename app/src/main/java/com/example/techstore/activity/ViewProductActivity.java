@@ -25,12 +25,14 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.techstore.Adapter.ColorAdapter;
+import com.example.techstore.Adapter.SizeAdapter;
 import com.example.techstore.R;
 import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.model.Product;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
+import com.example.techstore.untilities.Decoration;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 import com.example.techstore.viewmodel.CartViewModel;
 import com.google.gson.Gson;
@@ -51,13 +53,16 @@ public class ViewProductActivity extends AppCompatActivity {
     TextView nameProduct, rating, ratingCount, description, tvPriceProduct, tvQuantity;
     ImageButton btnUp, btnDown;
     LinearLayout addToCart;
-    RecyclerView rvColor;
+    RecyclerView rvColor, rvSize;
     ColorAdapter colorAdapter;
     List<Integer> colors;
+    List<String> sizes;
+    SizeAdapter sizeAdapter;
     int defaultQuantity = 1;
     float priceProduct;
     OnItemClickListener listener;
     int getColor = 0;
+    String getSize = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,10 +140,18 @@ public class ViewProductActivity extends AppCompatActivity {
         rvColor.addItemDecoration(new GridSpacingItemDecoration(5, 10));
         rvColor.setAdapter(colorAdapter);
 
+        rvSize = findViewById(R.id.rvSize);
+        rvSize.setLayoutManager(new GridLayoutManager(this, 4));
+        rvSize.addItemDecoration(new GridSpacingItemDecoration(4, 20));
+        sizes = Arrays.asList("S", "M", "L", "XL", "XXL", "XXXL");
+        sizeAdapter = new SizeAdapter(this, sizes, position -> {
+            getSize = sizes.get(position);
+        });
+        rvSize.setAdapter(sizeAdapter);
 
         addToCart = findViewById(R.id.addToCart);
         addToCart.setOnClickListener(addToCart -> {
-            ProductInCart productInCart = new ProductInCart(product.getId(), defaultQuantity);
+            ProductInCart productInCart = new ProductInCart(getColor, product.getId(), product.getImage(), product.getPrice(), defaultQuantity, getSize, product.getTitle());
             cartViewModel.addCart(productInCart);
         });
         cartViewModel.getMessage().observe(this, message -> {
