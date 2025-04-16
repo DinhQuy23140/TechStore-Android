@@ -1,5 +1,6 @@
 package com.example.techstore.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.MyViewHolder>{
     Context context;
     List<String> listSize;
     OnItemClickListener listener;
+    private int selectedItem = -1;
 
     public SizeAdapter(Context context, List<String> listSize, OnItemClickListener listener) {
         this.context = context;
@@ -35,11 +37,28 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.MyViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String size = listSize.get(position);
         holder.tvSize.setText(size);
-        holder.itemView.setOnClickListener(click -> {
+
+        if (selectedItem == position) {
             holder.cvSize.setCardBackgroundColor(context.getResources().getColor(R.color.gray, null));
+        } else {
+            holder.cvSize.setCardBackgroundColor(context.getResources().getColor(R.color.white, null));
+        }
+
+        holder.itemView.setOnClickListener(click -> {
+//            holder.cvSize.setCardBackgroundColor(context.getResources().getColor(R.color.gray, null));
+            if (selectedItem == position) {
+                int previoutPosition = selectedItem;
+                selectedItem = -1;
+                notifyItemChanged(previoutPosition);
+            } else {
+                int previoutPosition = selectedItem;
+                selectedItem = position;
+                notifyItemChanged(previoutPosition);
+                notifyItemChanged(selectedItem);
+            }
         });
 
         if (listener != null) {

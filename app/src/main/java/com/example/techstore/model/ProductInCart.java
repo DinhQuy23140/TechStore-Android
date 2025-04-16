@@ -5,8 +5,8 @@ import androidx.annotation.Nullable;
 import java.util.Objects;
 
 public class ProductInCart {
-    int id, quantity;
-    String img, title, size, color;
+    int id, quantity, color;
+    String img, title, size;
     float price;
 
     public ProductInCart(int id, int quantity) {
@@ -14,7 +14,7 @@ public class ProductInCart {
         this.quantity = quantity;
     }
 
-    public ProductInCart(String color, int id, String img, float price, int quantity, String size, String title) {
+    public ProductInCart(int color, int id, String img, float price, int quantity, String size, String title) {
         this.color = color;
         this.id = id;
         this.img = img;
@@ -64,11 +64,11 @@ public class ProductInCart {
         this.title = title;
     }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         this.color = color;
     }
 
@@ -85,7 +85,7 @@ public class ProductInCart {
         if (this == obj) return true;
         if (!(obj instanceof ProductInCart)) return false;
         ProductInCart product = (ProductInCart) obj;
-        return id == product.id && size.equals(product.getSize()) && color.equals(product.getColor());
+        return id == product.id && size.equals(product.getSize()) && color == product.getColor();
     }
 
     @Override
