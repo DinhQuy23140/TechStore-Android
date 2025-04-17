@@ -69,4 +69,5 @@
     <string name="checkout_title">Checkout</string>
     <string name="checkout_address">Shipping address</string>
     <string name="checkout_order">Order list</string>
+    <string name="checkout_pay">Continue to Payment</string>
 </resources>

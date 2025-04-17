@@ -70,5 +70,4 @@
     <string name="checkout_title">Checkout</string>
     <string name="checkout_address">Shipping address</string>
     <string name="checkout_order">Danh sách đặt hàng</string>
-    <string name="checkout_pay">Tiếp tục thanh toán</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.techstore.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,14 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.techstore.Adapter.CartAdapter;
 import com.example.techstore.R;
+import com.example.techstore.activity.CheckoutActivity;
 import com.example.techstore.interfaces.OnClickProductInCart;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.viewmodel.CartViewModel;
+import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -42,9 +46,11 @@ public class CartFragment extends Fragment {
     RecyclerView rvCartItem;
     CartAdapter cartAdapter;
     TextView tvTotal;
+    LinearLayout lnCheckout;
     List<ProductInCart> listProductInCart;
     UserRepository userRepository;
     CartViewModel cartViewModel;
+    Gson gson = new Gson();
 
     public CartFragment() {
         // Required empty public constructor
@@ -124,6 +130,11 @@ public class CartFragment extends Fragment {
             }
         });
 
+        lnCheckout = view.findViewById(R.id.ln_checkout);
+        lnCheckout.setOnClickListener(checkout -> {
+            Intent intent = new Intent(getContext(), CheckoutActivity.class);
+            startActivity(intent);
+        });
     }
 
     public String totalProduct(List<ProductInCart> listProductInCart) {
