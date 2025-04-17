@@ -71,7 +71,9 @@
                 android:id="@+id/cv_color_product"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:cardCornerRadius="15dp" />
+                app:cardCornerRadius="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView9"
