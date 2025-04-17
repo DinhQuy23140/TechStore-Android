@@ -57,4 +57,17 @@
     <string name="common_see_all">Xem tất cả</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+<!--    view product-->
+    <string name="viewProduct_des">Mô tả</string>
+    <string name="viewProduct_size">Kích cỡ</string>
+    <string name="viewProduct_color">Màu sắc</string>
+    <string name="viewProduct_quantity">Số lượng</string>
+    <string name="viewProduct_add_cart">Thêm vào giỏ</string>
+    <string name="viewProduct_total">Tổng</string>
+
+    <!--    checkout-->
+    <string name="checkout_title">Checkout</string>
+    <string name="checkout_address">Shipping address</string>
+    <string name="checkout_order">Danh sách đặt hàng</string>
 </resources>

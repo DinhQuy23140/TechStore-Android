@@ -147,7 +147,7 @@
                         android:id="@+id/desTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Description"
+                        android:text="@string/viewProduct_des"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -180,7 +180,7 @@
                             android:id="@+id/sizeProduct"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Size"
+                            android:text="@string/viewProduct_size"
                             android:textColor="@color/white"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -246,7 +246,7 @@
                             android:id="@+id/colorProduct"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Color"
+                            android:text="@string/viewProduct_color"
                             android:textColor="@color/white"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -274,7 +274,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Quantity"
+                        android:text="@string/viewProduct_quantity"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -347,7 +347,7 @@
                             android:id="@+id/textView16"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Total price"
+                            android:text="@string/viewProduct_total"
                             android:textColor="@color/white"
                             android:textSize="16sp" />
 
@@ -385,7 +385,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
-                            android:text="Add to cart"
+                            android:text="@string/viewProduct_add_cart"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
 

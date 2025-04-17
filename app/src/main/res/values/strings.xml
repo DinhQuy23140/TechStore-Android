@@ -54,7 +54,19 @@
     <!--    notification activity   -->
     <string name="notification_title">Notification</string>
 
-
     <!--    commont     -->
     <string name="common_see_all">See all</string>
+
+    <!--    view product-->
+    <string name="viewProduct_des">Description</string>
+    <string name="viewProduct_size">Size</string>
+    <string name="viewProduct_color">Color</string>
+    <string name="viewProduct_quantity">Quantity</string>
+    <string name="viewProduct_add_cart">Add to cart</string>
+    <string name="viewProduct_total">Total price</string>
+
+    <!--    checkout-->
+    <string name="checkout_title">Checkout</string>
+    <string name="checkout_address">Shipping address</string>
+    <string name="checkout_order">Order list</string>
 </resources>
