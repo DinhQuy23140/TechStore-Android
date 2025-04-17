@@ -136,7 +136,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
             <ImageButton
-                android:id="@+id/btn_decrease"
+                android:id="@+id/btn_increase"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:backgroundTint="@android:color/transparent"
@@ -157,7 +157,7 @@
                 android:textSize="12sp" />
 
             <ImageButton
-                android:id="@+id/btn_increase"
+                android:id="@+id/btn_decrease"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:backgroundTint="@android:color/transparent"
