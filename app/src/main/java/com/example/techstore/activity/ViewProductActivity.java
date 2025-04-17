@@ -151,8 +151,12 @@ public class ViewProductActivity extends AppCompatActivity {
 
         addToCart = findViewById(R.id.addToCart);
         addToCart.setOnClickListener(addToCart -> {
-            ProductInCart productInCart = new ProductInCart(getColor, product.getId(), product.getImage(), product.getPrice(), defaultQuantity, getSize, product.getTitle());
-            cartViewModel.addCart(productInCart);
+            if (getColor != 0 && !getSize.isEmpty()) {
+                ProductInCart productInCart = new ProductInCart(getColor, product.getId(), product.getImage(), product.getPrice(), defaultQuantity, getSize, product.getTitle());
+                cartViewModel.addOrUpdateCart(productInCart);
+            } else {
+                Toast.makeText(this, "Vui lòng lựa chọn kích thước và màu sắc!", Toast.LENGTH_SHORT).show();
+            }
         });
         cartViewModel.getMessage().observe(this, message -> {
             if (message != null) Toast.makeText(this, message, Toast.LENGTH_SHORT).show();

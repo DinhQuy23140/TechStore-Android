@@ -92,7 +92,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/totalPrice"
+                android:id="@+id/tv_totalPrice"
                 android:layout_width="140dp"
                 android:layout_height="match_parent"
                 android:gravity="bottom"

@@ -11,13 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.techstore.Adapter.CartAdapter;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnClickProductInCart;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.viewmodel.CartViewModel;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -37,6 +41,7 @@ public class CartFragment extends Fragment {
     private String mParam2;
     RecyclerView rvCartItem;
     CartAdapter cartAdapter;
+    TextView tvTotal;
     List<ProductInCart> listProductInCart;
     UserRepository userRepository;
     CartViewModel cartViewModel;
@@ -85,15 +90,52 @@ public class CartFragment extends Fragment {
 
         userRepository = new UserRepository(getContext());
         cartViewModel = new CartViewModel(userRepository);
+        tvTotal = view.findViewById(R.id.tv_totalPrice);
         rvCartItem = view.findViewById(R.id.rv_cart_item);
         rvCartItem.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         cartViewModel.getCart();
         cartViewModel.getListProduct().observe(getViewLifecycleOwner(), listProduct -> {
             if (!listProduct.isEmpty()) {
                 listProductInCart = listProduct;
-                cartAdapter = new CartAdapter(getContext(), listProductInCart);
+                cartAdapter = new CartAdapter(getContext(), listProductInCart, new OnClickProductInCart() {
+                    @Override
+                    public void onClick(ProductInCart product) {
+
+                    }
+
+                    @Override
+                    public void onDeteleProductInCart(ProductInCart product) {
+                        cartViewModel.deleteProduct(product);
+                    }
+
+                    @Override
+                    public void onDecreaseProductInCart(ProductInCart product) {
+                        cartViewModel.updateQuantity(product);
+                    }
+
+                    @Override
+                    public void onIncreaseProductInCart(ProductInCart product) {
+                        cartViewModel.updateQuantity(product);
+                    }
+                });
                 rvCartItem.setAdapter(cartAdapter);
+                String total = totalProduct(listProductInCart);
+                tvTotal.setText(total);
             }
         });
+
+    }
+
+    public String totalProduct(List<ProductInCart> listProductInCart) {
+        BigDecimal total = BigDecimal.ZERO;
+        for (ProductInCart product : listProductInCart) {
+            BigDecimal quantity = new BigDecimal(product.getQuantity());
+            BigDecimal price = new BigDecimal(Float.toString(product.getPrice()));
+            BigDecimal totalProduct = quantity.multiply(price);
+            total = total.add(totalProduct);
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        String totalString = decimalFormat.format(total) + "$";
+        return totalString;
     }
 }

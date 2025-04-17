@@ -32,11 +32,19 @@ public class CartViewModel extends ViewModel {
         this.listProduct = listProduct;
     }
 
-    public void addCart(ProductInCart product) {
+    public void addOrUpdateCart(ProductInCart product) {
         userRepository.addOrUpdateProduct(product, result -> {
             if (result) message.setValue("Thêm sản phẩm thành công vào giỏ hàng");
             else message.setValue("Có lỗi xảy ra!");
         });
+    }
+
+    public void deleteProduct(ProductInCart product) {
+        userRepository.deleteProductInCart(product);
+    }
+
+    public void updateQuantity(ProductInCart product) {
+        userRepository.updateQuantityProduct(product);
     }
 
     public void getCart() {
@@ -52,4 +60,5 @@ public class CartViewModel extends ViewModel {
             }
         });
     }
+
 }

@@ -1,18 +1,11 @@
 package com.example.techstore.repository;
 
 import android.content.Context;
-
-import androidx.annotation.NonNull;
-
-import com.example.techstore.model.Product;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.User;
 import com.example.techstore.sharepreference.SharedPrefManager;
 import com.example.techstore.untilities.Constants;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
@@ -21,15 +14,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class UserRepository {
-    private SharedPrefManager sharedPrefManager;
+    private final SharedPrefManager sharedPrefManager;
     FirebaseFirestore firebaseFirestore;
+    Gson gson;
 
     public UserRepository(Context context) {
         this.sharedPrefManager = new SharedPrefManager(context);
         firebaseFirestore = FirebaseFirestore.getInstance();
+        gson = new Gson();
     }
 
     public SharedPrefManager getSharedPrefManager() {
@@ -50,11 +44,7 @@ public class UserRepository {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        if (!task.getResult().isEmpty()) {
-                            callback.onResult(true);
-                        } else {
-                            callback.onResult(false);
-                        }
+                        callback.onResult(!task.getResult().isEmpty());
                     }
                 });
     }
@@ -104,7 +94,6 @@ public class UserRepository {
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         List<String> currentList = (List<String>) documentSnapshot.get(Constants.KEY_SHARE_PRODUCT);
-                        Gson gson = new Gson();
                         boolean productExist = false;
 
                         List<String> correctList = new ArrayList<>();
@@ -144,13 +133,66 @@ public class UserRepository {
             firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
                     .document(email)
                     .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            List<String> currentList = (List<String>) documentSnapshot.get(Constants.KEY_SHARE_PRODUCT);
-                            callback.onResult(currentList);
-                        }
+                    .addOnSuccessListener(documentSnapshot -> {
+                        List<String> currentList = (List<String>) documentSnapshot.get(Constants.KEY_SHARE_PRODUCT);
+                        callback.onResult(currentList);
                     });
         }
+    }
+
+    public void deleteProductInCart(ProductInCart product) {
+        String email = sharedPrefManager.getEmail();
+        if (!email.isEmpty()) {
+            firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                    .document(email)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        List<String> currentList = (List<String>) documentSnapshot.get(Constants.KEY_SHARE_PRODUCT);
+                        List<String> correctList = new ArrayList<>();
+                        if (currentList != null) {
+                            for (String strProductInCart : currentList) {
+                                ProductInCart productInCart = gson.fromJson(strProductInCart, ProductInCart.class);
+                                if (!productInCart.equals(product)) {
+                                    String strCorrectProduct = gson.toJson(productInCart);
+                                    correctList.add(strCorrectProduct);
+                                }
+                            }
+                        }
+
+                        Map<String, Object> updateData = new HashMap<>();
+                        updateData.put(Constants.KEY_SHARE_PRODUCT, correctList);
+
+                        firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                                .document(email)
+                                .set(updateData, SetOptions.merge());
+                    });
+        }
+    }
+
+    public void updateQuantityProduct(ProductInCart product) {
+        String email = sharedPrefManager.getEmail();
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                .document(email)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    List<String> currentList = (List<String>) documentSnapshot.get(Constants.KEY_SHARE_PRODUCT);
+                    List<String> correctList = new ArrayList<>();
+                    if (currentList != null) {
+                        for (String strProductInCart : currentList) {
+                            ProductInCart productInCart = gson.fromJson(strProductInCart, ProductInCart.class);
+                            if (productInCart.equals(product)) {
+                                productInCart.setQuantity(product.getQuantity());
+                            }
+                            String strCorrectProduct = gson.toJson(productInCart);
+                            correctList.add(strCorrectProduct);
+                        }
+                    }
+
+                    Map<String, Object> updateData = new HashMap<>();
+                    updateData.put(Constants.KEY_SHARE_PRODUCT, correctList);
+                    firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                            .document(email)
+                            .set(updateData, SetOptions.merge());
+                });
     }
 }
