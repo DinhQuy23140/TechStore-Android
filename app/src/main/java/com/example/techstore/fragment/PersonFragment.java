@@ -3,21 +3,32 @@ package com.example.techstore.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.techstore.Adapter.PersonAdapter;
 import com.example.techstore.MainActivity;
 import com.example.techstore.R;
 import com.example.techstore.activity.StartActivity;
+import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
+import com.example.techstore.viewmodel.PersonViewModel;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +46,14 @@ public class PersonFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    UserRepository userRepository;
+    PersonViewModel personViewModel;
+    ImageView ivImg, ivEdit;
+    TextView tvUsername, tvPhone;
+    RecyclerView rvFunc;
+    PersonAdapter personAdapter;
+    List<String> listFunc;
+    List<Integer> listPath;
     Button personFrg_btn_logout;
     SharedPreferences sharedPreferences;
     public PersonFragment() {
@@ -78,9 +97,33 @@ public class PersonFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        userRepository = new UserRepository(getContext());
+        personViewModel = new PersonViewModel(userRepository);
         sharedPreferences = getActivity().getSharedPreferences(Constants.KEY_SHARE_PREFERENCE, Context.MODE_PRIVATE);
         personFrg_btn_logout = view.findViewById(R.id.personFrg_btn_logout);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        ivImg = view.findViewById(R.id.iv_img);
+        ivEdit = view.findViewById(R.id.iv_edit);
+        tvUsername = view.findViewById(R.id.tv_username);
+        tvPhone = view.findViewById(R.id.tv_phone);
+
+        personViewModel.loadUser();
+        personViewModel.getImgUser().observe(getViewLifecycleOwner(), img -> {
+            if (img != null) {
+                byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                ivImg.setImageBitmap(decodedByte);
+            } else {
+                ivImg.setImageResource(R.drawable.background_default_user);
+            }
+        });
+        personViewModel.getUsername().observe(getViewLifecycleOwner(), username -> {
+            tvUsername.setText(username);
+        });
+        personViewModel.getPhone().observe(getViewLifecycleOwner(), phone -> {
+            tvPhone.setText(phone);
+        });
+
         personFrg_btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
