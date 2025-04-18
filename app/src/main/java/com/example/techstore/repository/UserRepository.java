@@ -63,6 +63,7 @@ public class UserRepository {
                         sharedPrefManager.setSaveInf(isSaveInf);
                         sharedPrefManager.saveUsername(userResult.getString(Constants.KEY_USERNAME));
                         sharedPrefManager.saveImg(userResult.getString(Constants.KEY_IMG));
+                        sharedPrefManager.savePhone(userResult.getString(Constants.KEY_PHONE));
                         callback.onResult(true);
                     } else {
                         callback.onResult(false);
@@ -84,6 +85,8 @@ public class UserRepository {
     public String getImg() {
         return sharedPrefManager.getImg();
     }
+
+    public String getPhone() {return sharedPrefManager.getPhone();}
 
     public void addOrUpdateProduct(ProductInCart product, Callback callback){
 

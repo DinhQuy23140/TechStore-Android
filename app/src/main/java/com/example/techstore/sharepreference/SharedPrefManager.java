@@ -67,4 +67,12 @@ public class SharedPrefManager {
     public String getImg() {
         return sharedPreferences.getString(Constants.KEY_IMG, "");
     }
+
+    public void savePhone(String phone) {
+        sharedPreferences.edit().putString(Constants.KEY_PHONE, phone).apply();
+    }
+
+    public String getPhone() {
+        return sharedPreferences.getString(Constants.KEY_PHONE, "");
+    }
 }

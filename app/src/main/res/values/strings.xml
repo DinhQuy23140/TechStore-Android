@@ -70,4 +70,18 @@
     <string name="checkout_address">Shipping address</string>
     <string name="checkout_order">Order list</string>
     <string name="checkout_pay">Continue to Payment</string>
+
+<!--    person framgent-->
+    <string name="person_profile">Edit Profile</string>
+    <string name="person_address">Address</string>
+    <string name="person_notifi">Notification</string>
+    <string name="person_payment">Payment</string>
+    <string name="person_sercurity">Sercurity</string>
+    <string name="person_lang">Language</string>
+    <string name="person_dark">Dark mode</string>
+    <string name="person_privacy">Privacy Policy</string>
+    <string name="person_help">Help Center</string>
+    <string name="person_invite">Invite Friends</string>
+    <string name="person_logout">Logout</string>
+
 </resources>

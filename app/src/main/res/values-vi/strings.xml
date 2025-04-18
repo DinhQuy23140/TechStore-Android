@@ -3,7 +3,7 @@
 <!--    login activity     -->
     <string name="app_name">Tech Store</string>
     <string name="login_title">Đăng nhập với tài khoản của bạn</string>
-    <string name="login_saveInformation">Lưu thống tin đăng nhập</string>
+    <string name="login_saveInformation">Lưu thông tin đăng nhập</string>
     <string name="login_forgotPassword">Quên mật khất</string>
     <string name="login_btnLogin">Đăng nhập</string>
     <string name="login_btnSignUp">Đăng ký</string>
@@ -67,8 +67,21 @@
     <string name="viewProduct_total">Tổng</string>
 
     <!--    checkout-->
-    <string name="checkout_title">Checkout</string>
-    <string name="checkout_address">Shipping address</string>
+    <string name="checkout_title">Thanh toán</string>
+    <string name="checkout_address">Địa chỉ giao hàng</string>
     <string name="checkout_order">Danh sách đặt hàng</string>
     <string name="checkout_pay">Tiếp tục thanh toán</string>
+
+    <!--    person framgent-->
+    <string name="person_profile">Sửa thông tin cá nhân</string>
+    <string name="person_address">Địa chỉ</string>
+    <string name="person_notifi">Thông báo</string>
+    <string name="person_payment">Thanh toán</string>
+    <string name="person_sercurity">Bảo mật</string>
+    <string name="person_lang">Ngôn ngữ</string>
+    <string name="person_dark">Chế độ tối</string>
+    <string name="person_privacy">Chính sách bảo mật</string>
+    <string name="person_help">Trung tâm hỗ trợ</string>
+    <string name="person_invite">Mời bạn bè</string>
+    <string name="person_logout">Đăng xuất</string>
 </resources>
