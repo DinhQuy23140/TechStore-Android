@@ -50,7 +50,7 @@ public class CheckoutActivity extends AppCompatActivity {
             if (!productInCarts.isEmpty()) {
                 listProduct = productInCarts;
                 checkoutAdapter = new CheckoutAdapter(this, listProduct);
-                rvCheckout.setAdapter(checkoutAdapter);
+//                rvCheckout.setAdapter(checkoutAdapter);
             }
         });
 
