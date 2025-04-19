@@ -71,7 +71,7 @@
     <string name="checkout_order">Order list</string>
     <string name="checkout_pay">Continue to Payment</string>
 
-<!--    person framgent-->
+    <!--    person framgent-->
     <string name="person_profile">Edit Profile</string>
     <string name="person_address">Address</string>
     <string name="person_notifi">Notification</string>

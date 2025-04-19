@@ -27,4 +27,15 @@ public class Constants {
     public static final String KEY_COLLECTION_PRODUCT = "products";
     public static final String KEY_COLLECTION_HISTORY = "history";
     public static final String KEY_COLLECTION_CART = "cart";
+
+    //person-frag
+    public static final String KEY_PROFILE = "profile";
+    public static final String KEY_NOTIFY = "notify";
+    public static final String KEY_PAYMENT = "payment";
+    public static final String KEY_SECURITY = "security";
+    public static final String KEY_LANGUAGE = "language";
+    public static final String KEY_MODE = "mode";
+    public static final String KEY_PRIVACY = "privacy";
+    public static final String KEY_HELP = "help";
+    public static final String KEY_INVITE = "invite";
 }
