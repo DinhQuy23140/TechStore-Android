@@ -102,7 +102,6 @@ public class PersonFragment extends Fragment {
         userRepository = new UserRepository(getContext());
         personViewModel = new PersonViewModel(userRepository);
         sharedPreferences = getActivity().getSharedPreferences(Constants.KEY_SHARE_PREFERENCE, Context.MODE_PRIVATE);
-        personFrg_btn_logout = view.findViewById(R.id.personFrg_btn_logout);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         ivImg = view.findViewById(R.id.iv_img);
         ivEdit = view.findViewById(R.id.iv_edit);
@@ -127,26 +126,12 @@ public class PersonFragment extends Fragment {
             tvPhone.setText(phone);
         });
 
-        personFrg_btn_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.putBoolean(Constants.KEY_IS_LOGIN, false);
-                editor.apply();
-                Intent intent = new Intent(getActivity(), StartActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.putBoolean(Constants.KEY_IS_LOGIN, false);
-                editor.apply();
-                Intent intent = new Intent(getActivity(), StartActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
+        logout.setOnClickListener(v -> {
+            editor.putBoolean(Constants.KEY_IS_LOGIN, false);
+            editor.apply();
+            Intent intent = new Intent(getActivity(), StartActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
 
     }
