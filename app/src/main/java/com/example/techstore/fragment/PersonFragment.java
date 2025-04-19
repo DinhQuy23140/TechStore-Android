@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +51,7 @@ public class PersonFragment extends Fragment {
     PersonViewModel personViewModel;
     ImageView ivImg, ivEdit;
     TextView tvUsername, tvPhone;
+    ConstraintLayout logout;
     RecyclerView rvFunc;
     PersonAdapter personAdapter;
     List<String> listFunc;
@@ -106,6 +108,7 @@ public class PersonFragment extends Fragment {
         ivEdit = view.findViewById(R.id.iv_edit);
         tvUsername = view.findViewById(R.id.tv_username);
         tvPhone = view.findViewById(R.id.tv_phone);
+        logout = view.findViewById(R.id.logout);
 
         personViewModel.loadUser();
         personViewModel.getImgUser().observe(getViewLifecycleOwner(), img -> {
@@ -125,6 +128,17 @@ public class PersonFragment extends Fragment {
         });
 
         personFrg_btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putBoolean(Constants.KEY_IS_LOGIN, false);
+                editor.apply();
+                Intent intent = new Intent(getActivity(), StartActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.putBoolean(Constants.KEY_IS_LOGIN, false);
