@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Base64;
@@ -49,14 +51,9 @@ public class PersonFragment extends Fragment {
 
     UserRepository userRepository;
     PersonViewModel personViewModel;
-    ImageView ivImg, ivEdit;
+    ImageView ivImg, ivEdit, ivProfile, ivAddress, ivNotify, ivPaymemt, ivSercurity, ivLang, ivMode, ivPrivacy, ivHelp, ivInvite;
     TextView tvUsername, tvPhone;
     ConstraintLayout logout;
-    RecyclerView rvFunc;
-    PersonAdapter personAdapter;
-    List<String> listFunc;
-    List<Integer> listPath;
-    Button personFrg_btn_logout;
     SharedPreferences sharedPreferences;
     public PersonFragment() {
         // Required empty public constructor
@@ -124,6 +121,72 @@ public class PersonFragment extends Fragment {
         });
         personViewModel.getPhone().observe(getViewLifecycleOwner(), phone -> {
             tvPhone.setText(phone);
+        });
+
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            String title = "";
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.iv_show_profile) {
+                    title = Constants.KEY_PROFILE;
+                } else if (v.getId() == R.id.iv_show_address) {
+                    title = Constants.KEY_ADDRESS;
+                } else if (v.getId() == R.id.iv_show_notify) {
+                    title = Constants.KEY_NOTIFY;
+                } else if (v.getId() == R.id.iv_show_payment) {
+                    title = Constants.KEY_PAYMENT;
+                } else if (v.getId() == R.id.iv_show_sercurity) {
+                    title = Constants.KEY_SECURITY;
+                } else if (v.getId() == R.id.iv_show_lang) {
+                    title = Constants.KEY_LANGUAGE;
+                } else if (v.getId() == R.id.iv_show_mode) {
+                    title = Constants.KEY_MODE;
+                } else if (v.getId() == R.id.iv_show_privacy) {
+                    title = Constants.KEY_PRIVACY;
+                } else if (v.getId() == R.id.iv_show_help) {
+                    title = Constants.KEY_HELP;
+                } else if (v.getId() == R.id.iv_show_invite) {
+                    title = Constants.KEY_INVITE;
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.KEY_TITLE_SCREEN, title);
+                ShowMoreFragment showMoreFragment = new ShowMoreFragment();
+                showMoreFragment.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frameContainer, showMoreFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        };
+
+        ivProfile = view.findViewById(R.id.iv_show_profile);
+        ivAddress = view.findViewById(R.id.iv_show_address);
+        ivNotify = view.findViewById(R.id.iv_show_notify);
+        ivPaymemt = view.findViewById(R.id.iv_show_payment);
+        ivSercurity = view.findViewById(R.id.iv_show_sercurity);
+        ivLang = view.findViewById(R.id.iv_show_lang);
+        ivMode = view.findViewById(R.id.iv_show_mode);
+        ivPrivacy = view.findViewById(R.id.iv_show_privacy);
+        ivHelp = view.findViewById(R.id.iv_show_help);
+        ivInvite = view.findViewById(R.id.iv_show_invite);
+
+//        ivProfile.setOnClickListener(onClickListener);
+        ivAddress.setOnClickListener(onClickListener);
+        ivNotify.setOnClickListener(onClickListener);
+        ivPaymemt.setOnClickListener(onClickListener);
+        ivSercurity.setOnClickListener(onClickListener);
+        ivLang.setOnClickListener(onClickListener);
+        ivMode.setOnClickListener(onClickListener);
+        ivPrivacy.setOnClickListener(onClickListener);
+        ivHelp.setOnClickListener(onClickListener);
+        ivInvite.setOnClickListener(onClickListener);
+
+        ivProfile.setOnClickListener(profile -> {
+            FillProfileFragment fillProfileFragment = new FillProfileFragment();
+            FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameContainer, fillProfileFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         });
 
         logout.setOnClickListener(v -> {

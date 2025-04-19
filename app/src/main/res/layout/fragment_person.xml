@@ -194,6 +194,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/iv_show_profile"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -239,6 +240,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/iv_show_address"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -284,6 +286,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/iv_show_notify"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -329,6 +332,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/iv_show_payment"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -374,6 +378,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/iv_show_sercurity"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -419,6 +424,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/iv_show_lang"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -464,6 +470,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/iv_show_mode"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -509,6 +516,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/iv_show_privacy"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -554,6 +562,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/iv_show_help"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -599,6 +608,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/iv_show_invite"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -644,14 +654,6 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/baseline_keyboard_arrow_right_45" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </LinearLayout>
