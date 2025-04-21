@@ -77,7 +77,7 @@ public class OrdersFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
         ViewPager2 viewPager = view.findViewById(R.id.viewPager);
-
+j
         ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity());
         viewPager.setAdapter(adapter);
 
