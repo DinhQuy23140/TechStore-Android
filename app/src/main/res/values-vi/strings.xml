@@ -72,6 +72,9 @@
     <string name="checkout_order">Danh sách đặt hàng</string>
     <string name="checkout_pay">Tiếp tục thanh toán</string>
 
+<!--    order fragment-->
+    <string name="track_orders">Theo dõi đơn</string>
+
     <!--    person framgent-->
     <string name="person_profile">Sửa thông tin cá nhân</string>
     <string name="person_address">Địa chỉ</string>

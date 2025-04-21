@@ -1,14 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.NewAddressFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Google Map Fragment -->
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:ignore="MissingClass" />
+
+    <!-- Thanh tìm kiếm -->
+    <EditText
+        android:id="@+id/etSearchAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập địa chỉ..."
+        android:padding="12dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_white_round"
+        android:drawableStart="@drawable/baseline_search_30"
+        android:drawablePadding="8dp"
+        android:layout_gravity="top" />
+
+    <!-- Marker cố định giữa -->
+    <ImageView
+        android:id="@+id/centerMarker"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_location_marker"
+        android:contentDescription="Center Marker"
+        app:tint="@color/black" />
+
+    <!-- Nút vị trí hiện tại -->
+    <ImageButton
+        android:id="@+id/btnMyLocation"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="96dp"
+        android:background="@drawable/bg_white_round"
+        android:src="@drawable/ic_my_location"
+        android:contentDescription="My Location"
+        app:tint="@color/black" />
+
+    <!-- Nút xác nhận -->
+    <Button
+        android:id="@+id/btnSelectLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/default_background_color"
+        android:text="Chọn địa chỉ này"
+        android:textColor="@android:color/white" />
 
 </FrameLayout>

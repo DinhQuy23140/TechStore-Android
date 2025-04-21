@@ -170,23 +170,23 @@ public class PersonFragment extends Fragment {
         ivHelp = view.findViewById(R.id.iv_show_help);
         ivInvite = view.findViewById(R.id.iv_show_invite);
 
+
 //        ivProfile.setOnClickListener(onClickListener);
         ivAddress.setOnClickListener(onClickListener);
         ivNotify.setOnClickListener(onClickListener);
         ivPaymemt.setOnClickListener(onClickListener);
         ivSercurity.setOnClickListener(onClickListener);
-        ivLang.setOnClickListener(onClickListener);
         ivMode.setOnClickListener(onClickListener);
         ivPrivacy.setOnClickListener(onClickListener);
         ivHelp.setOnClickListener(onClickListener);
         ivInvite.setOnClickListener(onClickListener);
 
         ivProfile.setOnClickListener(profile -> {
-            FillProfileFragment fillProfileFragment = new FillProfileFragment();
-            FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frameContainer, fillProfileFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            replaceFragment(new FillProfileFragment());
+        });
+
+        ivLang.setOnClickListener(lang -> {
+            replaceFragment(new LangFragment());
         });
 
         logout.setOnClickListener(v -> {
@@ -196,6 +196,12 @@ public class PersonFragment extends Fragment {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
+    }
 
+    public void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frameContainer, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

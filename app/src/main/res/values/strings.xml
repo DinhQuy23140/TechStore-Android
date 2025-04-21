@@ -71,6 +71,9 @@
     <string name="checkout_order">Order list</string>
     <string name="checkout_pay">Continue to Payment</string>
 
+    <!--    order fragment-->
+    <string name="track_orders">Track orders</string>
+
     <!--    person framgent-->
     <string name="person_profile">Edit Profile</string>
     <string name="person_address">Address</string>
