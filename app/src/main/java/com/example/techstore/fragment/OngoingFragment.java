@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.techstore.Adapter.CartAdapter;
+import com.example.techstore.Adapter.OnGoingAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
 import com.example.techstore.interfaces.OnClickProductInCart;
@@ -41,6 +42,7 @@ public class OngoingFragment extends Fragment {
 
     RecyclerView rvProduct;
     CartAdapter cartAdapter;
+    OnGoingAdapter onGoingAdapter;
     List<ProductInCart> listProduct;
     UserRepository userRepository;
     CartViewModel cartViewModel;
@@ -94,29 +96,30 @@ public class OngoingFragment extends Fragment {
         cartViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
             if (!list.isEmpty()) {
                 listProduct = list;
-                cartAdapter = new CartAdapter(getContext(), listProduct, new OnClickProductInCart() {
-
-                    @Override
-                    public void onClick(ProductInCart product) {
-
-                    }
-
-                    @Override
-                    public void onDeteleProductInCart(ProductInCart product) {
-
-                    }
-
-                    @Override
-                    public void onDecreaseProductInCart(ProductInCart product) {
-
-                    }
-
-                    @Override
-                    public void onIncreaseProductInCart(ProductInCart product) {
-
-                    }
-                });
-                rvProduct.setAdapter(cartAdapter);
+//                cartAdapter = new CartAdapter(getContext(), listProduct, new OnClickProductInCart() {
+//
+//                    @Override
+//                    public void onClick(ProductInCart product) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onDeteleProductInCart(ProductInCart product) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onDecreaseProductInCart(ProductInCart product) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onIncreaseProductInCart(ProductInCart product) {
+//
+//                    }
+//                });
+                onGoingAdapter = new OnGoingAdapter(getContext(), listProduct);
+                rvProduct.setAdapter(onGoingAdapter);
             }
         });
     }
