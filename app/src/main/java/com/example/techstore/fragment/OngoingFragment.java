@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +19,7 @@ import com.example.techstore.Adapter.OnGoingAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
 import com.example.techstore.interfaces.OnClickProductInCart;
+import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.Product;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.repository.UserRepository;
@@ -118,7 +121,16 @@ public class OngoingFragment extends Fragment {
 //
 //                    }
 //                });
-                onGoingAdapter = new OnGoingAdapter(getContext(), listProduct);
+                onGoingAdapter = new OnGoingAdapter(getContext(), listProduct, new OnClickWidgetItem() {
+                    @Override
+                    public void onClick(int position) {
+                        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.frameContainer, new TrackOrdersFragment());
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                });
                 rvProduct.setAdapter(onGoingAdapter);
             }
         });

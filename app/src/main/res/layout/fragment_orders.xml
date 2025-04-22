@@ -71,7 +71,7 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#121212"
+                android:background="@android:color/transparent"
                 app:tabIndicatorColor="@android:color/white"
                 app:tabIndicatorHeight="2dp"
                 app:tabSelectedTextColor="@android:color/white"

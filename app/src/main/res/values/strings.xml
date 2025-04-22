@@ -90,7 +90,7 @@
     <string name="person_invite">Invite Friends</string>
     <string name="person_logout">Logout</string>
 
-<!--    product-->
+    <!--    product-->
     <string name="product_title">Product</string>
     <string name="product_price">Price</string>
     <string name="product_quantity">Quantity</string>
