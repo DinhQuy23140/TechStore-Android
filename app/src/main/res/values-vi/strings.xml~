@@ -103,5 +103,4 @@
     <string name="product_color">Màu sắc</string>
     <string name="product_review">Đánh giá</string>
     <string name="product_rating">Đánh giá</string>
-    <string name="default_quantity">1</string>
 </resources>

@@ -46,7 +46,7 @@ public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.OnGoingV
                 .into(holder.ivImg);
         holder.tvTitle.setText(product.getTitle());
         holder.tvSize.setText("Size = " + product.getSize());
-        holder.tvQuantity.setText(Integer.toString(product.getQuantity()));
+        holder.tvQuantity.setText("Qty = " + product.getQuantity());
         holder.tvStatus.setText("Status");
         holder.tvPrice.setText(product.getPrice() + "$");
         holder.cvColor.setCardBackgroundColor(product.getColor());
@@ -60,8 +60,7 @@ public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.OnGoingV
     public class OnGoingViewHolder extends RecyclerView.ViewHolder {
         ImageView ivImg;
         CardView cvColor;
-        TextView tvTitle, tvSize, tvQuantity, tvStatus, tvPrice;
-        Button btnTrack;
+        TextView tvTitle, tvSize, tvQuantity, tvStatus, tvPrice, btnTrack;
         public OnGoingViewHolder(@NonNull View itemView) {
             super(itemView);
             ivImg = itemView.findViewById(R.id.iv_img_product);
