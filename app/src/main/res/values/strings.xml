@@ -73,6 +73,9 @@
 
     <!--    order fragment-->
     <string name="track_orders">Track orders</string>
+    <string name="status_comp">Complete</string>
+    <string name="leave_review">Leave Review</string>
+    <string name="status_status">Status</string>
 
     <!--    person framgent-->
     <string name="person_profile">Edit Profile</string>
@@ -86,5 +89,18 @@
     <string name="person_help">Help Center</string>
     <string name="person_invite">Invite Friends</string>
     <string name="person_logout">Logout</string>
+
+<!--    product-->
+    <string name="product_title">Product</string>
+    <string name="product_price">Price</string>
+    <string name="product_quantity">Quantity</string>
+    <string name="product_total">Total</string>
+    <string name="product_add_cart">Add to cart</string>
+    <string name="product_description">Description</string>
+    <string name="product_size">Size</string>
+    <string name="product_color">Color</string>
+    <string name="product_review">Review</string>
+    <string name="product_rating">Rating</string>
+    <string name="default_quantity">1</string>
 
 </resources>

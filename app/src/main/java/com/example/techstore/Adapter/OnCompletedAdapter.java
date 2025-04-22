@@ -1,5 +1,6 @@
 package com.example.techstore.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ public class OnCompletedAdapter extends RecyclerView.Adapter<OnCompletedAdapter.
         return new OnCompletedViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull OnCompletedViewHolder holder, int position) {
         ProductInCart product = list.get(position);
@@ -44,10 +46,11 @@ public class OnCompletedAdapter extends RecyclerView.Adapter<OnCompletedAdapter.
                 .into(holder.ivImg);
         holder.tvTitle.setText(product.getTitle());
         holder.tvSize.setText("Size = " + product.getSize());
-        holder.tvQuantity.setText(Integer.toString(product.getQuantity()));
-        holder.tvStatus.setText("Status");
+        holder.tvQuantity.setText("Qty = " + product.getQuantity());
+        holder.tvStatus.setText(context.getString(R.string.status_comp));
         holder.tvPrice.setText(product.getPrice() + "$");
         holder.cvColor.setCardBackgroundColor(product.getColor());
+        holder.btnTrack.setText(context.getString(R.string.leave_review));
     }
 
     @Override
@@ -55,11 +58,10 @@ public class OnCompletedAdapter extends RecyclerView.Adapter<OnCompletedAdapter.
         return list.size();
     }
 
-    public class OnCompletedViewHolder extends RecyclerView.ViewHolder {
+    public static class OnCompletedViewHolder extends RecyclerView.ViewHolder {
         ImageView ivImg;
         CardView cvColor;
-        TextView tvTitle, tvSize, tvQuantity, tvStatus, tvPrice;
-        Button btnTrack;
+        TextView tvTitle, tvSize, tvQuantity, tvStatus, tvPrice, btnTrack;
         public OnCompletedViewHolder(@NonNull View itemView) {
             super(itemView);
             ivImg = itemView.findViewById(R.id.iv_img_product);

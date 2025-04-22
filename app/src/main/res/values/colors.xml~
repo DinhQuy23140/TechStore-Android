@@ -9,6 +9,6 @@
     <color name="bgBottomNavigation">#fe485a</color>
     <color name="backgroundItemNotification">#53555B</color>
     <color name="quantity_color">#9F9F9F</color>
-    <color name="item_cart">#4E4D4D</color>
+    <color name="item_cart">#1F222A</color>
     <color name="quantity_item">#8E8F93</color>
 </resources>

@@ -12,7 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.techstore.Adapter.CartAdapter;
+import com.example.techstore.Adapter.OnCompletedAdapter;
+import com.example.techstore.Adapter.OnGoingAdapter;
 import com.example.techstore.R;
+import com.example.techstore.model.ProductInCart;
+import com.example.techstore.repository.UserRepository;
+import com.example.techstore.viewmodel.CartViewModel;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +38,11 @@ public class CompletedFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RecyclerView recyclerView;
+    RecyclerView rvProduct;
+    OnCompletedAdapter onCompletedAdapter;
+    List<ProductInCart> listProduct;
+    UserRepository userRepository;
+    CartViewModel cartViewModel;
 
     public CompletedFragment() {
         // Required empty public constructor
@@ -75,5 +85,17 @@ public class CompletedFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        userRepository = new UserRepository(getContext());
+        cartViewModel = new CartViewModel(userRepository);
+        rvProduct = view.findViewById(R.id.recyclerCompleted);
+        rvProduct.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        cartViewModel.getCart();
+        cartViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
+            if (!list.isEmpty()) {
+                listProduct = list;
+                onCompletedAdapter = new OnCompletedAdapter(getContext(), listProduct);
+                rvProduct.setAdapter(onCompletedAdapter);
+            }
+        });
     }
 }

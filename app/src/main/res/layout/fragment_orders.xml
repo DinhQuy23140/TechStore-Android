@@ -63,6 +63,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
 
@@ -70,11 +71,11 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabIndicatorColor="@android:color/white"
-                app:tabSelectedTextColor="@android:color/white"
-                app:tabTextColor="#888888"
                 android:background="#121212"
-                app:tabIndicatorHeight="2dp"/>
+                app:tabIndicatorColor="@android:color/white"
+                app:tabIndicatorHeight="2dp"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextColor="#888888" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
