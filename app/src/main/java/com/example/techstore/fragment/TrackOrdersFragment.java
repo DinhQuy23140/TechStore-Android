@@ -1,9 +1,11 @@
 package com.example.techstore.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -11,8 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.techstore.R;
+import com.example.techstore.model.ProductInCart;
+import com.example.techstore.untilities.Constants;
+import com.google.gson.Gson;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +38,11 @@ public class TrackOrdersFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    ImageView ivBack;
+    ImageView ivImg, ivSearch, ivBack;
+    CardView cvColor;
+    TextView tvTitle, tvSize, tvQuantity, tvPrice;
+
+    Gson gson;
 
     public TrackOrdersFragment() {
         // Required empty public constructor
@@ -69,10 +82,36 @@ public class TrackOrdersFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_track_orders, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        gson = new Gson();
+        Bundle bundle = getArguments();
+        String strProduct = bundle.getString(Constants.KEY_SHARE_PRODUCT);
+        ProductInCart product = gson.fromJson(strProduct, ProductInCart.class);
+        ivImg = view.findViewById(R.id.iv_img_product);
+        ivSearch = view.findViewById(R.id.btn_search);
+        cvColor = view.findViewById(R.id.cv_color_product);
+        tvTitle = view.findViewById(R.id.tv_cart_title);
+        tvSize = view.findViewById(R.id.tv_size_product);
+        tvQuantity = view.findViewById(R.id.tv_quantity);
+        tvPrice = view.findViewById(R.id.tv_price_total);
         ivBack = view.findViewById(R.id.btn_back);
+
+        Glide.with(requireContext())
+                        .load(product.getImg())
+                        .error(R.drawable.background_error_load)
+                        .placeholder(R.drawable.background_image_default)
+                        .into(ivImg);
+
+        cvColor.setCardBackgroundColor(product.getColor());
+        tvTitle.setText(product.getTitle());
+        tvSize.setText("Size = " + product.getSize());
+        tvQuantity.setText("Qty = " + product.getQuantity());
+        tvPrice.setText(product.getPrice() + "$");
+
         ivBack.setOnClickListener(back -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.popBackStack();
