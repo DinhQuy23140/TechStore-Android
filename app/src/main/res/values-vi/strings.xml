@@ -77,6 +77,9 @@
     <string name="status_comp">Hoàn thành</string>
     <string name="leave_review">Đánh Giá</string>
     <string name="status_status">Trạng thái</string>
+    <string name="on_going">Đang giao</string>
+    <string name="completed">Đã hoàn thành</string>
+    <string name="status_detail">Chi tiết trạng thái đơn hàng</string>
 
     <!--    person framgent-->
     <string name="person_profile">Sửa thông tin cá nhân</string>

@@ -76,6 +76,9 @@
     <string name="status_comp">Complete</string>
     <string name="leave_review">Leave Review</string>
     <string name="status_status">Status</string>
+    <string name="on_going">Ongoing</string>
+    <string name="completed">Completed</string>
+    <string name="status_detail">Orders Status Detail</string>
 
     <!--    person framgent-->
     <string name="person_profile">Edit Profile</string>

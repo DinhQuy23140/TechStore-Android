@@ -23,7 +23,9 @@ import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.Product;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.repository.UserRepository;
+import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.CartViewModel;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -49,6 +51,7 @@ public class OngoingFragment extends Fragment {
     List<ProductInCart> listProduct;
     UserRepository userRepository;
     CartViewModel cartViewModel;
+    Gson gson;
 
     public OngoingFragment() {
         // Required empty public constructor
@@ -124,9 +127,16 @@ public class OngoingFragment extends Fragment {
                 onGoingAdapter = new OnGoingAdapter(getContext(), listProduct, new OnClickWidgetItem() {
                     @Override
                     public void onClick(int position) {
+                        ProductInCart product = listProduct.get(position);
+                        Bundle bundle = new Bundle();
+                        gson = new Gson();
+                        String strProduct = gson.toJson(product);
+                        bundle.putString(Constants.KEY_SHARE_PRODUCT, strProduct);
                         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.frameContainer, new TrackOrdersFragment());
+                        TrackOrdersFragment trackOrdersFragment = new TrackOrdersFragment();
+                        trackOrdersFragment.setArguments(bundle);
+                        fragmentTransaction.replace(R.id.frameContainer, trackOrdersFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
