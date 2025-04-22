@@ -3,12 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#958D8DFF</color>
-    <color name="default_background_color">#2A2D54</color>
+    <color name="default_background_color">#13161D</color>
     <color name="default_color_text">#FFFFFF</color>
     <color name="default_error_message">#FF0000</color>
     <color name="bgBottomNavigation">#fe485a</color>
     <color name="backgroundItemNotification">#53555B</color>
     <color name="quantity_color">#9F9F9F</color>
-    <color name="item_cart">#4E4D4D</color>
+    <color name="item_cart">#40454D</color>
     <color name="quantity_item">#8E8F93</color>
+    <color name="btn_orders">#5D6171</color>
 </resources>

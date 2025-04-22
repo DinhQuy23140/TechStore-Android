@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.ProductInCart;
 
 import java.util.List;
@@ -22,10 +23,12 @@ import java.util.List;
 public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.OnGoingViewHolder> {
     Context context;
     List<ProductInCart> list;
+    OnClickWidgetItem onClickWidgetItem;
 
-    public OnGoingAdapter(Context context, List<ProductInCart> list) {
+    public OnGoingAdapter(Context context, List<ProductInCart> list, OnClickWidgetItem onClickWidgetItem) {
         this.context = context;
         this.list = list;
+        this.onClickWidgetItem = onClickWidgetItem;
     }
 
     @NonNull
@@ -50,6 +53,9 @@ public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.OnGoingV
         holder.tvStatus.setText("Status");
         holder.tvPrice.setText(product.getPrice() + "$");
         holder.cvColor.setCardBackgroundColor(product.getColor());
+        holder.btnTrack.setOnClickListener(track -> {
+            onClickWidgetItem.onClick(position);
+        });
     }
 
     @Override

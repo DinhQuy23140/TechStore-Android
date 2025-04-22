@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -73,7 +74,7 @@ public class HomeFragment extends Fragment {
     ImageView ivAvatar;
     TextView tvUserName, tvTime;
 
-    ScrollView layout_frg_home;
+    NestedScrollView layout_frg_home;
     ViewPager2 homeFrg_viewPager;
     ArrayList<Integer> listPathImage;
     CarouselAdapter carouselAdapter;
