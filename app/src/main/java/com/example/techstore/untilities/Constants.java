@@ -23,11 +23,6 @@ public class Constants {
     public static final String KEY_IMAGE_PRODUCT = "image_product";
     public static final String KEY_QUANTITY_PRODUCT = "quantity_product";
 
-    public static final String KEY_COLLECTION_USER = "users";
-    public static final String KEY_COLLECTION_PRODUCT = "products";
-    public static final String KEY_COLLECTION_HISTORY = "history";
-    public static final String KEY_COLLECTION_CART = "cart";
-
     //person-frag
     public static final String KEY_PROFILE = "profile";
     public static final String KEY_NOTIFY = "notify";
@@ -38,4 +33,13 @@ public class Constants {
     public static final String KEY_PRIVACY = "privacy";
     public static final String KEY_HELP = "help";
     public static final String KEY_INVITE = "invite";
+
+    //Coleection firebase
+    public static final String KEY_COLLECTION_USER = "users";
+    public static final String KEY_COLLECTION_PRODUCT = "products";
+    public static final String KEY_COLLECTION_HISTORY = "history";
+    public static final String KEY_COLLECTION_CART = "cart";
+    public static final String KEY_COLLECTION_ORDER = "order";
+    public static final String KEY_NAME_FILED_ORDERS = "orders";
+
 }

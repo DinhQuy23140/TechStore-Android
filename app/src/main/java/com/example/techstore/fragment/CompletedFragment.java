@@ -15,11 +15,17 @@ import android.view.ViewGroup;
 import com.example.techstore.Adapter.CartAdapter;
 import com.example.techstore.Adapter.OnCompletedAdapter;
 import com.example.techstore.Adapter.OnGoingAdapter;
+import com.example.techstore.Adapter.OrdersAdapter;
 import com.example.techstore.R;
 import com.example.techstore.model.ProductInCart;
+import com.example.techstore.model.ProductOrders;
+import com.example.techstore.repository.OrdersRepository;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.viewmodel.CartViewModel;
+import com.example.techstore.viewmodel.OrdersViewModel;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,9 +46,14 @@ public class CompletedFragment extends Fragment {
     private String mParam2;
     RecyclerView rvProduct;
     OnCompletedAdapter onCompletedAdapter;
+    OrdersAdapter ordersAdapter;
+    List<ProductOrders> listOrders;
     List<ProductInCart> listProduct;
     UserRepository userRepository;
     CartViewModel cartViewModel;
+    OrdersViewModel ordersViewModel;
+    OrdersRepository ordersRepository;
+    Gson gson;
 
     public CompletedFragment() {
         // Required empty public constructor
@@ -85,16 +96,31 @@ public class CompletedFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ordersRepository = new OrdersRepository(getContext());
+        ordersViewModel = new OrdersViewModel(ordersRepository);
         userRepository = new UserRepository(getContext());
         cartViewModel = new CartViewModel(userRepository);
+        gson = new Gson();
         rvProduct = view.findViewById(R.id.recyclerCompleted);
         rvProduct.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        cartViewModel.getCart();
-        cartViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
-            if (!list.isEmpty()) {
-                listProduct = list;
-                onCompletedAdapter = new OnCompletedAdapter(getContext(), listProduct);
-                rvProduct.setAdapter(onCompletedAdapter);
+//        cartViewModel.getCart();
+//        cartViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
+//            if (!list.isEmpty()) {
+//                listProduct = list;
+//                onCompletedAdapter = new OnCompletedAdapter(getContext(), listProduct);
+//                rvProduct.setAdapter(onCompletedAdapter);
+//            }
+//        });
+        listOrders = new ArrayList<>();
+        ordersViewModel.getOrders();
+        ordersViewModel.getListOrders().observe(getViewLifecycleOwner(), result -> {
+            if (!result.isEmpty()) {
+                for (String order : result) {
+                    ProductOrders productOrders = gson.fromJson(order, ProductOrders.class);
+                    listOrders.add(productOrders);
+                }
+                ordersAdapter = new OrdersAdapter(getContext(), listOrders);
+                rvProduct.setAdapter(ordersAdapter);
             }
         });
     }

@@ -59,11 +59,10 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.MyViewHolder>{
                 notifyItemChanged(previoutPosition);
                 notifyItemChanged(selectedItem);
             }
+            if (listener != null) {
+                listener.onItemClick(holder.getAdapterPosition());
+            }
         });
-
-        if (listener != null) {
-            listener.onItemClick(position);
-        }
     }
 
     @Override

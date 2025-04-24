@@ -1,12 +1,8 @@
 package com.example.techstore.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,18 +17,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
-
 import com.bumptech.glide.Glide;
 import com.example.techstore.Adapter.ColorAdapter;
 import com.example.techstore.Adapter.SizeAdapter;
 import com.example.techstore.R;
-import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.model.Product;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
-import com.example.techstore.untilities.Decoration;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 import com.example.techstore.viewmodel.CartViewModel;
 import com.google.gson.Gson;
@@ -40,9 +32,7 @@ import com.google.gson.Gson;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ViewProductActivity extends AppCompatActivity {
 
@@ -60,10 +50,10 @@ public class ViewProductActivity extends AppCompatActivity {
     SizeAdapter sizeAdapter;
     int defaultQuantity = 1;
     float priceProduct;
-    OnItemClickListener listener;
     int getColor = 0;
     String getSize = "";
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +88,7 @@ public class ViewProductActivity extends AppCompatActivity {
         ratingCount.setText(String.valueOf(product.getRating().getCount()));
         description.setText(product.getDescription());
         priceProduct = product.getPrice();
-        tvPriceProduct.setText(String.valueOf(priceProduct) + " $");
+        tvPriceProduct.setText(priceProduct + " $");
         Glide.with(this).load(product.getImage()).into(imageProduct);
 
 
@@ -128,13 +118,7 @@ public class ViewProductActivity extends AppCompatActivity {
                 ContextCompat.getColor(this, R.color.quantity_color)
         );
 
-        colorAdapter = new ColorAdapter(this, colors, new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                getColor = colors.get(position);
-                //Toast.makeText(getApplicationContext(), Integer.toString(getColor), Toast.LENGTH_SHORT).show();
-            }
-        });
+        colorAdapter = new ColorAdapter(this, colors, position -> getColor = colors.get(position));
         rvColor = findViewById(R.id.colorRecyclerView);
         rvColor.setLayoutManager(new GridLayoutManager(getApplicationContext(), 5));
         rvColor.addItemDecoration(new GridSpacingItemDecoration(5, 10));
@@ -144,14 +128,15 @@ public class ViewProductActivity extends AppCompatActivity {
         rvSize.setLayoutManager(new GridLayoutManager(this, 4));
         rvSize.addItemDecoration(new GridSpacingItemDecoration(4, 20));
         sizes = Arrays.asList("S", "M", "L", "XL", "XXL", "XXXL");
-        sizeAdapter = new SizeAdapter(this, sizes, position -> {
-            getSize = sizes.get(position);
-        });
+        sizeAdapter = new SizeAdapter(this, sizes, position -> getSize = sizes.get(position));
         rvSize.setAdapter(sizeAdapter);
+        Toast.makeText(this, "Note size: " + getSize + ", Color:  " + getColor, Toast.LENGTH_SHORT).show();
 
         addToCart = findViewById(R.id.addToCart);
         addToCart.setOnClickListener(addToCart -> {
-            if (getColor != 0 && !getSize.isEmpty()) {
+            //Toast.makeText(this, "Note size: " + getSize + ", Color:  " + getColor, Toast.LENGTH_SHORT).show();
+            if (getColor != 0 && !
+                    getSize.isEmpty()) {
                 ProductInCart productInCart = new ProductInCart(getColor, product.getId(), product.getImage(), product.getPrice(), defaultQuantity, getSize, product.getTitle());
                 cartViewModel.addOrUpdateCart(productInCart);
             } else {
@@ -172,9 +157,5 @@ public class ViewProductActivity extends AppCompatActivity {
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         tvQuantity.setText(String.valueOf(defaultQuantity));
         tvPriceProduct.setText(decimalFormat.format(total) + "$");
-    }
-
-    private int dpToPx(Context context, int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 }
