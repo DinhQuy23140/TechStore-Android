@@ -57,11 +57,10 @@ public class ColorAdapter extends RecyclerView .Adapter<ColorAdapter.MyViewHolde
                 notifyItemChanged(previoutPosition);
                 notifyItemChanged(selectedPosition);
             }
+            if (listener != null) {
+                listener.onItemClick(holder.getAdapterPosition());
+            }
         });
-
-        if (listener != null) {
-            listener.onItemClick(position);
-        }
     }
 
     @Override

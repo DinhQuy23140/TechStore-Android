@@ -70,6 +70,7 @@
     <string name="checkout_address">Shipping address</string>
     <string name="checkout_order">Order list</string>
     <string name="checkout_pay">Continue to Payment</string>
+    <string name="total_price">Total Price</string>
 
     <!--    order fragment-->
     <string name="track_orders">Track orders</string>
@@ -92,6 +93,15 @@
     <string name="person_help">Help Center</string>
     <string name="person_invite">Invite Friends</string>
     <string name="person_logout">Logout</string>
+
+    <!--    status orders-->
+    <string name="status_pending">Pending</string>
+    <string name="status_confirmed">Confirmed</string>
+    <string name="status_shipping">Shipping</string>
+    <string name="status_delivered">Delivered</string>
+    <string name="status_cancelled">Cancelled</string>
+    <string name="status_returned">Returned</string>
+    <string name="status_refunded">Refunded</string>
 
     <!--    product-->
     <string name="product_title">Product</string>

@@ -71,6 +71,7 @@
     <string name="checkout_address">Địa chỉ giao hàng</string>
     <string name="checkout_order">Danh sách đặt hàng</string>
     <string name="checkout_pay">Tiếp tục thanh toán</string>
+    <string name="total_price">Tổng</string>
 
 <!--    order fragment-->
     <string name="track_orders">Theo dõi đơn</string>
@@ -94,6 +95,14 @@
     <string name="person_invite">Mời bạn bè</string>
     <string name="person_logout">Đăng xuất</string>
 
+    <!--    status orders-->
+    <string name="status_pending">Chờ xác nhận</string>
+    <string name="status_confirmed">Đã xác nhận</string>
+    <string name="status_shipping">Đang giao hàng</string>
+    <string name="status_delivered">Đã giao hàng</string>
+    <string name="status_cancelled">Đã hủy</string>
+    <string name="status_returned">Trả hàng</string>
+    <string name="status_refunded">Đã hoàn tiền</string>
 
     <!--    product-->
     <string name="product_title">Tên</string>

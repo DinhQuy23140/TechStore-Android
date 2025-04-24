@@ -3,7 +3,6 @@ package com.example.techstore.activity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.techstore.Adapter.CheckoutAdapter;
 import com.example.techstore.R;
-import com.example.techstore.model.OrdersStatus;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.ProductOrders;
-import com.example.techstore.repository.OrdersRepository;
+import com.example.techstore.repository.ProductRepository;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.viewmodel.CartViewModel;
-import com.example.techstore.viewmodel.OrdersViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,8 +35,6 @@ public class CheckoutActivity extends AppCompatActivity {
     List<ProductInCart> listProduct;
     CheckoutAdapter checkoutAdapter;
     Button btnPay;
-    OrdersRepository ordersRepository;
-    OrdersViewModel ordersViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +46,6 @@ public class CheckoutActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        ordersRepository = new OrdersRepository(this);
-        ordersViewModel = new OrdersViewModel(ordersRepository);
 
         userRepository = new UserRepository(this);
         cartViewModel = new CartViewModel(userRepository);
@@ -75,18 +67,7 @@ public class CheckoutActivity extends AppCompatActivity {
         btnPay = findViewById(R.id.btn_to_payment);
         btnPay.setOnClickListener(pay -> {
             String ordersId = generateRandomId();
-            String getCurrentTime = getCurrentDateTime();
-            Double total = getTotal(listProduct);
-            ProductOrders productOrders = new ProductOrders(getCurrentTime, ordersId, OrdersStatus.PENDING, listProduct, "ADDRESS", total);
-            ordersViewModel.addOrders(productOrders);
-        });
-
-//        ordersViewModel.getIsSuccess().observe(this, result -> {
-//            if (result);
-//        });
-
-        ordersViewModel.getMessage().observe(this, message -> {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            ProductOrders productOrders = new ProductOrders()
         });
     }
 
@@ -97,13 +78,5 @@ public class CheckoutActivity extends AppCompatActivity {
     public String getCurrentDateTime() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdfDate.format(new Date());
-    }
-
-    public double getTotal(List<ProductInCart> listProduct) {
-        double total = 0;
-        for (ProductInCart product : listProduct) {
-            total += product.getPrice() * product.getQuantity();
-        }
-        return total;
     }
 }
