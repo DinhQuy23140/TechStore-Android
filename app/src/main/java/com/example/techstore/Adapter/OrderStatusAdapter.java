@@ -19,6 +19,11 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
     Context context;
     List<OrderStatus> orderStatuses;
 
+    public OrderStatusAdapter(Context context, List<OrderStatus> orderStatuses) {
+        this.context = context;
+        this.orderStatuses = orderStatuses;
+    }
+
     @NonNull
     @Override
     public OrderStatusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
