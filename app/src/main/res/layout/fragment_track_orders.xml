@@ -245,10 +245,21 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_timeline"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp" />
+                android:layout_height="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:progress="20"
+                android:max="100"
+                style="@style/Widget.MaterialComponents.LinearProgressIndicator" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_order_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
