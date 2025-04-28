@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -128,16 +127,13 @@ public class TrackOrdersFragment extends Fragment {
         });
 
         linearProgressIndicator = view.findViewById(R.id.progress_timeline);
-        linearProgressIndicator.setProgress(80);
+        linearProgressIndicator.set
         rvOrderStatus = view.findViewById(R.id.rv_order_status);
-        rvOrderStatus.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         List<OrderStatus> statusList = new ArrayList<>();
         statusList.add(new OrderStatus("Đặt hàng thành công", "10:00"));
         statusList.add(new OrderStatus("Người bán xác nhận", "10:05"));
         statusList.add(new OrderStatus("Đang đóng gói", "10:30"));
         statusList.add(new OrderStatus("Đang vận chuyển", "11:00"));
         statusList.add(new OrderStatus("Giao thành công", "13:00"));
-        orderStatusAdapter = new OrderStatusAdapter(requireContext(), statusList);
-        rvOrderStatus.setAdapter(orderStatusAdapter);
     }
 }
