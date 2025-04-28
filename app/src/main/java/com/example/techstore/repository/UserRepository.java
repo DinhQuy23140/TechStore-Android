@@ -82,6 +82,8 @@ public class UserRepository {
         return sharedPrefManager.getUserName();
     }
 
+    public String getEmail() {return sharedPrefManager.getEmail();}
+
     public String getImg() {
         return sharedPrefManager.getImg();
     }

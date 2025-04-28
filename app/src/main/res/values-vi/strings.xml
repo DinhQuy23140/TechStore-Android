@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--    user inf    -->
+    <string name="user_username">Tên người dùng</string>
+    <string name="user_email">Email</string>
+    <string name="user_password">Mật khẩu</string>
+    <string name="user_phone">Số điện thoại</string>
+    <string name="user_address">Địa chỉ</string>
+    <string name="user_dob">Ngày sinh</string>
+
 <!--    login activity     -->
     <string name="app_name">Tech Store</string>
     <string name="login_title">Đăng nhập với tài khoản của bạn</string>

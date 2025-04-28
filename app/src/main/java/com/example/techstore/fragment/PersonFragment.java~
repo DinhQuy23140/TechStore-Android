@@ -11,20 +11,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.techstore.Adapter.PersonAdapter;
+import com.example.techstore.MainActivity;
 import com.example.techstore.R;
 import com.example.techstore.activity.StartActivity;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.PersonViewModel;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,7 +102,7 @@ public class PersonFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         ivImg = view.findViewById(R.id.iv_img);
         ivEdit = view.findViewById(R.id.iv_edit);
-        tvUsername = view.findViewById(R.id.edt_username);
+        tvUsername = view.findViewById(R.id.tv_username);
         tvPhone = view.findViewById(R.id.tv_phone);
         logout = view.findViewById(R.id.logout);
 

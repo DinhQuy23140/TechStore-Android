@@ -14,6 +14,7 @@ public class PersonViewModel extends ViewModel {
     UserRepository userRepository;
     MutableLiveData<String> imgUser = new MutableLiveData<>("");
     MutableLiveData<String> username = new MutableLiveData<>("");
+    MutableLiveData<String> email = new MutableLiveData<>("");
     MutableLiveData<String> phone = new MutableLiveData<>("");
     MutableLiveData<List<Integer>> listPath = new MutableLiveData<>();
     MutableLiveData<List<String>> listTitle = new MutableLiveData<>();
@@ -46,9 +47,18 @@ public class PersonViewModel extends ViewModel {
         this.username = username;
     }
 
+    public MutableLiveData<String> getEmail() {
+        return email;
+    }
+
+    public void setEmail(MutableLiveData<String> email) {
+        this.email = email;
+    }
+
     public void loadUser() {
         imgUser.setValue(userRepository.getImg());
         username.setValue(userRepository.getUserName());
+        email.setValue(userRepository.getEmail());
         phone.setValue(userRepository.getPhone());
     }
 
