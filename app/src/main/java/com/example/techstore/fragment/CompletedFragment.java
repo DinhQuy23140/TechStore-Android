@@ -48,9 +48,6 @@ public class CompletedFragment extends Fragment {
     OnCompletedAdapter onCompletedAdapter;
     OrdersAdapter ordersAdapter;
     List<ProductOrders> listOrders;
-    List<ProductInCart> listProduct;
-    UserRepository userRepository;
-    CartViewModel cartViewModel;
     OrdersViewModel ordersViewModel;
     OrdersRepository ordersRepository;
     Gson gson;
@@ -98,19 +95,9 @@ public class CompletedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ordersRepository = new OrdersRepository(getContext());
         ordersViewModel = new OrdersViewModel(ordersRepository);
-        userRepository = new UserRepository(getContext());
-        cartViewModel = new CartViewModel(userRepository);
         gson = new Gson();
         rvProduct = view.findViewById(R.id.recyclerCompleted);
         rvProduct.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-//        cartViewModel.getCart();
-//        cartViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
-//            if (!list.isEmpty()) {
-//                listProduct = list;
-//                onCompletedAdapter = new OnCompletedAdapter(getContext(), listProduct);
-//                rvProduct.setAdapter(onCompletedAdapter);
-//            }
-//        });
         listOrders = new ArrayList<>();
         ordersViewModel.getOrders();
         ordersViewModel.getListOrders().observe(getViewLifecycleOwner(), result -> {
