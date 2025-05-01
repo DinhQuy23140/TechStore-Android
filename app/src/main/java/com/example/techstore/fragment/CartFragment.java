@@ -136,7 +136,8 @@ public class CartFragment extends Fragment {
 
                     @Override
                     public void onUnCheckBoxClick(int position) {
-
+                        listSelectProductInCart.remove(listProductInCart.get(position));
+                        tvTotal.setText(totalProduct(listSelectProductInCart));
                     }
                 });
                 rvCartItem.setAdapter(cartAdapter);
