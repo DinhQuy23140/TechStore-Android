@@ -19,10 +19,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.techstore.Adapter.OrderStatusAdapter;
+import com.example.techstore.Adapter.OrdersAdapter;
 import com.example.techstore.R;
 import com.example.techstore.model.OrderStatus;
 import com.example.techstore.model.ProductInCart;
+import com.example.techstore.model.ProductOrders;
+import com.example.techstore.repository.OrdersRepository;
 import com.example.techstore.untilities.Constants;
+import com.example.techstore.viewmodel.OrdersViewModel;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.gson.Gson;
 
@@ -49,9 +53,12 @@ public class TrackOrdersFragment extends Fragment {
     CardView cvColor;
     TextView tvTitle, tvSize, tvQuantity, tvPrice;
     LinearProgressIndicator linearProgressIndicator;
-    RecyclerView rvOrderStatus;;
+    RecyclerView rvOrderStatus, rvOrders;
     OrderStatusAdapter orderStatusAdapter;
-
+    OrdersViewModel ordersViewModel;
+    OrdersRepository ordersRepository;
+    OrdersAdapter ordersAdapter;
+    List<ProductOrders> listOrders;
     Gson gson;
 
     public TrackOrdersFragment() {
@@ -97,6 +104,8 @@ public class TrackOrdersFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ordersRepository = new OrdersRepository(requireContext());
+        ordersViewModel = new OrdersViewModel(ordersRepository);
         gson = new Gson();
         Bundle bundle = getArguments();
         String strProduct = bundle.getString(Constants.KEY_SHARE_PRODUCT);
@@ -110,17 +119,17 @@ public class TrackOrdersFragment extends Fragment {
         tvPrice = view.findViewById(R.id.tv_price_total);
         ivBack = view.findViewById(R.id.btn_back);
 
-        Glide.with(requireContext())
-                        .load(product.getImg())
-                        .error(R.drawable.background_error_load)
-                        .placeholder(R.drawable.background_image_default)
-                        .into(ivImg);
-
-        cvColor.setCardBackgroundColor(product.getColor());
-        tvTitle.setText(product.getTitle());
-        tvSize.setText("Size = " + product.getSize());
-        tvQuantity.setText("Qty = " + product.getQuantity());
-        tvPrice.setText(product.getPrice() + "$");
+//        Glide.with(requireContext())
+//                        .load(product.getImg())
+//                        .error(R.drawable.background_error_load)
+//                        .placeholder(R.drawable.background_image_default)
+//                        .into(ivImg);
+//
+//        cvColor.setCardBackgroundColor(product.getColor());
+//        tvTitle.setText(product.getTitle());
+//        tvSize.setText("Size = " + product.getSize());
+//        tvQuantity.setText("Qty = " + product.getQuantity());
+//        tvPrice.setText(product.getPrice() + "$");
 
         ivBack.setOnClickListener(back -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -139,5 +148,20 @@ public class TrackOrdersFragment extends Fragment {
         statusList.add(new OrderStatus("Giao thành công", "13:00"));
         orderStatusAdapter = new OrderStatusAdapter(requireContext(), statusList);
         rvOrderStatus.setAdapter(orderStatusAdapter);
+
+        rvOrders = view.findViewById(R.id.rv_orders);
+        rvOrders.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        ordersViewModel.getOrders();
+        ordersViewModel.getListOrders().observe(getViewLifecycleOwner(), orders -> {
+            if (!orders.isEmpty()) {
+                listOrders = new ArrayList<>();
+                for (String order : orders) {
+                    ProductOrders productOrders = gson.fromJson(order, ProductOrders.class);
+                    listOrders.add(productOrders);
+                }
+                ordersAdapter = new OrdersAdapter(requireContext(), listOrders);
+                rvOrders.setAdapter(ordersAdapter);
+            }
+        });
     }
 }
