@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,23 +17,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnClickCheckBox;
 import com.example.techstore.interfaces.OnClickProductInCart;
+import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.ProductInCart;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     Context context;
     List<ProductInCart> listProductInCart;
     OnClickProductInCart onClickProductInCart;
+    OnClickCheckBox onClickCheckBox;
 
-    public CartAdapter(Context context, List<ProductInCart> listProductInCart, OnClickProductInCart onClickProductInCart) {
+    public CartAdapter(Context context, List<ProductInCart> listProductInCart, OnClickProductInCart onClickProductInCart, OnClickCheckBox onClickCheckBox) {
         this.context = context;
         this.listProductInCart = listProductInCart;
         this.onClickProductInCart = onClickProductInCart;
+        this.onClickCheckBox = onClickCheckBox;
     }
 
     @NonNull
@@ -90,6 +94,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             listProductInCart.remove(productInCart);
             notifyDataSetChanged();
         });
+
+        holder.cbSelectProduct.setOnClickListener(select -> {
+            if (holder.cbSelectProduct.isChecked()) {
+                onClickCheckBox.onCheckBoxClick(position);
+            } else {
+                onClickCheckBox.onUnCheckBoxClick(position);
+            }
+        });
     }
 
     @Override
@@ -103,6 +115,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         CardView cvColor;
         TextView tvTitle, tvSize, tvPrice, tvQuantity;
         ImageButton btnIncrease, btnDecrease;
+        CheckBox cbSelectProduct;
 
 
         public CartViewHolder(@NonNull View itemView) {
@@ -116,6 +129,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             tvQuantity = itemView.findViewById(R.id.tv_quantity);
             btnIncrease = itemView.findViewById(R.id.btn_increase);
             btnDecrease = itemView.findViewById(R.id.btn_decrease);
+            cbSelectProduct = itemView.findViewById(R.id.cb_select_product);
         }
     }
 }

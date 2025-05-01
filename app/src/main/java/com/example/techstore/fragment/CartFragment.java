@@ -18,7 +18,9 @@ import android.widget.TextView;
 import com.example.techstore.Adapter.CartAdapter;
 import com.example.techstore.R;
 import com.example.techstore.activity.CheckoutActivity;
+import com.example.techstore.interfaces.OnClickCheckBox;
 import com.example.techstore.interfaces.OnClickProductInCart;
+import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.viewmodel.CartViewModel;
@@ -26,6 +28,7 @@ import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,7 +50,7 @@ public class CartFragment extends Fragment {
     CartAdapter cartAdapter;
     TextView tvTotal;
     LinearLayout lnCheckout;
-    List<ProductInCart> listProductInCart;
+    List<ProductInCart> listProductInCart, listSelectProductInCart;
     UserRepository userRepository;
     CartViewModel cartViewModel;
     Gson gson = new Gson();
@@ -103,6 +106,7 @@ public class CartFragment extends Fragment {
         cartViewModel.getListProduct().observe(getViewLifecycleOwner(), listProduct -> {
             if (!listProduct.isEmpty()) {
                 listProductInCart = listProduct;
+                listSelectProductInCart = new ArrayList<>();
                 cartAdapter = new CartAdapter(getContext(), listProductInCart, new OnClickProductInCart() {
                     @Override
                     public void onClick(ProductInCart product) {
@@ -123,10 +127,19 @@ public class CartFragment extends Fragment {
                     public void onIncreaseProductInCart(ProductInCart product) {
                         cartViewModel.updateQuantity(product);
                     }
+                }, new OnClickCheckBox() {
+                    @Override
+                    public void onCheckBoxClick(int position) {
+                        listSelectProductInCart.add(listProductInCart.get(position));
+                        tvTotal.setText(totalProduct(listSelectProductInCart));
+                    }
+
+                    @Override
+                    public void onUnCheckBoxClick(int position) {
+
+                    }
                 });
                 rvCartItem.setAdapter(cartAdapter);
-                String total = totalProduct(listProductInCart);
-                tvTotal.setText(total);
             }
         });
 
