@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.techstore.Adapter.OrderStatusAdapter;
 import com.example.techstore.Adapter.OrdersAdapter;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.OrderStatus;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.ProductOrders;
@@ -151,17 +153,43 @@ public class TrackOrdersFragment extends Fragment {
 
         rvOrders = view.findViewById(R.id.rv_orders);
         rvOrders.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        ordersViewModel.getOrders();
-        ordersViewModel.getListOrders().observe(getViewLifecycleOwner(), orders -> {
-            if (!orders.isEmpty()) {
-                listOrders = new ArrayList<>();
-                for (String order : orders) {
-                    ProductOrders productOrders = gson.fromJson(order, ProductOrders.class);
-                    listOrders.add(productOrders);
-                }
-                ordersAdapter = new OrdersAdapter(requireContext(), listOrders);
-                rvOrders.setAdapter(ordersAdapter);
+//        ordersViewModel.getOrders();
+//        ordersViewModel.getListOrders().observe(getViewLifecycleOwner(), orders -> {
+//            if (!orders.isEmpty()) {
+//                listOrders = new ArrayList<>();
+//                for (String order : orders) {
+//                    ProductOrders productOrders = gson.fromJson(order, ProductOrders.class);
+//                    listOrders.add(productOrders);
+//                }
+//                ordersAdapter = new OrdersAdapter(requireContext(), listOrders, new OnClickWidgetItem() {
+//                    @Override
+//                    public void onClick(int position) {
+//                        ProductOrders productOrders = listOrders.get(position);
+//                        TrackOrdersFragment trackOrdersFragment = new TrackOrdersFragment();
+//                        Bundle bundle = new Bundle();
+//                        String strOrders = gson.toJson(productOrders);
+//                        bundle.putString(Constants.KEY_SHARE_ORDER, strOrders);
+//                        trackOrdersFragment.setArguments(bundle);
+//                        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                        fragmentTransaction.replace(R.id.frameContainer, trackOrdersFragment);
+//                        fragmentTransaction.addToBackStack(null);
+//                        fragmentTransaction.commit();
+//                    }
+//                });
+//                rvOrders.setAdapter(ordersAdapter);
+//            }
+//        });
+        String strOrders = bundle.getString(Constants.KEY_SHARE_ORDER);
+        ProductOrders productOrders = gson.fromJson(strOrders, ProductOrders.class);
+        listOrders = new ArrayList<>();
+        listOrders.add(productOrders);
+        ordersAdapter = new OrdersAdapter(requireContext(), listOrders, new OnClickWidgetItem() {
+            @Override
+            public void onClick(int position) {
+                ProductOrders productOrders = listOrders.get(position);
             }
         });
+        rvOrders.setAdapter(ordersAdapter);
     }
 }

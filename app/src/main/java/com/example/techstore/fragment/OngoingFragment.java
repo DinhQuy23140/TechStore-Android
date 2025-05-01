@@ -16,17 +16,22 @@ import android.view.ViewGroup;
 
 import com.example.techstore.Adapter.CartAdapter;
 import com.example.techstore.Adapter.OnGoingAdapter;
+import com.example.techstore.Adapter.OrdersAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
 import com.example.techstore.interfaces.OnClickProductInCart;
 import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.Product;
 import com.example.techstore.model.ProductInCart;
+import com.example.techstore.model.ProductOrders;
+import com.example.techstore.repository.OrdersRepository;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.CartViewModel;
+import com.example.techstore.viewmodel.OrdersViewModel;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,6 +57,11 @@ public class OngoingFragment extends Fragment {
     UserRepository userRepository;
     CartViewModel cartViewModel;
     Gson gson;
+
+    OrdersAdapter ordersAdapter;
+    List<ProductOrders> listOrders;
+    OrdersViewModel ordersViewModel;
+    OrdersRepository ordersRepository;
 
     public OngoingFragment() {
         // Required empty public constructor
@@ -94,54 +104,39 @@ public class OngoingFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ordersRepository = new OrdersRepository(requireContext());
+        ordersViewModel = new OrdersViewModel(ordersRepository);
+        gson = new Gson();
         userRepository = new UserRepository(getContext());
         cartViewModel = new CartViewModel(userRepository);
         rvProduct = view.findViewById(R.id.recyclerOngoing);
         rvProduct.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        cartViewModel.getCart();
-        cartViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
-            if (!list.isEmpty()) {
-                listProduct = list;
-//                cartAdapter = new CartAdapter(getContext(), listProduct, new OnClickProductInCart() {
-//
-//                    @Override
-//                    public void onClick(ProductInCart product) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onDeteleProductInCart(ProductInCart product) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onDecreaseProductInCart(ProductInCart product) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onIncreaseProductInCart(ProductInCart product) {
-//
-//                    }
-//                });
-                onGoingAdapter = new OnGoingAdapter(getContext(), listProduct, new OnClickWidgetItem() {
+
+        ordersViewModel.getOrders();
+        ordersViewModel.getListOrders().observe(getViewLifecycleOwner(), result -> {
+            if (!result.isEmpty()) {
+                listOrders = new ArrayList<>();
+                for (String order : result) {
+                    ProductOrders productOrders = gson.fromJson(order, ProductOrders.class);
+                    listOrders.add(productOrders);
+                }
+                ordersAdapter = new OrdersAdapter(getContext(), listOrders, new OnClickWidgetItem() {
                     @Override
                     public void onClick(int position) {
-                        ProductInCart product = listProduct.get(position);
+                        ProductOrders productOrders = listOrders.get(position);
+                        TrackOrdersFragment trackOrdersFragment = new TrackOrdersFragment();
                         Bundle bundle = new Bundle();
-                        gson = new Gson();
-                        String strProduct = gson.toJson(product);
-                        bundle.putString(Constants.KEY_SHARE_PRODUCT, strProduct);
+                        String strOrders = gson.toJson(productOrders);
+                        bundle.putString(Constants.KEY_SHARE_ORDER, strOrders);
+                        trackOrdersFragment.setArguments(bundle);
                         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        TrackOrdersFragment trackOrdersFragment = new TrackOrdersFragment();
-                        trackOrdersFragment.setArguments(bundle);
                         fragmentTransaction.replace(R.id.frameContainer, trackOrdersFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
                 });
-                rvProduct.setAdapter(onGoingAdapter);
+                rvProduct.setAdapter(ordersAdapter);
             }
         });
     }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.ProductOrders;
 import com.example.techstore.untilities.Constants;
@@ -23,10 +24,12 @@ import java.util.List;
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder> {
     Context context;
     List<ProductOrders> listOrders;
+    OnClickWidgetItem listener;
 
-    public OrdersAdapter(Context context, List<ProductOrders> listOrders) {
+    public OrdersAdapter(Context context, List<ProductOrders> listOrders, OnClickWidgetItem listener) {
         this.context = context;
         this.listOrders = listOrders;
+        this.listener = listener;
     }
 
     @NonNull
@@ -43,6 +46,11 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
         holder.rvProduct.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         OnCompletedAdapter onCompletedAdapter = new OnCompletedAdapter(context, products);
         holder.rvProduct.setAdapter(onCompletedAdapter);
+        holder.ctrViewStatus.setOnClickListener(click -> {
+            if (listener!= null) {
+                listener.onClick(position);
+            }
+        });
     }
 
     @Override

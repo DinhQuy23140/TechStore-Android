@@ -13,6 +13,7 @@ public class Constants {
     public static final String KEY_IS_SAVE_INF = "is_save_inf";
     public static final String KEY_SHARE_PREFERENCE = "TechStorePref";
     public static final String KEY_SHARE_PRODUCT = "product";
+    public static final String KEY_SHARE_ORDER = "order";
     public static final String KEY_TITLE_SCREEN = "title";
 
     //product
