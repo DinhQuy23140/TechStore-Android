@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,10 +19,12 @@ import com.example.techstore.Adapter.OnCompletedAdapter;
 import com.example.techstore.Adapter.OnGoingAdapter;
 import com.example.techstore.Adapter.OrdersAdapter;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.ProductOrders;
 import com.example.techstore.repository.OrdersRepository;
 import com.example.techstore.repository.UserRepository;
+import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.CartViewModel;
 import com.example.techstore.viewmodel.OrdersViewModel;
 import com.google.gson.Gson;
@@ -45,7 +49,6 @@ public class CompletedFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     RecyclerView rvProduct;
-    OnCompletedAdapter onCompletedAdapter;
     OrdersAdapter ordersAdapter;
     List<ProductOrders> listOrders;
     OrdersViewModel ordersViewModel;
@@ -106,7 +109,22 @@ public class CompletedFragment extends Fragment {
                     ProductOrders productOrders = gson.fromJson(order, ProductOrders.class);
                     listOrders.add(productOrders);
                 }
-                ordersAdapter = new OrdersAdapter(getContext(), listOrders);
+                ordersAdapter = new OrdersAdapter(getContext(), listOrders, new OnClickWidgetItem() {
+                    @Override
+                    public void onClick(int position) {
+                        ProductOrders productOrders = listOrders.get(position);
+                        TrackOrdersFragment trackOrdersFragment = new TrackOrdersFragment();
+                        Bundle bundle = new Bundle();
+                        String strOrders = gson.toJson(productOrders);
+                        bundle.putString(Constants.KEY_SHARE_ORDER, strOrders);
+                        trackOrdersFragment.setArguments(bundle);
+                        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.frameContainer, trackOrdersFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                });
                 rvProduct.setAdapter(ordersAdapter);
             }
         });
