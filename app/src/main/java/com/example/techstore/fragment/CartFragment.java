@@ -23,6 +23,7 @@ import com.example.techstore.interfaces.OnClickProductInCart;
 import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.repository.UserRepository;
+import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.CartViewModel;
 import com.google.gson.Gson;
 
@@ -147,6 +148,8 @@ public class CartFragment extends Fragment {
         lnCheckout = view.findViewById(R.id.ln_checkout);
         lnCheckout.setOnClickListener(checkout -> {
             Intent intent = new Intent(getContext(), CheckoutActivity.class);
+            String strListProduct = gson.toJson(listSelectProductInCart);
+            intent.putExtra(Constants.KEY_SHARE_PRODUCT, strListProduct);
             startActivity(intent);
         });
     }
