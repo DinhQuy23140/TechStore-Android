@@ -1,5 +1,6 @@
 package com.example.techstore.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,14 +21,18 @@ import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.ProductOrders;
 import com.example.techstore.repository.OrdersRepository;
 import com.example.techstore.repository.UserRepository;
+import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.CartViewModel;
 import com.example.techstore.viewmodel.OrdersViewModel;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.lang.reflect.Type;
 
 public class CheckoutActivity extends AppCompatActivity {
 
@@ -38,6 +43,7 @@ public class CheckoutActivity extends AppCompatActivity {
     List<ProductInCart> listProduct;
     CheckoutAdapter checkoutAdapter;
     Button btnPay;
+    Gson gson;
     OrdersRepository ordersRepository;
     OrdersViewModel ordersViewModel;
 
@@ -52,6 +58,7 @@ public class CheckoutActivity extends AppCompatActivity {
             return insets;
         });
 
+        gson = new Gson();
         ordersRepository = new OrdersRepository(this);
         ordersViewModel = new OrdersViewModel(ordersRepository);
 
@@ -60,14 +67,15 @@ public class CheckoutActivity extends AppCompatActivity {
 
         rvCheckout = findViewById(R.id.rv_list_order);
         rvCheckout.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        cartViewModel.getCart();
-        cartViewModel.getListProduct().observe(this, productInCarts -> {
-            if (!productInCarts.isEmpty()) {
-                listProduct = productInCarts;
-                checkoutAdapter = new CheckoutAdapter(this, listProduct);
-                rvCheckout.setAdapter(checkoutAdapter);
-            }
-        });
+        Intent intent = getIntent();
+        String strListProduct = intent.getStringExtra(Constants.KEY_SHARE_PRODUCT);
+        Type type = new TypeToken<List<ProductInCart>>() {}.getType();
+        listProduct = gson.fromJson(strListProduct, type);
+        assert listProduct != null;
+        if (!listProduct.isEmpty()) {
+            checkoutAdapter = new CheckoutAdapter(this, listProduct);
+            rvCheckout.setAdapter(checkoutAdapter);
+        }
 
         ivBack = findViewById(R.id.iv_back);
         ivBack.setOnClickListener(back -> finish());
@@ -80,10 +88,6 @@ public class CheckoutActivity extends AppCompatActivity {
             ProductOrders productOrders = new ProductOrders(getCurrentTime, ordersId, OrdersStatus.PENDING, listProduct, "ADDRESS", total);
             ordersViewModel.addOrders(productOrders);
         });
-
-//        ordersViewModel.getIsSuccess().observe(this, result -> {
-//            if (result);
-//        });
 
         ordersViewModel.getMessage().observe(this, message -> {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
