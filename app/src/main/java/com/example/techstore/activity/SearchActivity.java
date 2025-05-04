@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,7 +71,7 @@ public class SearchActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         productRepository = new ProductRepository();
         userRepository = new UserRepository(this);
-        searchViewModel = new SearchViewModel(userRepository);
+        searchViewModel = new SearchViewModel(userRepository, productRepository);
         homeViewModel = new HomeViewModel(productRepository, userRepository);
         tvTitle = findViewById(R.id.tv_title);
         rvHistory = findViewById(R.id.rv_history);
@@ -138,15 +139,15 @@ public class SearchActivity extends AppCompatActivity {
                 searchViewModel.addSearch(strSearch);
                 rvHistory.setVisibility(View.GONE);
                 rvResult.setVisibility(View.VISIBLE);
-                homeViewModel.getProduct();
-                homeViewModel.getListProduct().observe(this, listProduct -> {
-                    if (!listProduct.isEmpty()) {
-                        String result = listProduct.size() + " found";
+                searchViewModel.getProductByTitle(strSearch);
+                searchViewModel.getListProduct().observe(this, listSearch -> {
+                    if (!listSearch.isEmpty()) {
+                        String result = listSearch.size() + " found";
                         tvClear.setText(result);
-                        rvResult.setAdapter(new ProductAdapter(this, listProduct));
+                        Toast.makeText(this, Integer.toString(listSearch.size()), Toast.LENGTH_SHORT).show();
+                        rvResult.setAdapter(new ProductAdapter(this, listSearch));
                     }
                 });
-
             }
         });
 
