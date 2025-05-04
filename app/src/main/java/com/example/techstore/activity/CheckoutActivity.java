@@ -92,6 +92,12 @@ public class CheckoutActivity extends AppCompatActivity {
         ordersViewModel.getMessage().observe(this, message -> {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         });
+
+        ordersViewModel.getIsSuccess().observe(this, isSuccess -> {
+            if (isSuccess) {
+
+            }
+        });
     }
 
     public static String generateRandomId() {

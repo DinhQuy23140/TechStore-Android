@@ -6,6 +6,7 @@ import com.example.techstore.model.User;
 import com.example.techstore.sharepreference.SharedPrefManager;
 import com.example.techstore.untilities.Constants;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
@@ -199,5 +200,36 @@ public class UserRepository {
                             .document(email)
                             .set(updateData, SetOptions.merge());
                 });
+    }
+
+    public void addSearch(String search) {
+        String email = sharedPrefManager.getEmail();
+        Map<String ,Object> mapSearch = new HashMap<>();
+        mapSearch.put(search, FieldValue.serverTimestamp());
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_SEARCH)
+                .document(email)
+                .set(mapSearch, SetOptions.merge());
+    }
+
+    public void getSearch(ListCallback callback) {
+        String email = sharedPrefManager.getEmail();
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_SEARCH)
+                .document(email)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    List<String> listSearch = new ArrayList<>();
+                    Map<String, Object> currentList = documentSnapshot.getData();
+                    for (String key : currentList.keySet()) {
+                        listSearch.add(key);
+                    }
+                    callback.onResult(listSearch);
+                });
+    }
+
+    public void deleteSearch(String search) {
+        String email = sharedPrefManager.getEmail();
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_SEARCH)
+                .document(email)
+                .update(search, FieldValue.delete());
     }
 }

@@ -35,12 +35,13 @@ public class Constants {
     public static final String KEY_HELP = "help";
     public static final String KEY_INVITE = "invite";
 
-    //Coleection firebase
+    //Colection firebase
     public static final String KEY_COLLECTION_USER = "users";
     public static final String KEY_COLLECTION_PRODUCT = "products";
     public static final String KEY_COLLECTION_HISTORY = "history";
     public static final String KEY_COLLECTION_CART = "cart";
     public static final String KEY_COLLECTION_ORDER = "order";
     public static final String KEY_NAME_FILED_ORDERS = "orders";
+    public static final String KEY_COLLECTION_SEARCH = "search";
 
 }

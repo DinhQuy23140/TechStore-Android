@@ -24,15 +24,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.techstore.Adapter.HistoryAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.repository.ProductRepository;
 import com.example.techstore.repository.UserRepository;
+import com.example.techstore.untilities.Constants;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 import com.example.techstore.viewmodel.HomeViewModel;
+import com.example.techstore.viewmodel.SearchViewModel;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -44,6 +53,8 @@ public class SearchActivity extends AppCompatActivity {
     HomeViewModel homeViewModel;
     ProductRepository productRepository;
     UserRepository userRepository;
+    SearchViewModel searchViewModel;
+    FirebaseFirestore firestore;
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +67,10 @@ public class SearchActivity extends AppCompatActivity {
             return insets;
         });
 
+        firestore = FirebaseFirestore.getInstance();
         productRepository = new ProductRepository();
         userRepository = new UserRepository(this);
+        searchViewModel = new SearchViewModel(userRepository);
         homeViewModel = new HomeViewModel(productRepository, userRepository);
         tvTitle = findViewById(R.id.tv_title);
         rvHistory = findViewById(R.id.rv_history);
@@ -65,14 +78,27 @@ public class SearchActivity extends AppCompatActivity {
         rvResult.setLayoutManager(new GridLayoutManager(this, 2));
         rvResult.addItemDecoration(new GridSpacingItemDecoration(2, 20));
         rvHistory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        listSearch = new ArrayList<>(Arrays.asList(
-                "search1", "search2", "search1", "search2",
-                "search1", "search2", "search1", "search2",
-                "search1", "search2", "search1", "search2"
-        ));
+//        listSearch = new ArrayList<>(Arrays.asList(
+//                "search1", "search2", "search1", "search2",
+//                "search1", "search2", "search1", "search2",
+//                "search1", "search2", "search1", "search2"
+//        ));
 
-        historyAdapter = new HistoryAdapter(this, listSearch);
-        rvHistory.setAdapter(historyAdapter);
+        searchViewModel.getHistory();
+        searchViewModel.getSearch().observe(this, rvResult -> {
+            listSearch = rvResult;
+            historyAdapter = new HistoryAdapter(this, listSearch, new OnClickWidgetItem() {
+                @Override
+                public void onClick(int position) {
+                    String history = listSearch.get(position);
+                    searchViewModel.deleteHistory(history);
+                    searchViewModel.getHistory();
+                }
+            });
+            rvHistory.setAdapter(historyAdapter);
+
+        });
+
         tvClear = findViewById(R.id.tv_clear);
         tvClear.setOnClickListener(clear -> {
             listSearch.clear();
@@ -93,6 +119,7 @@ public class SearchActivity extends AppCompatActivity {
                     tvClear.setText("Clear All");
                     rvHistory.setVisibility(View.VISIBLE);
                     rvResult.setVisibility(View.GONE);
+                    searchViewModel.getHistory();
                 }
             }
 
@@ -108,6 +135,7 @@ public class SearchActivity extends AppCompatActivity {
             if (!strSearch.isEmpty()) {
                 String search = "Results for \"" + strSearch + "\"";
                 tvTitle.setText(search);
+                searchViewModel.addSearch(strSearch);
                 rvHistory.setVisibility(View.GONE);
                 rvResult.setVisibility(View.VISIBLE);
                 homeViewModel.getProduct();
@@ -118,6 +146,7 @@ public class SearchActivity extends AppCompatActivity {
                         rvResult.setAdapter(new ProductAdapter(this, listProduct));
                     }
                 });
+
             }
         });
 
