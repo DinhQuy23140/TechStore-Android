@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowInsetsController;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     FrameLayout fragmentContainer;
     BottomNavigationView bottomNavigationView;
+    private static final String SEELECTED_ITEM = "selected_item";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +55,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frameContainer, new HomeFragment());
-        fragmentTransaction.commit();
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+
+        if (savedInstanceState != null) {
+            int selectedItemId = savedInstanceState.getInt(SEELECTED_ITEM);
+            bottomNavigationView.setSelectedItemId(selectedItemId);
+        } else {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameContainer, new HomeFragment());
+            fragmentTransaction.commit();
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -94,5 +102,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameContainer, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putInt(SEELECTED_ITEM, bottomNavigationView.getSelectedItemId());
     }
 }
