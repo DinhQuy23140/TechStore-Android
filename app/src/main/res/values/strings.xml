@@ -125,4 +125,7 @@
     <string name="product_rating">Rating</string>
     <string name="default_quantity">1</string>
 
+    <!--    search-activity-->
+    <string name="search_recent">Recent</string>
+    <string name="search_clear">Clear</string>
 </resources>
