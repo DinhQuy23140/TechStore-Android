@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,7 +57,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 .into(holder.ivImg);
         holder.tvTitle.setText(productInCart.getTitle());
         holder.tvSize.setText("Size = " + productInCart.getSize());
-        holder.tvQuantity.setText(Integer.toString(productInCart.getQuantity()));
+        holder.edtQuantity.setText(Integer.toString(productInCart.getQuantity()));
         float pricePro = productInCart.getQuantity() * productInCart.getPrice();
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         holder.tvPrice.setText(decimalFormat.format(pricePro) + "$");
@@ -69,7 +70,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 BigDecimal price = new BigDecimal(Float.toString(productInCart.getPrice()));
                 BigDecimal total = quantityProduct.multiply(price);
                 holder.tvPrice.setText(decimalFormat.format(total) + "$");
-                holder.tvQuantity.setText(Integer.toString(quantity));
+                holder.edtQuantity.setText(Integer.toString(quantity));
                 productInCart.setQuantity(quantity);
                 Toast.makeText(context, Integer.toString(quantity), Toast.LENGTH_SHORT).show();
                 onClickProductInCart.onDecreaseProductInCart(productInCart);
@@ -83,7 +84,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             BigDecimal price = new BigDecimal(Float.toString(productInCart.getPrice()));
             BigDecimal total = quantityProduct.multiply(price);
             holder.tvPrice.setText(decimalFormat.format(total) + "$");
-            holder.tvQuantity.setText(Integer.toString(quantity));
+            holder.edtQuantity.setText(Integer.toString(quantity));
             productInCart.setQuantity(quantity);
             Toast.makeText(context, Integer.toString(quantity), Toast.LENGTH_SHORT).show();
             onClickProductInCart.onIncreaseProductInCart(productInCart);
@@ -113,7 +114,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView ivImg, ivDelete;
         CardView cvColor;
-        TextView tvTitle, tvSize, tvPrice, tvQuantity;
+        TextView tvTitle, tvSize, tvPrice;
+        EditText edtQuantity;
         ImageButton btnIncrease, btnDecrease;
         CheckBox cbSelectProduct;
 
@@ -126,7 +128,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             tvTitle = itemView.findViewById(R.id.tv_cart_title);
             tvSize = itemView.findViewById(R.id.tv_size_product);
             tvPrice = itemView.findViewById(R.id.tv_price_total);
-            tvQuantity = itemView.findViewById(R.id.tv_quantity);
+            edtQuantity = itemView.findViewById(R.id.tv_quantity);
             btnIncrease = itemView.findViewById(R.id.btn_increase);
             btnDecrease = itemView.findViewById(R.id.btn_decrease);
             cbSelectProduct = itemView.findViewById(R.id.cb_select_product);
