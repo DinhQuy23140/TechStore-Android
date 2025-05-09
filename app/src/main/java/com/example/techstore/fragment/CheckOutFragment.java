@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.techstore.Adapter.CheckoutAdapter;
 import com.example.techstore.R;
+import com.example.techstore.databinding.ActivityMainBinding;
 import com.example.techstore.model.OrdersStatus;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.ProductOrders;
@@ -26,6 +29,8 @@ import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.CartViewModel;
 import com.example.techstore.viewmodel.OrdersViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -52,6 +57,8 @@ public class CheckOutFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    ActivityMainBinding bindingMain;
+    BottomNavigationView bottomNavigationView;
     ImageView ivBack;
     RecyclerView rvCheckout;
     UserRepository userRepository;
@@ -98,6 +105,7 @@ public class CheckOutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        bindingMain = ActivityMainBinding.inflate(getLayoutInflater());
         return inflater.inflate(R.layout.fragment_check_out, container, false);
     }
 
@@ -142,9 +150,15 @@ public class CheckOutFragment extends Fragment {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         });
 
+        bottomNavigationView = bindingMain.bottomNavigation;
         ordersViewModel.getIsSuccess().observe(getViewLifecycleOwner(), isSuccess -> {
             if (isSuccess) {
-
+//                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.frameContainer, new OrdersFragment());
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+                bottomNavigationView.setSelectedItemId(R.id.nav_bottom_orders);
             }
         });
     }

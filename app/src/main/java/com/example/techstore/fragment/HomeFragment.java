@@ -41,6 +41,7 @@ import com.example.techstore.ApiService.ApiService;
 import com.example.techstore.Client.RetrofitClient;
 import com.example.techstore.R;
 import com.example.techstore.activity.SearchActivity;
+import com.example.techstore.databinding.ActivityMainBinding;
 import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.model.Product;
 import com.example.techstore.repository.ProductRepository;
@@ -71,6 +72,7 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    ActivityMainBinding bindingMain;
     ImageView ivAvatar;
     TextView tvUserName, tvTime;
 
@@ -134,6 +136,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        bindingMain = ActivityMainBinding.inflate(getLayoutInflater());
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
