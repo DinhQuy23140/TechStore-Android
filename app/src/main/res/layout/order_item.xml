@@ -82,7 +82,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="1.5dp"
-                android:layout_height="30dp"
+                android:layout_height="12dp"
                 android:layout_marginStart="5dp"
                 android:background="@color/white"
                 android:orientation="horizontal"

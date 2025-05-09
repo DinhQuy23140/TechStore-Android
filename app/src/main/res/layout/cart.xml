@@ -102,7 +102,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="1.5dp"
-                android:layout_height="30dp"
+                android:layout_height="11dp"
                 android:layout_marginStart="5dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
@@ -158,13 +158,15 @@
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tv_quantity"
-                android:layout_width="15dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="@dimen/margin_left"
+                android:layout_marginEnd="@dimen/margin_right"
+                android:background="@android:color/transparent"
                 android:gravity="center"
+                android:hint="1"
                 android:text="@string/default_quantity"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
