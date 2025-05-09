@@ -2,6 +2,8 @@ package com.example.techstore.fragment;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.techstore.R;
@@ -31,6 +34,7 @@ import com.example.techstore.viewmodel.PersonViewModel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +53,7 @@ public class FillProfileFragment extends Fragment {
     private String mParam2;
     UserRepository userRepository;
     PersonViewModel personViewModel;
+    TextView tvDoB;
     EditText edtUsername, edtEmail, edtPhoneNumber, edtDOB;
     ImageView ivImg;
     RelativeLayout rlEditImg;
@@ -121,7 +126,7 @@ public class FillProfileFragment extends Fragment {
         edtUsername = view.findViewById(R.id.edt_username);
         edtEmail = view.findViewById(R.id.edt_email);
         edtPhoneNumber = view.findViewById(R.id.edt_phone_number);
-        edtDOB = view.findViewById(R.id.edt_dob);
+        tvDoB = view.findViewById(R.id.tv_dob);
         ivImg = view.findViewById(R.id.iv_img);
         rlEditImg = view.findViewById(R.id.rl_edit_img);
         personViewModel.loadUser();
@@ -148,6 +153,27 @@ public class FillProfileFragment extends Fragment {
             Intent choose = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             choose.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             launcher.launch(choose);
+        });
+
+        tvDoB.setOnClickListener(selectDate -> {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            @SuppressLint("DefaultLocale") DatePickerDialog slBirthDate = new DatePickerDialog(
+                    requireContext(),
+                    (datePicker, selectedYear, selectedMonth, selectedDay) -> {
+                        tvDoB.setText(
+                                String.format("%d/%d/%d", selectedDay, selectedMonth + 1, selectedYear)
+                        );
+                    },
+                    year,
+                    month,
+                    day
+            );
+            slBirthDate.show();
+
         });
     }
 

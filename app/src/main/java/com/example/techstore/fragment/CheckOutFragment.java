@@ -153,11 +153,11 @@ public class CheckOutFragment extends Fragment {
         bottomNavigationView = bindingMain.bottomNavigation;
         ordersViewModel.getIsSuccess().observe(getViewLifecycleOwner(), isSuccess -> {
             if (isSuccess) {
-//                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.frameContainer, new OrdersFragment());
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameContainer, new OrdersFragment());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 bottomNavigationView.setSelectedItemId(R.id.nav_bottom_orders);
             }
         });
