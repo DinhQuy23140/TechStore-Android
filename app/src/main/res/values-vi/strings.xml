@@ -124,4 +124,8 @@
     <string name="product_review">Đánh giá</string>
     <string name="product_rating">Đánh giá</string>
     <string name="default_quantity">1</string>
+
+<!--    search-activity-->
+    <string name="search_recent">Gần đây</string>
+    <string name="search_clear">Xóa</string>
 </resources>
