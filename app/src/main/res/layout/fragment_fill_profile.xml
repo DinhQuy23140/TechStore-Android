@@ -129,16 +129,18 @@
                         android:hint="@string/user_phone"
                         android:paddingStart="20dp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_dob"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_dob"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="20dp"
                         android:background="@drawable/background_input_text"
-                        android:hint="@string/user_dob"
-                        android:paddingStart="20dp" />
+                        android:gravity="center|start"
+                        android:paddingStart="20dp"
+                        android:text="@string/user_dob"
+                        android:textSize="18sp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="300dp"
