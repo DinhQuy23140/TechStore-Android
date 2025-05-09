@@ -6,4 +6,6 @@
     <dimen name="size_title">18sp</dimen>
     <dimen name="size_header">20sp</dimen>
     <dimen name="size_text">16sp</dimen>
+    <dimen name="margin_left">10dp</dimen>
+    <dimen name="margin_right">10dp</dimen>
 </resources>

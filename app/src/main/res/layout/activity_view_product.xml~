@@ -32,7 +32,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginStart="@dimen/margin_left"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:backgroundTint="@color/default_background_color">
 
@@ -58,9 +58,9 @@
                     android:id="@+id/productTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_left"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginEnd="@dimen/margin_right"
+                    android:layout_marginEnd="15dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -93,9 +93,9 @@
                     android:id="@+id/rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_left"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginEnd="@dimen/margin_right"
+                    android:layout_marginEnd="15dp"
                     android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
@@ -127,9 +127,9 @@
                     android:id="@+id/space"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginStart="@dimen/margin_left"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="@dimen/margin_right"
+                    android:layout_marginEnd="15dp"
                     android:background="@color/white"
                     android:orientation="vertical" />
 
@@ -137,9 +137,9 @@
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_left"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginEnd="@dimen/margin_right"
+                    android:layout_marginEnd="15dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -167,8 +167,8 @@
                     android:id="@+id/option"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_left"
-                    android:layout_marginEnd="@dimen/margin_right"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -190,50 +190,50 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
-                        <!--                        <RadioGroup-->
-                        <!--                            android:layout_width="match_parent"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_marginTop="15dp"-->
-                        <!--                            android:orientation="horizontal">-->
+<!--                        <RadioGroup-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="15dp"-->
+<!--                            android:orientation="horizontal">-->
 
-                        <!--                            <RadioButton-->
-                        <!--                                android:id="@+id/radioButton1"-->
-                        <!--                                android:layout_width="35dp"-->
-                        <!--                                android:layout_height="35dp"-->
-                        <!--                                android:background="@drawable/custom_radio_button"-->
-                        <!--                                android:button="@null"-->
-                        <!--                                android:gravity="center"-->
-                        <!--                                android:padding="0dp"-->
-                        <!--                                android:text="S"-->
-                        <!--                                android:textColor="@android:color/white"-->
-                        <!--                                android:textSize="18sp" />-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radioButton1"-->
+<!--                                android:layout_width="35dp"-->
+<!--                                android:layout_height="35dp"-->
+<!--                                android:background="@drawable/custom_radio_button"-->
+<!--                                android:button="@null"-->
+<!--                                android:gravity="center"-->
+<!--                                android:padding="0dp"-->
+<!--                                android:text="S"-->
+<!--                                android:textColor="@android:color/white"-->
+<!--                                android:textSize="18sp" />-->
 
-                        <!--                            <RadioButton-->
-                        <!--                                android:id="@+id/radioButton2"-->
-                        <!--                                android:layout_width="35dp"-->
-                        <!--                                android:layout_height="35dp"-->
-                        <!--                                android:layout_marginStart="16dp"-->
-                        <!--                                android:background="@drawable/custom_radio_button"-->
-                        <!--                                android:button="@null"-->
-                        <!--                                android:gravity="center"-->
-                        <!--                                android:padding="0dp"-->
-                        <!--                                android:text="M"-->
-                        <!--                                android:textColor="@android:color/white"-->
-                        <!--                                android:textSize="18sp" />-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radioButton2"-->
+<!--                                android:layout_width="35dp"-->
+<!--                                android:layout_height="35dp"-->
+<!--                                android:layout_marginStart="16dp"-->
+<!--                                android:background="@drawable/custom_radio_button"-->
+<!--                                android:button="@null"-->
+<!--                                android:gravity="center"-->
+<!--                                android:padding="0dp"-->
+<!--                                android:text="M"-->
+<!--                                android:textColor="@android:color/white"-->
+<!--                                android:textSize="18sp" />-->
 
-                        <!--                            <RadioButton-->
-                        <!--                                android:id="@+id/radioButton3"-->
-                        <!--                                android:layout_width="35dp"-->
-                        <!--                                android:layout_height="35dp"-->
-                        <!--                                android:layout_marginStart="16dp"-->
-                        <!--                                android:background="@drawable/custom_radio_button"-->
-                        <!--                                android:button="@null"-->
-                        <!--                                android:gravity="center"-->
-                        <!--                                android:padding="0dp"-->
-                        <!--                                android:text="L"-->
-                        <!--                                android:textColor="@android:color/white"-->
-                        <!--                                android:textSize="18sp" />-->
-                        <!--                        </RadioGroup>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radioButton3"-->
+<!--                                android:layout_width="35dp"-->
+<!--                                android:layout_height="35dp"-->
+<!--                                android:layout_marginStart="16dp"-->
+<!--                                android:background="@drawable/custom_radio_button"-->
+<!--                                android:button="@null"-->
+<!--                                android:gravity="center"-->
+<!--                                android:padding="0dp"-->
+<!--                                android:text="L"-->
+<!--                                android:textColor="@android:color/white"-->
+<!--                                android:textSize="18sp" />-->
+<!--                        </RadioGroup>-->
 
                     </LinearLayout>
 
@@ -242,7 +242,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
-
                         <TextView
                             android:id="@+id/colorProduct"
                             android:layout_width="match_parent"
@@ -265,9 +264,9 @@
                     android:id="@+id/quantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_left"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="25dp"
-                    android:layout_marginEnd="@dimen/margin_right"
+                    android:layout_marginEnd="15dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -328,16 +327,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="1.5dp"
                     android:layout_margin="15dp"
-                    android:layout_marginStart="@dimen/margin_left"
-                    android:layout_marginEnd="@dimen/margin_right"
                     android:background="@color/white" />
 
                 <LinearLayout
                     android:id="@+id/pay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_left"
-                    android:layout_marginEnd="@dimen/margin_right"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_marginBottom="15dp"
                     android:orientation="horizontal">
 

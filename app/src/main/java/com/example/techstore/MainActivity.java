@@ -32,6 +32,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     FrameLayout fragmentContainer;
+    FrameLayout frameContainer;
     BottomNavigationView bottomNavigationView;
     private static final String SEELECTED_ITEM = "selected_item";
     @Override
@@ -39,10 +40,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layoutMain), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layoutMain), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
-            v.setPadding(0, systemBars.top, 0, 0);
+//            v.setPadding(0, systemBars.top, 0, 0);
+//            return insets;
+//        });
+
+        View layout = findViewById(R.id.frameContainer);
+        ViewCompat.setOnApplyWindowInsetsListener(layout, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
@@ -54,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 );
             }
         }
+
+        frameContainer = findViewById(R.id.frameContainer);
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
