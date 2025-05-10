@@ -102,6 +102,8 @@
     <string name="person_help">Help Center</string>
     <string name="person_invite">Invite Friends</string>
     <string name="person_logout">Logout</string>
+    <string name="person_update">Update</string>
+    <string name="person_dob">Date of birth: </string>
 
     <!--    status orders-->
     <string name="status_pending">Pending</string>

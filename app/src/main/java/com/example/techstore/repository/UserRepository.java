@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserRepository {
     private final SharedPrefManager sharedPrefManager;
@@ -90,6 +91,35 @@ public class UserRepository {
     }
 
     public String getPhone() {return sharedPrefManager.getPhone();}
+
+    public String getDoB() {return sharedPrefManager.getDoB();}
+
+    public void updateUser(Map<String, Object> user, Callback callback) {
+        String email = sharedPrefManager.getEmail();
+        if (!email.isEmpty()) {
+            firebaseFirestore.collection(Constants.KEY_COLLECTION_USER)
+                    .whereEqualTo(Constants.KEY_EMAIL, email)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                            documentSnapshot.getReference().update(user)
+                                    .addOnSuccessListener(unused -> {
+                                        sharedPrefManager.saveUsername(Objects.requireNonNull(user.get(Constants.KEY_USERNAME)).toString());
+                                        sharedPrefManager.saveImg(Objects.requireNonNull(user.get(Constants.KEY_IMG)).toString());
+                                        sharedPrefManager.savePhone(Objects.requireNonNull(user.get(Constants.KEY_PHONE)).toString());
+                                        sharedPrefManager.saveEmail(Objects.requireNonNull(user.get(Constants.KEY_EMAIL)).toString());
+                                        sharedPrefManager.saveDoB(Objects.requireNonNull(user.get(Constants.KEY_DOB)).toString());
+                                        callback.onResult(true);
+                                    })
+                                    .addOnFailureListener(e -> callback.onResult(false));
+                        } else {
+                            callback.onResult(false);
+                        }
+                    })
+                    .addOnFailureListener(e -> callback.onResult(false));
+        }
+    }
 
     public void addOrUpdateProduct(ProductInCart product, Callback callback){
 

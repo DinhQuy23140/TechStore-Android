@@ -75,4 +75,8 @@ public class SharedPrefManager {
     public String getPhone() {
         return sharedPreferences.getString(Constants.KEY_PHONE, "");
     }
+
+    public String getDoB() {return sharedPreferences.getString(Constants.KEY_DOB, ""); }
+
+    public void saveDoB(String dob) {sharedPreferences.edit().putString(Constants.KEY_DOB, dob).apply();}
 }

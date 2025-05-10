@@ -143,13 +143,14 @@
                         android:textSize="18sp" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_update"
                         android:layout_width="300dp"
                         android:layout_height="50dp"
+                        android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:text="@string/signup_btn_next"
-                        android:textStyle="bold"
+                        android:text="@string/person_update"
                         android:textSize="18sp"
-                        android:layout_gravity="center"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
