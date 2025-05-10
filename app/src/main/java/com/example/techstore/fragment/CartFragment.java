@@ -147,10 +147,6 @@ public class CartFragment extends Fragment {
 
         lnCheckout = view.findViewById(R.id.ln_checkout);
         lnCheckout.setOnClickListener(checkout -> {
-//            Intent intent = new Intent(getContext(), CheckoutActivity.class);
-//            String strListProduct = gson.toJson(listSelectProductInCart);
-//            intent.putExtra(Constants.KEY_SHARE_PRODUCT, strListProduct);
-//            startActivity(intent);
             String strListProduct = gson.toJson(listSelectProductInCart);
             Bundle bundle = new Bundle();
             bundle.putString(Constants.KEY_SHARE_PRODUCT, strListProduct);

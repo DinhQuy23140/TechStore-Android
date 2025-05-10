@@ -1,6 +1,5 @@
 package com.example.techstore.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,7 +28,6 @@ import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.CartViewModel;
 import com.example.techstore.viewmodel.OrdersViewModel;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -144,6 +142,7 @@ public class CheckOutFragment extends Fragment {
             Double total = getTotal(listProduct);
             ProductOrders productOrders = new ProductOrders(getCurrentTime, ordersId, OrdersStatus.PENDING, listProduct, "ADDRESS", total);
             ordersViewModel.addOrders(productOrders);
+            cartViewModel.clearCart(listProduct);
         });
 
         ordersViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {

@@ -5,21 +5,22 @@ import androidx.annotation.Nullable;
 import java.util.Objects;
 
 public class ProductInCart {
-    int id, quantity, color;
-    String img, title, size;
+    int idProduct, quantity, color;
+    String id, img, title, size;
     float price;
 
     public ProductInCart() {
     }
 
-    public ProductInCart(int id, int quantity) {
-        this.id = id;
+    public ProductInCart(int idProduct, int quantity) {
+        this.idProduct = idProduct;
         this.quantity = quantity;
     }
 
-    public ProductInCart(int color, int id, String img, float price, int quantity, String size, String title) {
+    public ProductInCart(int color, String id, int idProduct, String img, float price, int quantity, String size, String title) {
         this.color = color;
         this.id = id;
+        this.idProduct = idProduct;
         this.img = img;
         this.price = price;
         this.quantity = quantity;
@@ -27,12 +28,20 @@ public class ProductInCart {
         this.title = title;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public int getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
     }
 
     public int getQuantity() {
@@ -88,11 +97,13 @@ public class ProductInCart {
         if (this == obj) return true;
         if (!(obj instanceof ProductInCart)) return false;
         ProductInCart product = (ProductInCart) obj;
-        return id == product.id && size.equals(product.getSize()) && color == product.getColor();
+        return Objects.equals(idProduct, product.idProduct)
+                && Objects.equals(size, product.size)
+                && Objects.equals(color, product.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, size, color);
+        return Objects.hash(idProduct, size, color);
     }
 }

@@ -135,6 +135,7 @@ public class ViewProductActivity extends AppCompatActivity {
 
         addToCart = findViewById(R.id.addToCart);
         addToCart.setOnClickListener(addToCart -> {
+            //Toast.makeText(this, "Note size: " + getSize + ", Color:  " + getColor, Toast.LENGTH_SHORT).show();
             if (getColor != 0 && !
                     getSize.isEmpty()) {
                 String id = generateRandomId();

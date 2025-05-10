@@ -175,6 +175,39 @@ public class UserRepository {
         }
     }
 
+    public void clearCart(List<ProductInCart> listProduct) {
+        String email = sharedPrefManager.getEmail();
+        if (!email.isEmpty()) {
+            firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                    .document(email)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        List<String> currentList = (List<String>) documentSnapshot.get(Constants.KEY_SHARE_PRODUCT);
+                        List<ProductInCart> correctList = new ArrayList<ProductInCart>();
+                        for (String product: currentList) {
+                            ProductInCart productInCart = gson.fromJson(product, ProductInCart.class);
+                            correctList.add(productInCart);
+                        }
+                        correctList.removeAll(listProduct);
+                        if (!correctList.isEmpty()) {
+                            List<String> correctListString = new ArrayList<>();
+                            for (ProductInCart productInCart : correctList) {
+                                String strCorrectProduct = gson.toJson(productInCart);
+                                correctListString.add(strCorrectProduct);
+                            }
+                            firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                                    .document(email)
+                                    .update(Constants.KEY_SHARE_PRODUCT, correctListString);
+                        } else {
+                            firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                                    .document(email)
+                                    .delete();
+                        }
+                    });
+
+        }
+    }
+
     public void updateQuantityProduct(ProductInCart product) {
         String email = sharedPrefManager.getEmail();
         firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)

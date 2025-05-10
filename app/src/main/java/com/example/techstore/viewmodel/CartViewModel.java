@@ -48,17 +48,23 @@ public class CartViewModel extends ViewModel {
     }
 
     public void getCart() {
-        userRepository.getProductInCart(resutl -> {
-            if (!resutl.isEmpty()) {
+        userRepository.getProductInCart(result -> {
+            if (result != null &&!result.isEmpty()) {
                 Gson gson = new Gson();
                 List<ProductInCart> list = new ArrayList<>();
-                for (String strProduct : resutl) {
+                for (String strProduct : result) {
                     ProductInCart productInCart = gson.fromJson(strProduct, ProductInCart.class);
                     list.add(productInCart);
                 }
                 listProduct.setValue(list);
+            } else {
+                listProduct.setValue(new ArrayList<>());
             }
         });
+    }
+
+    public void clearCart(List<ProductInCart> listProduct) {
+        userRepository.clearCart(listProduct);
     }
 
 }
