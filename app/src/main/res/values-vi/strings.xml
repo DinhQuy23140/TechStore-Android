@@ -102,6 +102,8 @@
     <string name="person_help">Trung tâm hỗ trợ</string>
     <string name="person_invite">Mời bạn bè</string>
     <string name="person_logout">Đăng xuất</string>
+    <string name="person_update">Cập nhập</string>
+    <string name="person_dob">Ngày sinh: </string>
 
     <!--    status orders-->
     <string name="status_pending">Chờ xác nhận</string>

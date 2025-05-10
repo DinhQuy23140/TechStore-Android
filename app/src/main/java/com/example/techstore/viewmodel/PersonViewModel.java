@@ -9,6 +9,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class PersonViewModel extends ViewModel {
     UserRepository userRepository;
@@ -16,6 +17,8 @@ public class PersonViewModel extends ViewModel {
     MutableLiveData<String> username = new MutableLiveData<>("");
     MutableLiveData<String> email = new MutableLiveData<>("");
     MutableLiveData<String> phone = new MutableLiveData<>("");
+    MutableLiveData<String> dob = new MutableLiveData<>("");
+    MutableLiveData<String> message = new MutableLiveData<>("");
     MutableLiveData<List<Integer>> listPath = new MutableLiveData<>();
     MutableLiveData<List<String>> listTitle = new MutableLiveData<>();
 
@@ -55,11 +58,38 @@ public class PersonViewModel extends ViewModel {
         this.email = email;
     }
 
+    public MutableLiveData<String> getDob() {
+        return dob;
+    }
+
+    public void setDob(MutableLiveData<String> dob) {
+        this.dob = dob;
+    }
+
+    public MutableLiveData<String> getMessage() {
+        return message;
+    }
+
+    public void setMessage(MutableLiveData<String> message) {
+        this.message = message;
+    }
+
     public void loadUser() {
         imgUser.setValue(userRepository.getImg());
         username.setValue(userRepository.getUserName());
         email.setValue(userRepository.getEmail());
         phone.setValue(userRepository.getPhone());
+        dob.setValue(userRepository.getDoB());
     }
 
+    public void updateUser(Map<String, Object> user) {
+        userRepository.updateUser(user, result -> {
+            if (result) {
+                loadUser();
+                message.setValue("Cập nhập thành công");
+            } else {
+                message.setValue("Có lỗi xảy ra!");
+            }
+        });
+    }
 }
