@@ -136,6 +136,7 @@ public class FillProfileFragment extends Fragment {
         tvDoB = view.findViewById(R.id.tv_dob);
         ivImg = view.findViewById(R.id.iv_img);
         rlEditImg = view.findViewById(R.id.rl_edit_img);
+
         personViewModel.loadUser();
         personViewModel.getImgUser().observe(getViewLifecycleOwner(), img -> {
             if (img != null) {
@@ -156,7 +157,6 @@ public class FillProfileFragment extends Fragment {
         personViewModel.getPhone().observe(getViewLifecycleOwner(), phoneNumber -> {
             edtPhoneNumber.setText(phoneNumber);
         });
-
         personViewModel.getDob().observe(getViewLifecycleOwner(), dob -> {
             tvDoB.setText(getString(R.string.person_dob) + dob);
         });
@@ -176,9 +176,7 @@ public class FillProfileFragment extends Fragment {
             @SuppressLint("DefaultLocale") DatePickerDialog slBirthDate = new DatePickerDialog(
                     requireContext(),
                     (datePicker, selectedYear, selectedMonth, selectedDay) -> {
-                        tvDoB.setText(
-                                String.format("%d/%d/%d", selectedDay, selectedMonth + 1, selectedYear)
-                        );
+                        tvDoB.setText(String.format("%d/%d/%d", selectedDay, selectedMonth + 1, selectedYear));
                     },
                     year,
                     month,
