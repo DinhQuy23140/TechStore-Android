@@ -126,6 +126,12 @@
     <string name="product_review">Đánh giá</string>
     <string name="product_rating">Đánh giá</string>
     <string name="default_quantity">1</string>
+    <string name="product_no_product">Không có sản phẩm trong giỏ hàng</string>
+
+    <!--    address     -->
+    <string name="address_home">Nhà</string>
+    <string name="address_office">Văn phòng</string>
+    <string name="address_apartment">Nhà riêng</string>
 
 <!--    search-activity-->
     <string name="search_recent">Gần đây</string>

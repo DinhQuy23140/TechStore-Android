@@ -57,7 +57,7 @@ public class CheckOutFragment extends Fragment {
 
     ActivityMainBinding bindingMain;
     BottomNavigationView bottomNavigationView;
-    ImageView ivBack;
+    ImageView ivBack, ivAddress;
     RecyclerView rvCheckout;
     UserRepository userRepository;
     CartViewModel cartViewModel;
@@ -124,11 +124,19 @@ public class CheckOutFragment extends Fragment {
         String strListProduct = bundle.getString(Constants.KEY_SHARE_PRODUCT);
         Type type = new TypeToken<List<ProductInCart>>() {}.getType();
         listProduct = gson.fromJson(strListProduct, type);
-        assert listProduct != null;
-        if (!listProduct.isEmpty()) {
+        if (listProduct != null && !listProduct.isEmpty()) {
             checkoutAdapter = new CheckoutAdapter(getContext(), listProduct);
             rvCheckout.setAdapter(checkoutAdapter);
         }
+
+        ivAddress = view.findViewById(R.id.iv_edit_address);
+        ivAddress.setOnClickListener(address ->{
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameContainer, new AddressFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
 
         ivBack = view.findViewById(R.id.iv_back);
         ivBack.setOnClickListener(back -> {
@@ -137,12 +145,16 @@ public class CheckOutFragment extends Fragment {
 
         btnPay = view.findViewById(R.id.btn_to_payment);
         btnPay.setOnClickListener(pay -> {
-            String ordersId = generateRandomId();
-            String getCurrentTime = getCurrentDateTime();
-            Double total = getTotal(listProduct);
-            ProductOrders productOrders = new ProductOrders(getCurrentTime, ordersId, OrdersStatus.PENDING, listProduct, "ADDRESS", total);
-            ordersViewModel.addOrders(productOrders);
-            cartViewModel.clearCart(listProduct);
+            if (listProduct != null && !listProduct.isEmpty()) {
+                String ordersId = generateRandomId();
+                String getCurrentTime = getCurrentDateTime();
+                double total = getTotal(listProduct);
+                ProductOrders productOrders = new ProductOrders(getCurrentTime, ordersId, OrdersStatus.PENDING, listProduct, "ADDRESS", total);
+                ordersViewModel.addOrders(productOrders);
+                cartViewModel.clearCart(listProduct);
+            } else {
+                Toast.makeText(getContext(), getString(R.string.product_no_product), Toast.LENGTH_SHORT).show();
+            }
         });
 
         ordersViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {

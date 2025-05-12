@@ -126,7 +126,13 @@
     <string name="product_review">Review</string>
     <string name="product_rating">Rating</string>
     <string name="default_quantity">1</string>
+    <string name="product_no_product">No product</string>
 
+<!--    address     -->
+    <string name="address_home">Home</string>
+    <string name="address_office">Office</string>
+    <string name="address_apartment">Apartment</string>
+    
     <!--    search-activity-->
     <string name="search_recent">Recent</string>
     <string name="search_clear">Clear</string>

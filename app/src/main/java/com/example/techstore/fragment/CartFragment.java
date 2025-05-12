@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.techstore.Adapter.CartAdapter;
 import com.example.techstore.R;
@@ -147,12 +148,16 @@ public class CartFragment extends Fragment {
 
         lnCheckout = view.findViewById(R.id.ln_checkout);
         lnCheckout.setOnClickListener(checkout -> {
-            String strListProduct = gson.toJson(listSelectProductInCart);
-            Bundle bundle = new Bundle();
-            bundle.putString(Constants.KEY_SHARE_PRODUCT, strListProduct);
-            CheckOutFragment checkoutFragment = new CheckOutFragment();
-            checkoutFragment.setArguments(bundle);
-            getParentFragmentManager().beginTransaction().replace(R.id.frameContainer, checkoutFragment).addToBackStack(null).commit();
+            if (listProductInCart != null && !listProductInCart.isEmpty()) {
+                String strListProduct = gson.toJson(listSelectProductInCart);
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.KEY_SHARE_PRODUCT, strListProduct);
+                CheckOutFragment checkoutFragment = new CheckOutFragment();
+                checkoutFragment.setArguments(bundle);
+                getParentFragmentManager().beginTransaction().replace(R.id.frameContainer, checkoutFragment).addToBackStack(null).commit();
+            } else {
+                Toast.makeText(getContext(), getString(R.string.product_no_product), Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
