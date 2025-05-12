@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginViewModel.getMessageLogin().observe(this, message -> {
-            if (message != null) showMessage(message);
+            if (message != null && !message.isEmpty()) showMessage(message);
         });
 
         loginViewModel.getIsLogin().observe(this, login -> {
