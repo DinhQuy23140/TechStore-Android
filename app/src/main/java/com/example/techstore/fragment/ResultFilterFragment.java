@@ -109,7 +109,7 @@ public class ResultFilterFragment extends Fragment {
         rvProduct = view.findViewById(R.id.rv_product);
         rvProduct.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rvProduct.addItemDecoration(new GridSpacingItemDecoration(2, 20));
-        homeViewModel.getProduct();
+
         homeViewModel.getListProduct().observe(getViewLifecycleOwner(), listPoroduct -> {
             if (!listPoroduct.isEmpty()) {
                 resultProduct = listPoroduct;

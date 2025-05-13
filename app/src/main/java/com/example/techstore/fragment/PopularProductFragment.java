@@ -131,7 +131,6 @@ public class PopularProductFragment extends Fragment {
             }
         });
 
-        homeViewModel.getProduct();
         homeViewModel.getListProduct().observe(getViewLifecycleOwner(), listProduct -> {
             if (!listProduct.isEmpty()) {
                 productAdapter = new ProductAdapter(getContext(), listProduct, new OnClickFavorite() {
