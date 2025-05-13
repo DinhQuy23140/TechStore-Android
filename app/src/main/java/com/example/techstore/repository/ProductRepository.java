@@ -1,10 +1,13 @@
 package com.example.techstore.repository;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.example.techstore.ApiService.ApiService;
 import com.example.techstore.Client.RetrofitClient;
 import com.example.techstore.model.Product;
+import com.example.techstore.sharepreference.SharedPrefManager;
 import com.example.techstore.untilities.Constants;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -19,9 +22,11 @@ import retrofit2.Retrofit;
 
 public class ProductRepository {
     FirebaseFirestore firebaseFirestore;
+    SharedPrefManager sharedPrefManager;
 
-    public ProductRepository() {
+    public ProductRepository(Context context) {
         firebaseFirestore = FirebaseFirestore.getInstance();
+        sharedPrefManager = new SharedPrefManager(context);
     }
 
     public interface Callback {
@@ -35,7 +40,25 @@ public class ProductRepository {
             @Override
             public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                 if (response.isSuccessful() && !response.body().isEmpty()) {
-                    callback.onResult(response.body());
+                    List<Product> result = response.body();
+                    firebaseFirestore.collection(Constants.KEY_COLLECTION_FAVORITE)
+                            .document(sharedPrefManager.getEmail())
+                            .collection(Constants.KEY_COLLECTION_PRODUCT)
+                            .get()
+                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    for (Product product : result) {
+                                        String idProduct = String.valueOf(product.getId());
+                                        for (int i = 0; i < queryDocumentSnapshots.size(); i++) {
+                                            if (queryDocumentSnapshots.getDocuments().get(i).getId().equals(idProduct)) {
+                                                product.setFavorite(true);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    callback.onResult(result);
+                                }
+                            });
                 }
             }
 

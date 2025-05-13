@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnClickFavorite;
 import com.example.techstore.model.Product;
 import com.example.techstore.repository.ProductRepository;
 import com.example.techstore.repository.UserRepository;
@@ -93,7 +94,7 @@ public class ResultFilterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        productRepository = new ProductRepository();
+        productRepository = new ProductRepository(getContext());
         userRepository = new UserRepository(getContext());
         homeViewModel = new HomeViewModel(productRepository, userRepository);
         ivBack = view.findViewById(R.id.iv_back);
@@ -112,7 +113,17 @@ public class ResultFilterFragment extends Fragment {
         homeViewModel.getListProduct().observe(getViewLifecycleOwner(), listPoroduct -> {
             if (!listPoroduct.isEmpty()) {
                 resultProduct = listPoroduct;
-                productAdapter = new ProductAdapter(getContext(), resultProduct);
+                productAdapter = new ProductAdapter(getContext(), resultProduct, new OnClickFavorite() {
+                    @Override
+                    public void onClickFavorite(int position) {
+                        userRepository.addFavoriteProduct(resultProduct.get(position));
+                    }
+
+                    @Override
+                    public void onClickUnFavorite(int position) {
+                        userRepository.unFavoriteProduct(resultProduct.get(position));
+                    }
+                });
                 rvProduct.setAdapter(productAdapter);
             }
         });

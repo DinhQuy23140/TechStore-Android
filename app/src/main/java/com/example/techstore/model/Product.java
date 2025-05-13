@@ -8,8 +8,9 @@ public class Product {
     private String category;
     private String image;
     private Rating rating;
+    private boolean isFavorite;
 
-    public Product(String category, String description, int id, String image, float price, Rating rating, String title) {
+    public Product(String category, String description, int id, String image, float price, Rating rating, String title, boolean isFavorite) {
         this.category = category;
         this.description = description;
         this.id = id;
@@ -17,6 +18,7 @@ public class Product {
         this.price = price;
         this.rating = rating;
         this.title = title;
+        this.isFavorite = isFavorite;
     }
 
     public String getCategory() {
@@ -73,5 +75,13 @@ public class Product {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

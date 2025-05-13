@@ -24,6 +24,7 @@ import com.example.techstore.Adapter.CategoryNameAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
 import com.example.techstore.activity.SearchActivity;
+import com.example.techstore.interfaces.OnClickFavorite;
 import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.repository.ProductRepository;
 import com.example.techstore.repository.UserRepository;
@@ -100,7 +101,7 @@ public class PopularProductFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        productRepository = new ProductRepository();
+        productRepository = new ProductRepository(getContext());
         userRepository = new UserRepository(getContext());
         homeViewModel = new HomeViewModel(productRepository, userRepository);
         btnBack = view.findViewById(R.id.btn_back);
@@ -133,7 +134,17 @@ public class PopularProductFragment extends Fragment {
         homeViewModel.getProduct();
         homeViewModel.getListProduct().observe(getViewLifecycleOwner(), listProduct -> {
             if (!listProduct.isEmpty()) {
-                productAdapter = new ProductAdapter(getContext(), listProduct);
+                productAdapter = new ProductAdapter(getContext(), listProduct, new OnClickFavorite() {
+                    @Override
+                    public void onClickFavorite(int position) {
+                        userRepository.addFavoriteProduct(listProduct.get(position));
+                    }
+
+                    @Override
+                    public void onClickUnFavorite(int position) {
+                        userRepository.unFavoriteProduct(listProduct.get(position));
+                    }
+                });
                 rvProduct.setLayoutManager(new GridLayoutManager(getContext(), 2));
                 rvProduct.addItemDecoration(new GridSpacingItemDecoration(2, 20));
                 rvProduct.setAdapter(productAdapter);

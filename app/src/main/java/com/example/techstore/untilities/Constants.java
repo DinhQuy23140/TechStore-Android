@@ -44,5 +44,6 @@ public class Constants {
     public static final String KEY_COLLECTION_ORDER = "order";
     public static final String KEY_NAME_FILED_ORDERS = "orders";
     public static final String KEY_COLLECTION_SEARCH = "search";
+    public static final String KEY_COLLECTION_FAVORITE = "favorite";
 
 }
