@@ -1,5 +1,6 @@
 package com.example.techstore.viewmodel;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.techstore.R;
@@ -15,7 +16,7 @@ import java.util.List;
 public class HomeViewModel {
     ProductRepository productRepository;
     UserRepository userRepository;
-    MutableLiveData<ArrayList<Product>> listProduct = new MutableLiveData<>();
+    MutableLiveData<List<Product>> listProduct = new MutableLiveData<>();
     MutableLiveData<List<Integer>> listPathImageCategory = new MutableLiveData<>();
     MutableLiveData<List<String>> listNameCategory = new MutableLiveData<>();
     MutableLiveData<List<Integer>> listImgViewPage = new MutableLiveData<>();
@@ -38,18 +39,15 @@ public class HomeViewModel {
     public HomeViewModel(ProductRepository productRepository, UserRepository userRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        loadProduct();
     }
 
-    public MutableLiveData<ArrayList<Product>> getListProduct() {
-        return listProduct;
+    public LiveData<List<Product>> getListProduct() {
+        return productRepository.getListProduct();
     }
 
-    public void getProduct() {
-        productRepository.getProduct(products -> {
-            if (!products.isEmpty()) {
-                listProduct.setValue((ArrayList<Product>) products);
-            }
-        });
+    public void loadProduct() {
+        productRepository.loadProduct();
     }
 
     public void loadCategories() {

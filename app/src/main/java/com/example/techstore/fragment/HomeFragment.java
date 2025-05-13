@@ -56,6 +56,7 @@ import com.example.techstore.viewmodel.HomeViewModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -93,7 +94,7 @@ public class HomeFragment extends Fragment {
     ProductRepository productRepository;
     UserRepository userRepository;
     HomeViewModel homeViewModel;
-    ArrayList<Product> listProduct;
+    List<Product> listProduct;
     ProductAdapter productAdapter;
     ConstraintLayout ctrSearch;
 
@@ -277,7 +278,7 @@ public class HomeFragment extends Fragment {
         homeFrg_rv_product.setLayoutManager(new GridLayoutManager(getContext(), 2));
         homeFrg_rv_product.addItemDecoration(new GridSpacingItemDecoration(2, 30));
         //homeFrg_rv_product.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        homeViewModel.getProduct();
+        homeViewModel.loadProduct();
         homeViewModel.getListProduct().observe(getViewLifecycleOwner(), products -> {
             if (!products.isEmpty()) {
                 listProduct = products;

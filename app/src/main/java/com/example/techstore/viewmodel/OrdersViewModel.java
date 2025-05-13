@@ -46,7 +46,7 @@ public class OrdersViewModel extends ViewModel {
 
     public void getOrders() {
         ordersRepository.getOrders(result -> {
-            if (!result.isEmpty()) {
+            if (result != null && !result.isEmpty()) {
                 listOrders.setValue(result);
             }
         });
