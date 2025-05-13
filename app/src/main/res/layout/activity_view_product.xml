@@ -84,7 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
-                            app:srcCompat="@drawable/icon_favorite_click" />
+                            app:srcCompat="@drawable/icon_favorite" />
                     </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>

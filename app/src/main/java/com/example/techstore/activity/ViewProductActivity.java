@@ -40,7 +40,7 @@ public class ViewProductActivity extends AppCompatActivity {
     CartViewModel cartViewModel;
     UserRepository userRepository;
     ImageView btnBack, favorite, starRating;
-    ImageView imageProduct;
+    ImageView imageProduct, favoriteBtn;
     TextView nameProduct, rating, ratingCount, description, tvPriceProduct, tvQuantity;
     ImageButton btnUp, btnDown;
     LinearLayout addToCart;
@@ -70,6 +70,7 @@ public class ViewProductActivity extends AppCompatActivity {
         cartViewModel = new CartViewModel(userRepository);
 
         btnBack = findViewById(R.id.productBack);
+        favoriteBtn = findViewById(R.id.favoriteBtn);
         imageProduct = findViewById(R.id.imgVP);
         favorite = findViewById(R.id.favoriteBtn);
         starRating = findViewById(R.id.starRating);
@@ -84,6 +85,24 @@ public class ViewProductActivity extends AppCompatActivity {
         String productStr = intent.getStringExtra(Constants.KEY_SHARE_PRODUCT);
         Gson gson = new Gson();
         Product product = gson.fromJson(productStr, Product.class);
+        if (product.isFavorite()) {
+            favoriteBtn.setImageResource(R.drawable.icon_favorite_click);
+            favoriteBtn.setActivated(true);
+        } else {
+            favoriteBtn.setImageResource(R.drawable.icon_favorite);
+            favoriteBtn.setActivated(false);
+        }
+        favoriteBtn.setOnClickListener(favorite -> {
+            if (!favoriteBtn.isActivated()) {
+                userRepository.addFavoriteProduct(product);
+                favoriteBtn.setImageResource(R.drawable.icon_favorite_click);
+                favoriteBtn.setActivated(true);
+            } else {
+                userRepository.unFavoriteProduct(product);
+                favoriteBtn.setImageResource(R.drawable.icon_favorite);
+                favoriteBtn.setActivated(false);
+            }
+        });
         nameProduct.setText(product.getTitle());
         rating.setText(String.valueOf(product.getRating().getRate()));
         ratingCount.setText(String.valueOf(product.getRating().getCount()));
