@@ -21,6 +21,7 @@ public class HomeViewModel {
     MutableLiveData<List<Integer>> listImgViewPage = new MutableLiveData<>();
     MutableLiveData<String> username = new MutableLiveData<>("");
     MutableLiveData<String> img = new MutableLiveData<>("");
+    MutableLiveData<Boolean> isSuccess = new MutableLiveData<>(false);
 
     public MutableLiveData<String> getImg() {
         return img;
@@ -28,6 +29,10 @@ public class HomeViewModel {
 
     public MutableLiveData<String> getUsername() {
         return username;
+    }
+
+    public MutableLiveData<Boolean> getIsSuccess() {
+        return isSuccess;
     }
 
     public HomeViewModel(ProductRepository productRepository, UserRepository userRepository) {
@@ -82,5 +87,9 @@ public class HomeViewModel {
     public void loadUser() {
         username.setValue(userRepository.getUserName());
         img.setValue(userRepository.getImg());
+    }
+
+    public void addFavoriteProduct(Product product){
+        userRepository.addFavoriteProduct(product);
     }
 }

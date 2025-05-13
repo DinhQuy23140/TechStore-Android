@@ -25,7 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.techstore.Adapter.HistoryAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnClickFavorite;
 import com.example.techstore.interfaces.OnClickWidgetItem;
+import com.example.techstore.model.Product;
 import com.example.techstore.repository.ProductRepository;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
@@ -69,7 +71,7 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         firestore = FirebaseFirestore.getInstance();
-        productRepository = new ProductRepository();
+        productRepository = new ProductRepository(this);
         userRepository = new UserRepository(this);
         searchViewModel = new SearchViewModel(userRepository, productRepository);
         homeViewModel = new HomeViewModel(productRepository, userRepository);
@@ -145,7 +147,17 @@ public class SearchActivity extends AppCompatActivity {
                         String result = listSearch.size() + " found";
                         tvClear.setText(result);
                         Toast.makeText(this, Integer.toString(listSearch.size()), Toast.LENGTH_SHORT).show();
-                        rvResult.setAdapter(new ProductAdapter(this, listSearch));
+                        rvResult.setAdapter(new ProductAdapter(this, listSearch, new OnClickFavorite() {
+                            @Override
+                            public void onClickFavorite(int position) {
+                                userRepository.addFavoriteProduct(listSearch.get(position));
+                            }
+
+                            @Override
+                            public void onClickUnFavorite(int position) {
+                                userRepository.unFavoriteProduct(listSearch.get(position));
+                            }
+                        }));
                     }
                 });
             }

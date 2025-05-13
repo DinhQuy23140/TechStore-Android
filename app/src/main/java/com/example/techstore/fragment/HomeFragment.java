@@ -42,6 +42,8 @@ import com.example.techstore.Client.RetrofitClient;
 import com.example.techstore.R;
 import com.example.techstore.activity.SearchActivity;
 import com.example.techstore.databinding.ActivityMainBinding;
+import com.example.techstore.interfaces.OnClickFavorite;
+import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.model.Product;
 import com.example.techstore.repository.ProductRepository;
@@ -145,7 +147,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        productRepository = new ProductRepository();
+        productRepository = new ProductRepository(getContext());
         userRepository = new UserRepository(getContext());
         homeViewModel = new HomeViewModel(productRepository, userRepository);
 
@@ -279,7 +281,17 @@ public class HomeFragment extends Fragment {
         homeViewModel.getListProduct().observe(getViewLifecycleOwner(), products -> {
             if (!products.isEmpty()) {
                 listProduct = products;
-                productAdapter = new ProductAdapter(getContext(), listProduct);
+                productAdapter = new ProductAdapter(getContext(), listProduct, new OnClickFavorite() {
+                    @Override
+                    public void onClickFavorite(int position) {
+                        userRepository.addFavoriteProduct(listProduct.get(position));
+                    }
+
+                    @Override
+                    public void onClickUnFavorite(int position) {
+                        userRepository.unFavoriteProduct(listProduct.get(position));
+                    }
+                });
                 homeFrg_rv_product.setAdapter(productAdapter);
             }
         });

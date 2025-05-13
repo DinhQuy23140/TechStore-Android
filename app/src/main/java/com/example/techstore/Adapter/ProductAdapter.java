@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.techstore.R;
 import com.example.techstore.activity.ViewProductActivity;
+import com.example.techstore.interfaces.OnClickFavorite;
+import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.model.Product;
 import com.example.techstore.untilities.Constants;
 import com.google.gson.Gson;
@@ -23,10 +26,12 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
     Context context;
     List<Product> listProduct;
+    OnClickFavorite onClickFavorite;
 
-    public ProductAdapter(Context context, List<Product> listProduct) {
+    public ProductAdapter(Context context, List<Product> listProduct, OnClickFavorite onClickFavorite) {
         this.context = context;
         this.listProduct = listProduct;
+        this.onClickFavorite = onClickFavorite;
     }
 
     @NonNull
@@ -53,6 +58,29 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             String productStr = gson.toJson(product);
             intent.putExtra(Constants.KEY_SHARE_PRODUCT, productStr);
             holder.itemView.getContext().startActivity(intent);
+        });
+
+        if (product.isFavorite()) {
+            holder.favorite.setImageResource(R.drawable.icon_favorite_click);
+            holder.favorite.setActivated(true);
+        } else {
+            holder.favorite.setImageResource(R.drawable.icon_favorite);
+            holder.favorite.setActivated(false);
+        }
+
+        holder.favorite.setOnClickListener(favorite -> {
+            if (onClickFavorite != null) {
+                if (!holder.favorite.isActivated()) {
+                    onClickFavorite.onClickFavorite(position);
+                    holder.favorite.setImageResource(R.drawable.icon_favorite_click);
+                    holder.favorite.setActivated(true);
+                } else {
+                    onClickFavorite.onClickUnFavorite(position);
+                    holder.favorite.setImageResource(R.drawable.icon_favorite);
+                    holder.favorite.setActivated(false);
+                }
+                Toast.makeText(holder.itemView.getContext(), "Favorite click", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

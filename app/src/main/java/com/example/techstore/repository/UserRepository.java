@@ -1,6 +1,8 @@
 package com.example.techstore.repository;
 
 import android.content.Context;
+
+import com.example.techstore.model.Product;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.User;
 import com.example.techstore.sharepreference.SharedPrefManager;
@@ -294,5 +296,28 @@ public class UserRepository {
         firebaseFirestore.collection(Constants.KEY_COLLECTION_SEARCH)
                 .document(email)
                 .update(search, FieldValue.delete());
+    }
+
+    public void addFavoriteProduct(Product product) {
+        String email = sharedPrefManager.getEmail();
+        Map<String ,Object> mapSearch = new HashMap<>();
+        String strProduct = gson.toJson(product);
+        int idProduct = product.getId();
+        mapSearch.put(strProduct, FieldValue.serverTimestamp());
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_FAVORITE)
+                .document(email)
+                .collection(Constants.KEY_COLLECTION_PRODUCT)
+                .document(String.valueOf(idProduct))
+                .set(product);
+    }
+
+    public void unFavoriteProduct(Product product) {
+        String email = sharedPrefManager.getEmail();
+        int idProduct = product.getId();
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_FAVORITE)
+                .document(email)
+                .collection(Constants.KEY_COLLECTION_PRODUCT)
+                .document(String.valueOf(idProduct))
+                .delete();
     }
 }
