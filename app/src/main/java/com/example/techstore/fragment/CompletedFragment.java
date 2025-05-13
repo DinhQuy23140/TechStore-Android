@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.techstore.Adapter.CartAdapter;
 import com.example.techstore.Adapter.OnCompletedAdapter;
@@ -49,6 +50,7 @@ public class CompletedFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     RecyclerView rvProduct;
+    TextView tvMessage;
     OrdersAdapter ordersAdapter;
     List<ProductOrders> listOrders;
     OrdersViewModel ordersViewModel;
@@ -99,6 +101,7 @@ public class CompletedFragment extends Fragment {
         ordersRepository = new OrdersRepository(getContext());
         ordersViewModel = new OrdersViewModel(ordersRepository);
         gson = new Gson();
+        tvMessage = view.findViewById(R.id.tv_message);
         rvProduct = view.findViewById(R.id.recyclerCompleted);
         rvProduct.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         listOrders = new ArrayList<>();
@@ -125,7 +128,12 @@ public class CompletedFragment extends Fragment {
                         fragmentTransaction.commit();
                     }
                 });
+                rvProduct.setVisibility(View.VISIBLE);
                 rvProduct.setAdapter(ordersAdapter);
+                tvMessage.setVisibility(View.GONE);
+            } else {
+                rvProduct.setVisibility(View.GONE);
+                tvMessage.setVisibility(View.VISIBLE);
             }
         });
     }

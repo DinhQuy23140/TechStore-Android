@@ -154,7 +154,7 @@ public class CartFragment extends Fragment {
 
         lnCheckout = view.findViewById(R.id.ln_checkout);
         lnCheckout.setOnClickListener(checkout -> {
-            if (listProductInCart != null && !listProductInCart.isEmpty()) {
+            if (listSelectProductInCart != null && !listSelectProductInCart.isEmpty()) {
                 String strListProduct = gson.toJson(listSelectProductInCart);
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.KEY_SHARE_PRODUCT, strListProduct);

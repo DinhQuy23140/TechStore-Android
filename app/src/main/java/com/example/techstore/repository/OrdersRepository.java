@@ -7,6 +7,7 @@ import com.example.techstore.untilities.Constants;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.local.OverlayedDocument;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Field;
@@ -39,13 +40,12 @@ public class OrdersRepository {
         String email = sharedPrefManager.getEmail();
         String strOrders = gson.toJson(productOrders);
         Map<String, Object> addOrders = new HashMap<>();
-        addOrders.put(Constants.KEY_NAME_FILED_ORDERS, strOrders);
+        addOrders.put(Constants.KEY_NAME_FILED_ORDERS, FieldValue.arrayUnion(strOrders));
         firebaseFirestore.collection(Constants.KEY_COLLECTION_ORDER)
-                        .document(email)
-                                .update(Constants.KEY_NAME_FILED_ORDERS, FieldValue.arrayUnion(strOrders))
-                                        .addOnSuccessListener(success -> callback.onResult(true))
-                                                .addOnFailureListener(error -> callback.onResult(false));
-        callback.onResult(true);
+                .document(email)
+                .set(addOrders, SetOptions.merge())
+                .addOnSuccessListener(OverlayedDocument -> callback.onResult(true))
+                .addOnFailureListener(e -> callback.onResult(false));
     }
 
     public void getOrders(ListCallback callback) {

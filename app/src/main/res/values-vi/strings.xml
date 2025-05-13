@@ -89,7 +89,7 @@
     <string name="on_going">Đang giao</string>
     <string name="completed">Đã hoàn thành</string>
     <string name="status_detail">Chi tiết trạng thái đơn hàng</string>
-    <string name="orders_no_orders">Không có đơn hàng nào!></string>
+    <string name="orders_no_orders">Không có đơn hàng nào!</string>
 
     <!--    person framgent-->
     <string name="person_profile">Sửa thông tin cá nhân</string>

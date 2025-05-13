@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.techstore.model.ProductOrders;
 import com.example.techstore.repository.OrdersRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrdersViewModel extends ViewModel {
@@ -48,6 +49,8 @@ public class OrdersViewModel extends ViewModel {
         ordersRepository.getOrders(result -> {
             if (result != null && !result.isEmpty()) {
                 listOrders.setValue(result);
+            } else {
+                listOrders.setValue(new ArrayList<>());
             }
         });
     }
