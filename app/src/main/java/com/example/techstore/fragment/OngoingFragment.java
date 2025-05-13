@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.techstore.Adapter.CartAdapter;
 import com.example.techstore.Adapter.OnGoingAdapter;
@@ -60,6 +61,7 @@ public class OngoingFragment extends Fragment {
 
     OrdersAdapter ordersAdapter;
     List<ProductOrders> listOrders;
+    TextView tvMessage;
     OrdersViewModel ordersViewModel;
     OrdersRepository ordersRepository;
 
@@ -109,12 +111,13 @@ public class OngoingFragment extends Fragment {
         gson = new Gson();
         userRepository = new UserRepository(getContext());
         cartViewModel = new CartViewModel(userRepository);
+        tvMessage = view.findViewById(R.id.tv_message);
         rvProduct = view.findViewById(R.id.recyclerOngoing);
         rvProduct.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         ordersViewModel.getOrders();
         ordersViewModel.getListOrders().observe(getViewLifecycleOwner(), result -> {
-            if (!result.isEmpty()) {
+            if (result != null &&!result.isEmpty()) {
                 listOrders = new ArrayList<>();
                 for (String order : result) {
                     ProductOrders productOrders = gson.fromJson(order, ProductOrders.class);
@@ -136,7 +139,12 @@ public class OngoingFragment extends Fragment {
                         fragmentTransaction.commit();
                     }
                 });
+                rvProduct.setVisibility(View.VISIBLE);
+                tvMessage.setVisibility(View.GONE);
                 rvProduct.setAdapter(ordersAdapter);
+            } else {
+                rvProduct.setVisibility(View.GONE);
+                tvMessage.setVisibility(View.VISIBLE);
             }
         });
     }

@@ -89,6 +89,7 @@
     <string name="on_going">Ongoing</string>
     <string name="completed">Completed</string>
     <string name="status_detail">Orders Status Detail</string>
+    <string name="orders_no_orders">No orders!</string>
 
     <!--    person framgent-->
     <string name="person_profile">Edit Profile</string>
