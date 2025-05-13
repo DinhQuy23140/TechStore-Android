@@ -50,7 +50,7 @@ public class CartFragment extends Fragment {
     private String mParam2;
     RecyclerView rvCartItem;
     CartAdapter cartAdapter;
-    TextView tvTotal;
+    TextView tvTotal, tvMessage;
     LinearLayout lnCheckout;
     List<ProductInCart> listProductInCart, listSelectProductInCart;
     UserRepository userRepository;
@@ -102,6 +102,7 @@ public class CartFragment extends Fragment {
         userRepository = new UserRepository(getContext());
         cartViewModel = new CartViewModel(userRepository);
         tvTotal = view.findViewById(R.id.tv_totalPrice);
+        tvMessage = view.findViewById(R.id.tv_message);
         rvCartItem = view.findViewById(R.id.rv_cart_item);
         rvCartItem.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         cartViewModel.getCart();
@@ -143,6 +144,11 @@ public class CartFragment extends Fragment {
                     }
                 });
                 rvCartItem.setAdapter(cartAdapter);
+                rvCartItem.setVisibility(View.VISIBLE);
+                tvMessage.setVisibility(View.GONE);
+            } else {
+                rvCartItem.setVisibility(View.GONE);
+                tvMessage.setVisibility(View.VISIBLE);
             }
         });
 
