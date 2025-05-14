@@ -93,22 +93,6 @@
                                 android:src="@drawable/background_default_user" />
                         </com.google.android.material.card.MaterialCardView>
 
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            app:cardCornerRadius="5dp">
-
-                            <ImageView
-                                android:id="@+id/iv_edit"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleX="0.7"
-                                android:scaleY="0.7"
-                                android:src="@drawable/edit_icon_black" />
-                        </com.google.android.material.card.MaterialCardView>
-
                     </RelativeLayout>
 
                     <TextView

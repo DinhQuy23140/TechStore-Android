@@ -2,6 +2,8 @@ package com.example.techstore.repository;
 
 import android.content.Context;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.techstore.model.Product;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.User;
@@ -23,6 +25,48 @@ public class UserRepository {
     private final SharedPrefManager sharedPrefManager;
     FirebaseFirestore firebaseFirestore;
     Gson gson;
+    MutableLiveData<String> imgUser = new MutableLiveData<>("");
+    MutableLiveData<String> username = new MutableLiveData<>("");
+    MutableLiveData<String> email = new MutableLiveData<>("");
+    MutableLiveData<String> phone = new MutableLiveData<>("");
+    MutableLiveData<String> dob = new MutableLiveData<>("");
+    MutableLiveData<String> sex = new MutableLiveData<>("");
+
+    public MutableLiveData<String> getDob() {
+        return dob;
+    }
+
+    public void setDob(MutableLiveData<String> dob) {
+        this.dob = dob;
+    }
+
+    public void setEmail(MutableLiveData<String> email) {
+        this.email = email;
+    }
+
+    public MutableLiveData<String> getImgUser() {
+        return imgUser;
+    }
+
+    public void setImgUser(MutableLiveData<String> imgUser) {
+        this.imgUser = imgUser;
+    }
+
+    public void setPhone(MutableLiveData<String> phone) {
+        this.phone = phone;
+    }
+
+    public void setSex(MutableLiveData<String> sex) {
+        this.sex = sex;
+    }
+
+    public MutableLiveData<String> getUsername() {
+        return username;
+    }
+
+    public void setUsername(MutableLiveData<String> username) {
+        this.username = username;
+    }
 
     public UserRepository(Context context) {
         this.sharedPrefManager = new SharedPrefManager(context);
@@ -68,6 +112,8 @@ public class UserRepository {
                         sharedPrefManager.saveUsername(userResult.getString(Constants.KEY_USERNAME));
                         sharedPrefManager.saveImg(userResult.getString(Constants.KEY_IMG));
                         sharedPrefManager.savePhone(userResult.getString(Constants.KEY_PHONE));
+                        sharedPrefManager.saveDoB(userResult.getString(Constants.KEY_DOB));
+                        sharedPrefManager.saveSex(userResult.getString(Constants.KEY_SEX));
                         callback.onResult(true);
                     } else {
                         callback.onResult(false);
@@ -96,6 +142,8 @@ public class UserRepository {
 
     public String getDoB() {return sharedPrefManager.getDoB();}
 
+    public String getSex() {return sharedPrefManager.getSex();}
+
     public void updateUser(Map<String, Object> user, Callback callback) {
         String email = sharedPrefManager.getEmail();
         if (!email.isEmpty()) {
@@ -112,6 +160,7 @@ public class UserRepository {
                                         sharedPrefManager.savePhone(Objects.requireNonNull(user.get(Constants.KEY_PHONE)).toString());
                                         sharedPrefManager.saveEmail(Objects.requireNonNull(user.get(Constants.KEY_EMAIL)).toString());
                                         sharedPrefManager.saveDoB(Objects.requireNonNull(user.get(Constants.KEY_DOB)).toString());
+                                        sharedPrefManager.saveSex(Objects.requireNonNull(user.get(Constants.KEY_SEX)).toString());
                                         callback.onResult(true);
                                     })
                                     .addOnFailureListener(e -> callback.onResult(false));

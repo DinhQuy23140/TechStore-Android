@@ -16,12 +16,17 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,12 +39,14 @@ import com.example.techstore.R;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.PersonViewModel;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,10 +67,14 @@ public class FillProfileFragment extends Fragment {
     PersonViewModel personViewModel;
     TextView tvDoB;
     EditText edtUsername, edtEmail, edtPhoneNumber, edtDOB;
-    ImageView ivImg;
+    ImageView ivImg, ivBack;
     Button btnUpdate;
     RelativeLayout rlEditImg;
-    String encodeImg;
+    String encodeImg, strSex;
+    @SuppressLint("StringFormatInvalid")
+    AutoCompleteTextView avSex;
+    ArrayAdapter adapterComplete;
+    TextInputLayout tvSex;
 
     public FillProfileFragment() {
         // Required empty public constructor
@@ -136,6 +147,9 @@ public class FillProfileFragment extends Fragment {
         tvDoB = view.findViewById(R.id.tv_dob);
         ivImg = view.findViewById(R.id.iv_img);
         rlEditImg = view.findViewById(R.id.rl_edit_img);
+        avSex = view.findViewById(R.id.av_sex);
+        String[] arrSex = {getString(R.string.person_male), getString(R.string.person_female)};
+        tvSex = view.findViewById(R.id.tl_sex);
 
         personViewModel.loadUser();
         personViewModel.getImgUser().observe(getViewLifecycleOwner(), img -> {
@@ -158,7 +172,7 @@ public class FillProfileFragment extends Fragment {
             edtPhoneNumber.setText(phoneNumber);
         });
         personViewModel.getDob().observe(getViewLifecycleOwner(), dob -> {
-            tvDoB.setText(getString(R.string.person_dob) + dob);
+            tvDoB.setText(dob);
         });
 
         rlEditImg.setOnClickListener(editImg -> {
@@ -176,7 +190,7 @@ public class FillProfileFragment extends Fragment {
             @SuppressLint("DefaultLocale") DatePickerDialog slBirthDate = new DatePickerDialog(
                     requireContext(),
                     (datePicker, selectedYear, selectedMonth, selectedDay) -> {
-                        tvDoB.setText(String.format("%d/%d/%d", selectedDay, selectedMonth + 1, selectedYear));
+                        tvDoB.setText(getString(R.string.person_dob) + String.format("%d/%d/%d", selectedDay, selectedMonth + 1, selectedYear));
                     },
                     year,
                     month,
@@ -184,6 +198,22 @@ public class FillProfileFragment extends Fragment {
             );
             slBirthDate.show();
 
+        });
+
+        adapterComplete = new ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, arrSex);
+        avSex.setAdapter(adapterComplete);
+        avSex.setOnItemClickListener((parent, view1, position, id) -> {
+            tvSex.setHint("");
+            strSex = arrSex[position];
+            Toast.makeText(requireContext(), strSex, Toast.LENGTH_SHORT).show();
+        });
+
+        personViewModel.getSex().observe(getViewLifecycleOwner(), sex -> {
+            if (sex != null && !sex.isEmpty()) {
+                avSex.setText(sex, false);
+                Toast.makeText(requireContext(), sex, Toast.LENGTH_SHORT).show();
+            }
+            Toast.makeText(requireContext(), sex, Toast.LENGTH_SHORT).show();
         });
 
         btnUpdate = view.findViewById(R.id.btn_update);
@@ -198,12 +228,20 @@ public class FillProfileFragment extends Fragment {
             user.put(Constants.KEY_PHONE, phoneNumber);
             user.put(Constants.KEY_DOB, dob);
             user.put(Constants.KEY_IMG, encodeImg);
+            user.put(Constants.KEY_SEX, strSex);
             personViewModel.updateUser(user);
         });
 
         personViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
         });
+
+        ivBack = view.findViewById(R.id.iv_back);
+        ivBack.setOnClickListener(back -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.popBackStack();
+        });
+
     }
 
     private String enCodeImage(Bitmap bitmap){
