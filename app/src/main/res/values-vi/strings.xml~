@@ -106,9 +106,9 @@
     <string name="person_update">Cập nhập</string>
     <string name="person_dob">Ngày sinh: </string>
     <string name="person_sex">Giới tính</string>
-    <string name="person_male">Nam</string>
-    <string name="person_female">Nữ</string>
-    <string name="person_other">Khác</string>
+    <string name="person_male"></string>
+    <string name="person_female">Female</string>
+    <string name="person_other">Other</string>
 
     <!--    status orders-->
     <string name="status_pending">Chờ xác nhận</string>

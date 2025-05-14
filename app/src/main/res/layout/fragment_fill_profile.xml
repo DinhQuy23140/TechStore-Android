@@ -18,7 +18,7 @@
             android:layout_marginTop="10dp">
 
             <ImageView
-                android:id="@+id/imageView12"
+                android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_left"
@@ -31,14 +31,15 @@
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_left"
+                android:layout_marginStart="10dp"
                 android:text="@string/person_profile"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView12"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/iv_back"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.571" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
@@ -138,9 +139,27 @@
                         android:layout_marginEnd="20dp"
                         android:background="@drawable/background_input_text"
                         android:gravity="center|start"
+                        android:hint="@string/user_dob"
                         android:paddingStart="20dp"
-                        android:text="@string/user_dob"
                         android:textSize="18sp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_sex"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:hintTextAppearance="@style/MyHintAppearance">>
+
+                        <AutoCompleteTextView
+                            android:id="@+id/av_sex"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/background_input_text"
+                            android:textSize="18sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_update"

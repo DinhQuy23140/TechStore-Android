@@ -79,4 +79,8 @@ public class SharedPrefManager {
     public String getDoB() {return sharedPreferences.getString(Constants.KEY_DOB, ""); }
 
     public void saveDoB(String dob) {sharedPreferences.edit().putString(Constants.KEY_DOB, dob).apply();}
+
+    public void saveSex(String sex) {sharedPreferences.edit().putString(Constants.KEY_SEX, sex).apply();}
+
+    public String getSex() {return sharedPreferences.getString(Constants.KEY_SEX, "");}
 }
