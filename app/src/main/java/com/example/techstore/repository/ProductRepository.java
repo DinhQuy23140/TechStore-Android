@@ -7,23 +7,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.techstore.ApiService.ApiService;
-import com.example.techstore.Client.RetrofitClient;
+import com.example.techstore.Client.ProductClient;
 import com.example.techstore.model.Product;
 import com.example.techstore.sharepreference.SharedPrefManager;
 import com.example.techstore.untilities.Constants;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class ProductRepository {
     FirebaseFirestore firebaseFirestore;
@@ -42,7 +39,7 @@ public class ProductRepository {
     public LiveData<List<Product>> getListProduct() { return listProduct; } // List<Product>>
 
     public void loadProduct() {
-        ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
+        ApiService apiService = ProductClient.getInstance().create(ApiService.class);
         Call<ArrayList<Product>> call = apiService.getProduct();
 
         call.enqueue(new retrofit2.Callback<ArrayList<Product>>() {
@@ -87,7 +84,7 @@ public class ProductRepository {
     }
 
     public void getProductByTitle(String title, Callback callback) {
-        ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
+        ApiService apiService = ProductClient.getInstance().create(ApiService.class);
         Call<ArrayList<Product>> call = apiService.getProduct();
         call.enqueue(new retrofit2.Callback<ArrayList<Product>>() {
             @Override
