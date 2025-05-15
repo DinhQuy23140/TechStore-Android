@@ -6,10 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.techstore.R;
@@ -25,6 +27,7 @@ public class AddressFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    Button btnAdd;
 
     ImageView btnBack;
 
@@ -77,6 +80,15 @@ public class AddressFragment extends Fragment {
         btnBack.setOnClickListener(back -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.popBackStack();
+        });
+
+        btnAdd = view.findViewById(R.id.address_add_address);
+        btnAdd.setOnClickListener(add -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameContainer, new AddAddressFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         });
     }
 }

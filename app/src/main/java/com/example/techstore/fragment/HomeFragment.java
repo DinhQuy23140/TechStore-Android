@@ -21,29 +21,23 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
 import android.util.Base64;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.techstore.Adapter.CarouselAdapter;
 import com.example.techstore.Adapter.CategoryAdapter;
 import com.example.techstore.Adapter.CategoryNameAdapter;
 import com.example.techstore.Adapter.FilterAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
-import com.example.techstore.ApiService.ApiService;
-import com.example.techstore.Client.RetrofitClient;
 import com.example.techstore.R;
 import com.example.techstore.activity.SearchActivity;
 import com.example.techstore.databinding.ActivityMainBinding;
 import com.example.techstore.interfaces.OnClickFavorite;
-import com.example.techstore.interfaces.OnClickWidgetItem;
 import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.model.Product;
 import com.example.techstore.repository.ProductRepository;
@@ -54,14 +48,8 @@ import com.example.techstore.untilities.GridSpacingItemDecoration;
 import com.example.techstore.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.

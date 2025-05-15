@@ -133,12 +133,16 @@
     <string name="default_quantity">1</string>
     <string name="product_no_product">No product selected</string>
 
-<!--    address     -->
+    <!--    address     -->
     <string name="address_home">Home</string>
     <string name="address_office">Office</string>
     <string name="address_apartment">Apartment</string>
     <string name="address_add">Add address</string>
-    
+    <string name="address_province">Province</string>
+    <string name="address_district">District</string>
+    <string name="address_ward">Ward</string>
+    <string name="address_detail">Detail</string>
+
     <!--    search-activity-->
     <string name="search_recent">Recent</string>
     <string name="search_clear">Clear</string>

@@ -151,7 +151,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="20dp"
-                        app:hintTextAppearance="@style/MyHintAppearance">>
+                        app:hintTextAppearance="@style/MyHintAppearance">
 
                         <AutoCompleteTextView
                             android:id="@+id/av_sex"

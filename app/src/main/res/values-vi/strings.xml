@@ -138,6 +138,10 @@
     <string name="address_office">Văn phòng</string>
     <string name="address_apartment">Nhà riêng</string>
     <string name="address_add">Thêm địa chỉ</string>
+    <string name="address_province">Tỉnh/Thành phố</string>
+    <string name="address_district">Quận/Huyện</string>
+    <string name="address_ward">Phường/Xã</string>
+    <string name="address_detail">Chi tiết</string>
 
 <!--    search-activity-->
     <string name="search_recent">Gần đây</string>
