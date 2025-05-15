@@ -137,6 +137,7 @@
     <string name="address_home">Nhà</string>
     <string name="address_office">Văn phòng</string>
     <string name="address_apartment">Nhà riêng</string>
+    <string name="address_add">Thêm địa chỉ</string>
 
 <!--    search-activity-->
     <string name="search_recent">Gần đây</string>
