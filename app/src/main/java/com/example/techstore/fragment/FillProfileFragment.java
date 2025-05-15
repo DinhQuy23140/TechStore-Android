@@ -211,6 +211,7 @@ public class FillProfileFragment extends Fragment {
         personViewModel.getSex().observe(getViewLifecycleOwner(), sex -> {
             if (sex != null && !sex.isEmpty()) {
                 avSex.setText(sex, false);
+                strSex = sex;
                 Toast.makeText(requireContext(), sex, Toast.LENGTH_SHORT).show();
             }
             Toast.makeText(requireContext(), sex, Toast.LENGTH_SHORT).show();

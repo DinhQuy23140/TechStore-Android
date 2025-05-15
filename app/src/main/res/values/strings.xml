@@ -137,6 +137,7 @@
     <string name="address_home">Home</string>
     <string name="address_office">Office</string>
     <string name="address_apartment">Apartment</string>
+    <string name="address_add">Add address</string>
     
     <!--    search-activity-->
     <string name="search_recent">Recent</string>
