@@ -151,6 +151,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="20dp"
+                        android:hint="@string/person_sex"
                         app:hintTextAppearance="@style/MyHintAppearance">
 
                         <AutoCompleteTextView
