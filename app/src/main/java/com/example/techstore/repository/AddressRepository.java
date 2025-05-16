@@ -14,6 +14,7 @@ import com.example.techstore.untilities.Constants;
 import com.google.firebase.Firebase;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,14 +30,20 @@ public class AddressRepository {
     FirebaseFirestore firestore;
     SharedPrefManager sharedPrefManager;
     Context context;
+    Gson gson;
 
     public interface CallBack {
         public void onResult(boolean result);
+    }
+
+    public interface CallBackList {
+        public void onListResult(List<Address> result);
     }
     public AddressRepository(Context context) {
         this.context = context;
         firestore = FirebaseFirestore.getInstance();
         sharedPrefManager = new SharedPrefManager(context);
+        gson = new Gson();
     }
 
     public MutableLiveData<List<Province>> getListAddress() {
@@ -79,10 +86,32 @@ public class AddressRepository {
 
     public void addAddress(Address address, CallBack callBack) {
         String email = sharedPrefManager.getEmail();
+        String strAddress = gson.toJson(address);
         firestore.collection(Constants.KEY_COLLECTION_USER)
                 .document(email)
-                .update(Constants.KEY_ADDRESS, FieldValue.arrayUnion(address))
+                .update(Constants.KEY_ADDRESS, FieldValue.arrayUnion(strAddress))
                 .addOnSuccessListener(documentReference -> callBack.onResult(true))
                 .addOnFailureListener(e -> callBack.onResult(false));
+    }
+
+    public void getAddress(CallBackList callback) {
+        String email = sharedPrefManager.getEmail();
+        firestore.collection(Constants.KEY_COLLECTION_USER)
+                .document(email)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    List<String> listAddress = (List<String>) documentSnapshot.get(Constants.KEY_ADDRESS);
+                    List<Address> result = new ArrayList<>();
+                    if (listAddress != null) {
+                        for (String strAddress : listAddress) {
+                            Address address = gson.fromJson(strAddress, Address.class);
+                            result.add(address);
+                        }
+                        callback.onListResult(result);
+                    } else {
+                        callback.onListResult(new ArrayList<>());
+                    }
+                })
+                .addOnFailureListener(e -> callback.onListResult(new ArrayList<>()));
     }
 }

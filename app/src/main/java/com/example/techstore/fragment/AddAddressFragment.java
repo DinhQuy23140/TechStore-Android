@@ -110,7 +110,7 @@ public class AddAddressFragment extends Fragment {
         avtWard = view.findViewById(R.id.av_ward);
         edtDetail = view.findViewById(R.id.edt_detail);
         addAddressViewModel.loadAddress();
-        addAddressViewModel.getListAddress().observe(getViewLifecycleOwner(), result -> {
+        addAddressViewModel.getListProvince().observe(getViewLifecycleOwner(), result -> {
             if (!result.isEmpty()) {
                 provinces = result;
                 adapterProvince = new ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, provinces);
