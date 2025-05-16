@@ -142,6 +142,8 @@
     <string name="address_district">Quận/Huyện</string>
     <string name="address_ward">Phường/Xã</string>
     <string name="address_detail">Chi tiết</string>
+    <string name="address_add_success">Thêm địa chỉ thành công</string>
+    <string name="address_add_failure">Có lỗi xảy ra</string>
 
 <!--    search-activity-->
     <string name="search_recent">Gần đây</string>

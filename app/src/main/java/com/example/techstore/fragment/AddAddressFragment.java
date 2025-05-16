@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +15,17 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.techstore.R;
+import com.example.techstore.model.Address;
 import com.example.techstore.model.District;
 import com.example.techstore.model.Province;
 import com.example.techstore.model.Ward;
 import com.example.techstore.repository.AddressRepository;
+import com.example.techstore.repository.UserRepository;
 import com.example.techstore.viewmodel.AddAddressViewModel;
 
 import java.util.ArrayList;
@@ -39,14 +44,17 @@ public class AddAddressFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     AddAddressViewModel addAddressViewModel;
     AddressRepository addressRepository;
+    UserRepository userRepository;
     List<Province> provinces;
     List<District> districts;
     List<Ward> wards;
     AutoCompleteTextView avtProvince, avtDistrict, avtWard;
     ArrayAdapter adapterProvince, adapterDistrict, adapterWard;
-    String nameProvince, nameDistrict, nameWard, detail;
+    String nameProvince = "", nameDistrict = "", nameWard = "", detail = "", type = "";
     EditText edtDetail;
     Button btnAdd;
+    ImageView btnBack;
+    RadioGroup rgType;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -93,8 +101,8 @@ public class AddAddressFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        addressRepository = new AddressRepository();
-        addAddressViewModel = new AddAddressViewModel(addressRepository);
+        addressRepository = new AddressRepository(getContext());
+        addAddressViewModel = new AddAddressViewModel(getContext(), addressRepository);
         provinces = new ArrayList<>();
 
         avtProvince = view.findViewById(R.id.av_province);
@@ -132,18 +140,42 @@ public class AddAddressFragment extends Fragment {
             }
         });
 
-        avtWard.setOnClickListener(wards -> {
-            nameWard = wards.toString();
-        });
+        avtWard.setOnItemClickListener((parent, view1, position, id) -> nameWard = wards.get(position).getName());
 
         addressRepository.getMessage().observe(getViewLifecycleOwner(), message -> {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
         });
 
-        btnAdd = view.findViewById(R.id.btn_add);
-        btnAdd.setOnClickListener(addAddressViewModel -> {
-            detail = edtDetail.getText().toString();
+        rgType = view.findViewById(R.id.rg_type);
+        rgType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rb_home) {
+                    type = "Home";
+                } else if (checkedId == R.id.rb_office) {
+                    type = "Office";
+                }
+            }
+        });
 
+        btnAdd = view.findViewById(R.id.btn_add);
+        btnAdd.setOnClickListener(add -> {
+            detail = edtDetail.getText().toString();
+            if (nameProvince.isEmpty() || nameDistrict.isEmpty() || nameWard.isEmpty() || detail.isEmpty() || type.isEmpty()) {
+                Toast.makeText(requireContext(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            } else {
+                addAddressViewModel.addAddress(nameProvince, nameDistrict, nameWard, detail, type);
+            }
+        });
+
+        addAddressViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+        });
+
+        btnBack = view.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(back -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.popBackStack();
         });
     }
 }

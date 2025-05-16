@@ -181,7 +181,41 @@
                     android:layout_marginEnd="@dimen/margin_right"
                     android:background="@drawable/background_input_text"
                     android:paddingStart="@dimen/input_padding" />
+
             </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <RadioGroup
+                    android:id="@+id/rg_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RadioButton
+                        android:id="@+id/rb_home"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_right"
+                        android:text="@string/address_home"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/rb_office"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_right"
+                        android:text="@string/address_office"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+                </RadioGroup>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 

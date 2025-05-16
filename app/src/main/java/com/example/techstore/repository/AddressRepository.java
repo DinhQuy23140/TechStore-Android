@@ -1,12 +1,19 @@
 package com.example.techstore.repository;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.techstore.ApiService.ApiService;
 import com.example.techstore.Client.AddressClient;
+import com.example.techstore.model.Address;
 import com.example.techstore.model.Province;
+import com.example.techstore.sharepreference.SharedPrefManager;
+import com.example.techstore.untilities.Constants;
+import com.google.firebase.Firebase;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +26,18 @@ public class AddressRepository {
     MutableLiveData<List<Province>> listAddress = new MutableLiveData<>();
     MutableLiveData<Boolean> isSuccess = new MutableLiveData<>(false);
     MutableLiveData<String> message = new MutableLiveData<>("");
+    FirebaseFirestore firestore;
+    SharedPrefManager sharedPrefManager;
+    Context context;
+
+    public interface CallBack {
+        public void onResult(boolean result);
+    }
+    public AddressRepository(Context context) {
+        this.context = context;
+        firestore = FirebaseFirestore.getInstance();
+        sharedPrefManager = new SharedPrefManager(context);
+    }
 
     public MutableLiveData<List<Province>> getListAddress() {
         return listAddress;
@@ -56,5 +75,14 @@ public class AddressRepository {
                 message.setValue(throwable.getMessage());
             }
         });
+    }
+
+    public void addAddress(Address address, CallBack callBack) {
+        String email = sharedPrefManager.getEmail();
+        firestore.collection(Constants.KEY_COLLECTION_USER)
+                .document(email)
+                .update(Constants.KEY_ADDRESS, FieldValue.arrayUnion(address))
+                .addOnSuccessListener(documentReference -> callBack.onResult(true))
+                .addOnFailureListener(e -> callBack.onResult(false));
     }
 }

@@ -205,7 +205,6 @@ public class FillProfileFragment extends Fragment {
         avSex.setOnItemClickListener((parent, view1, position, id) -> {
             tvSex.setHint("");
             strSex = arrSex[position];
-            Toast.makeText(requireContext(), strSex, Toast.LENGTH_SHORT).show();
         });
 
         personViewModel.getSex().observe(getViewLifecycleOwner(), sex -> {
@@ -213,9 +212,7 @@ public class FillProfileFragment extends Fragment {
                 tvSex.setHint("");
                 avSex.setText(sex, false);
                 strSex = sex;
-                Toast.makeText(requireContext(), sex, Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(requireContext(), sex, Toast.LENGTH_SHORT).show();
         });
 
         btnUpdate = view.findViewById(R.id.btn_update);
