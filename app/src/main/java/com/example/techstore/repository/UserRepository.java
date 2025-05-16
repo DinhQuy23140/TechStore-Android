@@ -179,22 +179,18 @@ public class UserRepository {
         String email = sharedPrefManager.getEmail();
         if (!email.isEmpty()) {
             firebaseFirestore.collection(Constants.KEY_COLLECTION_USER)
-                    .whereEqualTo(Constants.KEY_EMAIL, email)
+                    .document(email)
                     .get()
                     .addOnSuccessListener(queryDocumentSnapshots -> {
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
-                            documentSnapshot.getReference().update(user)
-                                    .addOnSuccessListener(unused -> {
-                                        sharedPrefManager.saveUsername(Objects.requireNonNull(user.get(Constants.KEY_USERNAME)).toString());
-                                        sharedPrefManager.saveImg(Objects.requireNonNull(user.get(Constants.KEY_IMG)).toString());
-                                        sharedPrefManager.savePhone(Objects.requireNonNull(user.get(Constants.KEY_PHONE)).toString());
-                                        sharedPrefManager.saveEmail(Objects.requireNonNull(user.get(Constants.KEY_EMAIL)).toString());
-                                        sharedPrefManager.saveDoB(Objects.requireNonNull(user.get(Constants.KEY_DOB)).toString());
-                                        sharedPrefManager.saveSex(Objects.requireNonNull(user.get(Constants.KEY_SEX)).toString());
-                                        callback.onResult(true);
-                                    })
-                                    .addOnFailureListener(e -> callback.onResult(false));
+                        if (queryDocumentSnapshots.exists()) {
+                            queryDocumentSnapshots.getReference().update(user);
+                            sharedPrefManager.saveUsername(Objects.requireNonNull(user.get(Constants.KEY_USERNAME)).toString());
+                            sharedPrefManager.saveImg(user.get(Constants.KEY_IMG).toString());
+                            sharedPrefManager.savePhone(Objects.requireNonNull(user.get(Constants.KEY_PHONE)).toString());
+                            sharedPrefManager.saveEmail(Objects.requireNonNull(user.get(Constants.KEY_EMAIL)).toString());
+                            sharedPrefManager.saveDoB(user.get(Constants.KEY_DOB).toString());
+                            sharedPrefManager.saveSex(user.get(Constants.KEY_SEX).toString());
+                            callback.onResult(true);
                         } else {
                             callback.onResult(false);
                         }
@@ -364,8 +360,10 @@ public class UserRepository {
                 .addOnSuccessListener(documentSnapshot -> {
                     List<String> listSearch = new ArrayList<>();
                     Map<String, Object> currentList = documentSnapshot.getData();
-                    for (String key : currentList.keySet()) {
-                        listSearch.add(key);
+                    if (currentList != null) {
+                        for (String key : currentList.keySet()) {
+                            listSearch.add(key);
+                        }
                     }
                     callback.onResult(listSearch);
                 });

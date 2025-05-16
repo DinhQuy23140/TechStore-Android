@@ -165,7 +165,7 @@ public class PersonFragment extends Fragment {
 
 
 //        ivProfile.setOnClickListener(onClickListener);
-        ivAddress.setOnClickListener(onClickListener);
+//        ivAddress.setOnClickListener(onClickListener);
         ivNotify.setOnClickListener(onClickListener);
         ivPaymemt.setOnClickListener(onClickListener);
         ivSercurity.setOnClickListener(onClickListener);
@@ -176,6 +176,10 @@ public class PersonFragment extends Fragment {
 
         ivProfile.setOnClickListener(profile -> {
             replaceFragment(new FillProfileFragment());
+        });
+
+        ivAddress.setOnClickListener(address -> {
+            replaceFragment(new AddressFragment());
         });
 
         ivLang.setOnClickListener(lang -> {

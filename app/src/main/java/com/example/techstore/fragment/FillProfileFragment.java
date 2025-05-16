@@ -70,7 +70,7 @@ public class FillProfileFragment extends Fragment {
     ImageView ivImg, ivBack;
     Button btnUpdate;
     RelativeLayout rlEditImg;
-    String encodeImg, strSex;
+    String encodeImg = "", strSex = "";
     @SuppressLint("StringFormatInvalid")
     AutoCompleteTextView avSex;
     ArrayAdapter adapterComplete;
@@ -205,16 +205,14 @@ public class FillProfileFragment extends Fragment {
         avSex.setOnItemClickListener((parent, view1, position, id) -> {
             tvSex.setHint("");
             strSex = arrSex[position];
-            Toast.makeText(requireContext(), strSex, Toast.LENGTH_SHORT).show();
         });
 
         personViewModel.getSex().observe(getViewLifecycleOwner(), sex -> {
             if (sex != null && !sex.isEmpty()) {
+                tvSex.setHint("");
                 avSex.setText(sex, false);
                 strSex = sex;
-                Toast.makeText(requireContext(), sex, Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(requireContext(), sex, Toast.LENGTH_SHORT).show();
         });
 
         btnUpdate = view.findViewById(R.id.btn_update);
@@ -222,7 +220,7 @@ public class FillProfileFragment extends Fragment {
             String username = edtUsername.getText().toString();
             String email = edtEmail.getText().toString();
             String phoneNumber = edtPhoneNumber.getText().toString();
-            String dob = tvDoB.getText().toString();
+            String dob = tvDoB.getText().toString() + "";
             Map<String, Object> user = new HashMap<>();
             user.put(Constants.KEY_USERNAME, username);
             user.put(Constants.KEY_EMAIL, email);

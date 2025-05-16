@@ -83,7 +83,7 @@ public class ProductRepository {
                 });
     }
 
-    public void getProductByTitle(String title, Callback callback) {
+    public void getProductByTitle(String search, Callback callback) {
         ApiService apiService = ProductClient.getInstance().create(ApiService.class);
         Call<ArrayList<Product>> call = apiService.getProduct();
         call.enqueue(new retrofit2.Callback<ArrayList<Product>>() {
@@ -94,12 +94,9 @@ public class ProductRepository {
                     List<Product> result = new ArrayList<>();
                     if (!response.body().isEmpty()) {
                         for (Product product : response.body()) {
-                            String[] keyTitle = product.getTitle().split(" ");
-                            for (String key: keyTitle) {
-                                if (key.contains(title)) {
-                                    result.add(product);
-                                    break;
-                                }
+                            String  keyTitlte = product.getTitle().toLowerCase();
+                            if (keyTitlte.contains(search)) {
+                                result.add(product);
                             }
                         }
                         callback.onResult(result);
