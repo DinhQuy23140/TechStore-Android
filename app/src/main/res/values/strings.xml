@@ -144,6 +144,8 @@
     <string name="address_detail">Detail</string>
     <string name="address_add_success">Add address successfully</string>
     <string name="address_add_failure">Add address failure</string>
+    <string name="address_type">Type</string>
+    <string name="address_default">Default</string>
 
     <!--    search-activity-->
     <string name="search_recent">Recent</string>

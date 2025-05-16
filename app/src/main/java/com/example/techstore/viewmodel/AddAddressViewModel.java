@@ -12,10 +12,12 @@ import com.example.techstore.repository.AddressRepository;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.sharepreference.SharedPrefManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddAddressViewModel extends ViewModel {
-    MutableLiveData<List<Province>> listAddress = new MutableLiveData<>();
+    MutableLiveData<List<Province>> listProvince = new MutableLiveData<>();
+    MutableLiveData<List<Address>> listAddress = new MutableLiveData<>();
     MutableLiveData<Boolean> isSuccess = new MutableLiveData<>(false);
     MutableLiveData<String> message = new MutableLiveData<>("");
     AddressRepository addressRepository;
@@ -28,7 +30,12 @@ public class AddAddressViewModel extends ViewModel {
         sharedPrefManager = new SharedPrefManager(context);
     }
 
-    public MutableLiveData<List<Province>> getListAddress() {
+
+    public MutableLiveData<List<Province>> getListProvince() {
+        return listProvince;
+    }
+
+    public MutableLiveData<List<Address>> getListAddress() {
         return listAddress;
     }
 
@@ -42,7 +49,7 @@ public class AddAddressViewModel extends ViewModel {
 
     public void loadAddress() {
         addressRepository.loadAdress();
-        listAddress = addressRepository.getListAddress();
+        listProvince = addressRepository.getListAddress();
     }
 
     public void addAddress(String nameProvince, String nameDistrict, String nameWard, String detail, String type) {
@@ -52,6 +59,16 @@ public class AddAddressViewModel extends ViewModel {
         addressRepository.addAddress(address, result -> {
             if (result) message.setValue(context.getString(R.string.address_add_success));
             else message.setValue(context.getString(R.string.address_add_failure));
+        });
+    }
+
+    public void getAddress() {
+        addressRepository.getAddress(result -> {
+            if (result != null && !result.isEmpty()) {
+                listAddress.setValue(result);
+            } else {
+                listAddress.setValue(new ArrayList<>());
+            }
         });
     }
 

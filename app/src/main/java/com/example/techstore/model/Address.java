@@ -1,5 +1,7 @@
 package com.example.techstore.model;
 
+import androidx.annotation.NonNull;
+
 public class Address {
     private String type;
     private String name;
@@ -73,5 +75,11 @@ public class Address {
 
     public void setWard(String ward) {
         this.ward = ward;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getWard() + ", " + getDistrict() + ", " + getProvince();
     }
 }

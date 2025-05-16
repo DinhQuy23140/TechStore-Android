@@ -144,6 +144,8 @@
     <string name="address_detail">Chi tiết</string>
     <string name="address_add_success">Thêm địa chỉ thành công</string>
     <string name="address_add_failure">Có lỗi xảy ra</string>
+    <string name="address_type">Loại địa chỉ:</string>
+    <string name="address_default">Đặt làm mặc định</string>
 
 <!--    search-activity-->
     <string name="search_recent">Gần đây</string>

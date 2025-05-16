@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +16,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.techstore.Adapter.AddressAdapter;
 import com.example.techstore.R;
+import com.example.techstore.model.Address;
+import com.example.techstore.repository.AddressRepository;
+import com.example.techstore.viewmodel.AddAddressViewModel;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +36,11 @@ public class AddressFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     Button btnAdd;
-
+    AddAddressViewModel addAddressViewModel;
+    AddressRepository addressRepository;
+    RecyclerView rvAddress;
+    AddressAdapter adapter;
+    List<Address> listAddress;
     ImageView btnBack;
 
     // TODO: Rename and change types of parameters
@@ -76,6 +88,8 @@ public class AddressFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        addressRepository = new AddressRepository(getContext());
+        addAddressViewModel = new AddAddressViewModel(getContext(), addressRepository);
         btnBack = view.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(back -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -89,6 +103,15 @@ public class AddressFragment extends Fragment {
             fragmentTransaction.replace(R.id.frameContainer, new AddAddressFragment());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+        });
+
+        rvAddress = view.findViewById(R.id.rv_address);
+        rvAddress.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        addAddressViewModel.getAddress();
+        addAddressViewModel.getListAddress().observe(requireActivity(), addresses -> {
+            listAddress = addresses;
+            adapter = new AddressAdapter(getContext(), listAddress);
+            rvAddress.setAdapter(adapter);
         });
     }
 }
