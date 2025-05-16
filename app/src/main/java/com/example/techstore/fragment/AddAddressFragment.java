@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.techstore.R;
@@ -42,6 +44,9 @@ public class AddAddressFragment extends Fragment {
     List<Ward> wards;
     AutoCompleteTextView avtProvince, avtDistrict, avtWard;
     ArrayAdapter adapterProvince, adapterDistrict, adapterWard;
+    String nameProvince, nameDistrict, nameWard, detail;
+    EditText edtDetail;
+    Button btnAdd;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -95,6 +100,7 @@ public class AddAddressFragment extends Fragment {
         avtProvince = view.findViewById(R.id.av_province);
         avtDistrict = view.findViewById(R.id.av_district);
         avtWard = view.findViewById(R.id.av_ward);
+        edtDetail = view.findViewById(R.id.edt_detail);
         addAddressViewModel.loadAddress();
         addAddressViewModel.getListAddress().observe(getViewLifecycleOwner(), result -> {
             if (!result.isEmpty()) {
@@ -109,6 +115,7 @@ public class AddAddressFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Province province = provinces.get(position);
+                nameProvince = province.getName();
                 districts = province.getDistricts();
                 adapterDistrict = new ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, districts);
                 avtDistrict.setAdapter(adapterDistrict);
@@ -119,13 +126,24 @@ public class AddAddressFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 wards = districts.get(position).getWards();
+                nameDistrict = districts.get(position).getName();
                 adapterWard = new ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, wards);
                 avtWard.setAdapter(adapterWard);
             }
         });
 
+        avtWard.setOnClickListener(wards -> {
+            nameWard = wards.toString();
+        });
+
         addressRepository.getMessage().observe(getViewLifecycleOwner(), message -> {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+        });
+
+        btnAdd = view.findViewById(R.id.btn_add);
+        btnAdd.setOnClickListener(addAddressViewModel -> {
+            detail = edtDetail.getText().toString();
+
         });
     }
 }

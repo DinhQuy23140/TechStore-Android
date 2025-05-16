@@ -121,9 +121,40 @@ public class UserRepository {
                 });
     }
 
+    public void loginTest(User user, boolean isSaveInf, Callback callback) {
+        String email = user.getEmail();
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_USER)
+                .document(email)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        sharedPrefManager.saveEmail(documentSnapshot.getString(Constants.KEY_EMAIL));
+                        sharedPrefManager.savePassword(documentSnapshot.getString(Constants.KEY_PASSWORD));
+                        sharedPrefManager.setIsLogin(true);
+                        sharedPrefManager.setSaveInf(isSaveInf);
+                        sharedPrefManager.saveUsername(documentSnapshot.getString(Constants.KEY_USERNAME));
+                        sharedPrefManager.saveImg(documentSnapshot.getString(Constants.KEY_IMG));
+                        sharedPrefManager.savePhone(documentSnapshot.getString(Constants.KEY_PHONE));
+                        sharedPrefManager.saveDoB(documentSnapshot.getString(Constants.KEY_DOB));
+                        sharedPrefManager.saveSex(documentSnapshot.getString(Constants.KEY_SEX));
+                        callback.onResult(true);
+                    } else callback.onResult(false);
+                })
+                .addOnFailureListener(e -> callback.onResult(false));
+    }
+
     public void signupSuccess(Map<String, String> user, Callback result) {
         firebaseFirestore.collection(Constants.KEY_COLLECTION_USER)
                 .add(user)
+                .addOnSuccessListener(documentReference -> result.onResult(true))
+                .addOnFailureListener(e -> result.onResult(false));
+    }
+
+    public void signupTest(Map<String, String> user, Callback result) {
+        String email = user.get(Constants.KEY_EMAIL);
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_USER)
+                .document(email)
+                .set(user)
                 .addOnSuccessListener(documentReference -> result.onResult(true))
                 .addOnFailureListener(e -> result.onResult(false));
     }

@@ -49,7 +49,7 @@ public class LoginViewModel extends ViewModel {
         } else if (!user.validPassword()) {
             messageLogin.setValue("Mật không khó hợp lệ");
         } else {
-            userRepository.loginSuccess(user, isSaveInf, success -> {
+            userRepository.loginTest(user, isSaveInf, success -> {
                 if (success) {
                     isLogin.setValue(true);
                     messageLogin.setValue("Đăng nhập thành công");
