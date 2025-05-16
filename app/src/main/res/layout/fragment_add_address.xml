@@ -173,6 +173,7 @@
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_detail"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="@dimen/margin_left"
@@ -185,7 +186,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"

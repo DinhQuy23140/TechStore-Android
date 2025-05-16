@@ -51,6 +51,18 @@ public class SignUpViewModel extends ViewModel {
         });
     }
 
+    public void signupTest(Map<String, String> user ) {
+        userRepository.signupTest(user, result -> {
+            if (result) {
+                isSignup.setValue(true);
+                messageSignup.setValue("Đăng kí thành công");
+            } else {
+                isSignup.setValue(false);
+                messageSignup.setValue("Kiểm tra lại thông tin");
+            }
+        });
+    }
+
     public void selectImage (Bitmap bitmap) {
         String imgStr = enCodeImage(bitmap);
         strImg.setValue(imgStr);

@@ -97,7 +97,7 @@ public class SignUpImgActivity extends AppCompatActivity {
                 user.put(Constants.KEY_PASSWORD, bundle.getString(Constants.KEY_PASSWORD));
                 user.put(Constants.KEY_PHONE, bundle.getString(Constants.KEY_PHONE));
                 user.put(Constants.KEY_IMG, encodeImg);
-                signUpViewModel.signup(user);
+                signUpViewModel.signupTest(user);
             } else {
                 Toast.makeText(SignUpImgActivity.this, R.string.signup_error_input_inf, Toast.LENGTH_SHORT).show();
             }
