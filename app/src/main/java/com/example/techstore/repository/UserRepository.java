@@ -364,8 +364,10 @@ public class UserRepository {
                 .addOnSuccessListener(documentSnapshot -> {
                     List<String> listSearch = new ArrayList<>();
                     Map<String, Object> currentList = documentSnapshot.getData();
-                    for (String key : currentList.keySet()) {
-                        listSearch.add(key);
+                    if (currentList != null) {
+                        for (String key : currentList.keySet()) {
+                            listSearch.add(key);
+                        }
                     }
                     callback.onResult(listSearch);
                 });

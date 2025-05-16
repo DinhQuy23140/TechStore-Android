@@ -143,7 +143,7 @@ public class SearchActivity extends AppCompatActivity {
                 rvResult.setVisibility(View.VISIBLE);
                 searchViewModel.getProductByTitle(strSearch);
                 searchViewModel.getListProduct().observe(this, listSearch -> {
-                    if (!listSearch.isEmpty()) {
+                    if (listSearch != null && !listSearch.isEmpty()) {
                         String result = listSearch.size() + " found";
                         tvClear.setText(result);
                         Toast.makeText(this, Integer.toString(listSearch.size()), Toast.LENGTH_SHORT).show();
