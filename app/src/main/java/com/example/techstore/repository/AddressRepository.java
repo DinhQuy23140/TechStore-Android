@@ -11,8 +11,6 @@ import com.example.techstore.model.Address;
 import com.example.techstore.model.Province;
 import com.example.techstore.sharepreference.SharedPrefManager;
 import com.example.techstore.untilities.Constants;
-import com.google.firebase.Firebase;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
@@ -39,6 +37,11 @@ public class AddressRepository {
     public interface CallBackList {
         public void onListResult(List<Address> result);
     }
+
+    public interface CallBackAddress {
+        public void onAddressResult(Address result);
+    }
+
     public AddressRepository(Context context) {
         this.context = context;
         firestore = FirebaseFirestore.getInstance();
@@ -86,12 +89,48 @@ public class AddressRepository {
 
     public void addAddress(Address address, CallBack callBack) {
         String email = sharedPrefManager.getEmail();
-        String strAddress = gson.toJson(address);
+        Boolean isDefault = address.isDefault();
+
+        firestore.collection(Constants.KEY_COLLECTION_USER)
+                        .document(email)
+                                .get()
+                                        .addOnSuccessListener(documentSnapshot -> {
+                                            List<String> listAddress = (List<String>) documentSnapshot.get(Constants.KEY_ADDRESS);
+                                            List<String> realAddress = new ArrayList<>();
+                                            if (listAddress != null) {
+                                                for (String strAdr : listAddress) {
+                                                    Address convertAddress = gson.fromJson(strAdr, Address.class);
+                                                    convertAddress.setDefault(!isDefault);
+                                                    String strAddress = gson.toJson(convertAddress);
+                                                    realAddress.add(strAddress);
+                                                }
+                                                realAddress.add(gson.toJson(address));
+                                                firestore.collection(Constants.KEY_COLLECTION_USER)
+                                                        .document(email)
+                                                        .update(Constants.KEY_ADDRESS, realAddress)
+                                                        .addOnSuccessListener(documentReference -> callBack.onResult(true))
+                                                        .addOnFailureListener(e -> callBack.onResult(false));
+                                            }
+                                        });
+    }
+
+    public void getDefaultAddress(CallBackAddress callBack) {
+        String email = sharedPrefManager.getEmail();
         firestore.collection(Constants.KEY_COLLECTION_USER)
                 .document(email)
-                .update(Constants.KEY_ADDRESS, FieldValue.arrayUnion(strAddress))
-                .addOnSuccessListener(documentReference -> callBack.onResult(true))
-                .addOnFailureListener(e -> callBack.onResult(false));
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    List<String> listAddress = (List<String>) documentSnapshot.get(Constants.KEY_ADDRESS);
+                    for (String address : listAddress) {
+                        Address convertAddress = gson.fromJson(address, Address.class);
+                        if (convertAddress.isDefault()) {
+                            callBack.onAddressResult(convertAddress);
+                            return;
+                        }
+                    }
+                    callBack.onAddressResult(null);
+                })
+                .addOnFailureListener(exception -> callBack.onAddressResult(null));
     }
 
     public void getAddress(CallBackList callback) {

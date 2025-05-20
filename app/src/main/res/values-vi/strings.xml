@@ -150,4 +150,8 @@
 <!--    search-activity-->
     <string name="search_recent">Gần đây</string>
     <string name="search_clear">Xóa</string>
+
+
+
+    <string name="all_input_failure">Vui lòng nhập đầy đủ thông tin</string>
 </resources>

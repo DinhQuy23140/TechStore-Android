@@ -150,4 +150,8 @@
     <!--    search-activity-->
     <string name="search_recent">Recent</string>
     <string name="search_clear">Clear</string>
+
+
+
+    <string name="all_input_failure">Please enter complete information</string>
 </resources>

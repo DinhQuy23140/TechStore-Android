@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.model.Address;
 
 import java.util.List;
@@ -17,10 +18,12 @@ import java.util.List;
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressViewHolder> {
     Context context;
     List<Address> listAddress;
+    OnItemClickListener listener;
 
-    public AddressAdapter(Context context, List<Address> listAddress) {
+    public AddressAdapter(Context context, List<Address> listAddress, OnItemClickListener listener) {
         this.context = context;
         this.listAddress = listAddress;
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,6 +41,10 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         holder.tvPhone.setText(address.getPhone());
         holder.tvAddress.setText(address.toString());
         holder.tvDetail.setText(address.getDetail());
+
+        holder.itemView.setOnClickListener(click -> {
+            if (listener != null) listener.onItemClick(position);
+        });
     }
 
     @Override
