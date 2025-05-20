@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -160,7 +162,11 @@ public class CartFragment extends Fragment {
                 bundle.putString(Constants.KEY_SHARE_PRODUCT, strListProduct);
                 CheckOutFragment checkoutFragment = new CheckOutFragment();
                 checkoutFragment.setArguments(bundle);
-                getParentFragmentManager().beginTransaction().replace(R.id.frameContainer, checkoutFragment).addToBackStack(null).commit();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameContainer, checkoutFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             } else {
                 Toast.makeText(getContext(), getString(R.string.product_no_product), Toast.LENGTH_SHORT).show();
             }
