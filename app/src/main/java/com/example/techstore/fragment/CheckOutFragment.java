@@ -189,11 +189,12 @@ public class CheckOutFragment extends Fragment {
 
         btnAddAddress.setOnClickListener(addAddressViewModel -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.popBackStack();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             AddressFragment addressFragment = new AddressFragment();
             addressFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.frameContainer, addressFragment);
-            fragmentTransaction.addToBackStack(null);
+            //fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });
 

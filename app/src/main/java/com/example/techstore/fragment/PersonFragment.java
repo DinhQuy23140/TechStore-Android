@@ -179,7 +179,7 @@ public class PersonFragment extends Fragment {
         });
 
         ivAddress.setOnClickListener(address -> {
-            replaceFragment(new AddressFragment());
+            replaceFragment(new ManageAddressFragment());
         });
 
         ivLang.setOnClickListener(lang -> {

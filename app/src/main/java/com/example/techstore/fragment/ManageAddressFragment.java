@@ -29,10 +29,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AddressFragment#newInstance} factory method to
+ * Use the {@link ManageAddressFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddressFragment extends Fragment {
+public class ManageAddressFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,7 +51,7 @@ public class AddressFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public AddressFragment() {
+    public ManageAddressFragment() {
         // Required empty public constructor
     }
 
@@ -61,11 +61,11 @@ public class AddressFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AddressFragment.
+     * @return A new instance of fragment ManageAddressFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddressFragment newInstance(String param1, String param2) {
-        AddressFragment fragment = new AddressFragment();
+    public static ManageAddressFragment newInstance(String param1, String param2) {
+        ManageAddressFragment fragment = new ManageAddressFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -86,14 +86,15 @@ public class AddressFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_address, container, false);
+        return inflater.inflate(R.layout.fragment_manage_address, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         gson = new Gson();
-        Bundle bundle = getArguments();
+//        Bundle bundle = getArguments();
         addressRepository = new AddressRepository(getContext());
         addAddressViewModel = new AddAddressViewModel(getContext(), addressRepository);
         btnBack = view.findViewById(R.id.btn_back);
@@ -107,9 +108,9 @@ public class AddressFragment extends Fragment {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             AddAddressFragment addAddressFragment = new AddAddressFragment();
-            addAddressFragment.setArguments(bundle);
+//            addAddressFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.frameContainer, addAddressFragment);
-            //fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });
 
@@ -121,15 +122,15 @@ public class AddressFragment extends Fragment {
             adapter = new AddressAdapter(getContext(), listAddress, new OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    String strAdress = gson.toJson(listAddress.get(position));
-                    bundle.putString(Constants.KEY_ADDRESS, strAdress);
-                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    CheckOutFragment checkOutFragment = new CheckOutFragment();
-                    checkOutFragment.setArguments(bundle);
-                    fragmentTransaction.replace(R.id.frameContainer, checkOutFragment);
-                    //fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+//                    String strAdress = gson.toJson(listAddress.get(position));
+//                    bundle.putString(Constants.KEY_ADDRESS, strAdress);
+//                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                    CheckOutFragment checkOutFragment = new CheckOutFragment();
+//                    checkOutFragment.setArguments(bundle);
+//                    fragmentTransaction.replace(R.id.frameContainer, checkOutFragment);
+//                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
                 }
             });
             rvAddress.setAdapter(adapter);
