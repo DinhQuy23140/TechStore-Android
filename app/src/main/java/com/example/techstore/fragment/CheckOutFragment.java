@@ -153,15 +153,8 @@ public class CheckOutFragment extends Fragment {
         addAddressViewModel.getDefaultAddress();
         addAddressViewModel.getAddress().observe(getViewLifecycleOwner(), result -> {
             String strAddress = bundle.getString(Constants.KEY_ADDRESS);
-            if (result != null) {
-                cstrAddress.setVisibility(View.VISIBLE);
-                btnAddAddress.setVisibility(View.GONE);
-                tvType.setText(result.getType());
-                tvUsename.setText(result.getName());
-                tvPhone.setText(result.getPhone());
-                tvDetail.setText(result.getDetail());
-                tvAddress.setText(result.toString());
-            } else if (strAddress != null &&!strAddress.isEmpty()) {
+            //select address
+            if (strAddress != null &&!strAddress.isEmpty()) {
                 cstrAddress.setVisibility(View.VISIBLE);
                 btnAddAddress.setVisibility(View.GONE);
                 Address address = gson.fromJson(strAddress, Address.class);
@@ -170,7 +163,15 @@ public class CheckOutFragment extends Fragment {
                 tvPhone.setText(address.getPhone());
                 tvDetail.setText(address.getDetail());
                 tvAddress.setText(address.toString());
-            } else {
+            } else if (result != null) { //default address
+                cstrAddress.setVisibility(View.VISIBLE);
+                btnAddAddress.setVisibility(View.GONE);
+                tvType.setText(result.getType());
+                tvUsename.setText(result.getName());
+                tvPhone.setText(result.getPhone());
+                tvDetail.setText(result.getDetail());
+                tvAddress.setText(result.toString());
+            } else { // no address
                 cstrAddress.setVisibility(View.GONE);
                 btnAddAddress.setVisibility(View.VISIBLE);
             }
@@ -183,7 +184,7 @@ public class CheckOutFragment extends Fragment {
             AddressFragment addressFragment = new AddressFragment();
             addressFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.frameContainer, addressFragment);
-            fragmentTransaction.addToBackStack(null);
+            //fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });
 
@@ -194,7 +195,6 @@ public class CheckOutFragment extends Fragment {
             AddressFragment addressFragment = new AddressFragment();
             addressFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.frameContainer, addressFragment);
-            //fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });
 
