@@ -1,6 +1,10 @@
 package com.example.techstore.model;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.ReturnThis;
+
+import java.util.Objects;
 
 public class Address {
     private String type;
@@ -10,8 +14,12 @@ public class Address {
     private String province;
     private String district;
     private String ward;
+    private boolean isDefault;
 
-    public Address(String detail, String district, String name, String phone, String province, String type, String ward) {
+    public Address() {
+    }
+
+    public Address(String detail, String district, String name, String phone, String province, String type, String ward, boolean isDefault) {
         this.detail = detail;
         this.district = district;
         this.name = name;
@@ -19,6 +27,7 @@ public class Address {
         this.province = province;
         this.type = type;
         this.ward = ward;
+        this.isDefault = isDefault;
     }
 
     public String getDetail() {
@@ -77,9 +86,33 @@ public class Address {
         this.ward = ward;
     }
 
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return getWard() + ", " + getDistrict() + ", " + getProvince();
     }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Address)) return false;
+        Address address = (Address) obj;
+        return Objects.equals(toString(), address.toString()) &&
+                Objects.equals(getName(), address.getName()) &&
+                Objects.equals(getPhone(), address.getPhone());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(toString(), name, phone);
+    }
 }
+

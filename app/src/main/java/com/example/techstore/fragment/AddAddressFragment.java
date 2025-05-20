@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.techstore.R;
@@ -55,6 +57,7 @@ public class AddAddressFragment extends Fragment {
     Button btnAdd;
     ImageView btnBack;
     RadioGroup rgType;
+    Switch swDefault;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -109,6 +112,8 @@ public class AddAddressFragment extends Fragment {
         avtDistrict = view.findViewById(R.id.av_district);
         avtWard = view.findViewById(R.id.av_ward);
         edtDetail = view.findViewById(R.id.edt_detail);
+        swDefault = view.findViewById(R.id.switch_set_default);
+        Bundle bundle = getArguments();
         addAddressViewModel.loadAddress();
         addAddressViewModel.getListProvince().observe(getViewLifecycleOwner(), result -> {
             if (!result.isEmpty()) {
@@ -142,10 +147,6 @@ public class AddAddressFragment extends Fragment {
 
         avtWard.setOnItemClickListener((parent, view1, position, id) -> nameWard = wards.get(position).getName());
 
-        addressRepository.getMessage().observe(getViewLifecycleOwner(), message -> {
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
-        });
-
         rgType = view.findViewById(R.id.rg_type);
         rgType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -161,15 +162,30 @@ public class AddAddressFragment extends Fragment {
         btnAdd = view.findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(add -> {
             detail = edtDetail.getText().toString();
+            boolean isDefault = swDefault.isChecked();
             if (nameProvince.isEmpty() || nameDistrict.isEmpty() || nameWard.isEmpty() || detail.isEmpty() || type.isEmpty()) {
-                Toast.makeText(requireContext(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.all_input_failure), Toast.LENGTH_SHORT).show();
             } else {
-                addAddressViewModel.addAddress(nameProvince, nameDistrict, nameWard, detail, type);
+                addAddressViewModel.addAddress(nameProvince, nameDistrict, nameWard, detail, type, isDefault);
             }
         });
 
         addAddressViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+            if (!message.isEmpty()) {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        addAddressViewModel.getIsSuccess().observe(getViewLifecycleOwner(), result -> {
+            if (result) {
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                AddressFragment addressFragment = new AddressFragment();
+                addressFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.frameContainer, addressFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
         });
 
         btnBack = view.findViewById(R.id.btn_back);

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,17 +16,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.techstore.Adapter.CheckoutAdapter;
 import com.example.techstore.R;
 import com.example.techstore.databinding.ActivityMainBinding;
+import com.example.techstore.model.Address;
 import com.example.techstore.model.OrdersStatus;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.ProductOrders;
+import com.example.techstore.repository.AddressRepository;
 import com.example.techstore.repository.OrdersRepository;
 import com.example.techstore.repository.UserRepository;
 import com.example.techstore.untilities.Constants;
+import com.example.techstore.viewmodel.AddAddressViewModel;
 import com.example.techstore.viewmodel.CartViewModel;
 import com.example.techstore.viewmodel.OrdersViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -55,6 +60,7 @@ public class CheckOutFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    ConstraintLayout cstrAddress;
     ActivityMainBinding bindingMain;
     BottomNavigationView bottomNavigationView;
     ImageView ivBack, ivAddress;
@@ -63,10 +69,13 @@ public class CheckOutFragment extends Fragment {
     CartViewModel cartViewModel;
     List<ProductInCart> listProduct;
     CheckoutAdapter checkoutAdapter;
-    Button btnPay;
+    Button btnPay, btnAddAddress;
     Gson gson;
     OrdersRepository ordersRepository;
     OrdersViewModel ordersViewModel;
+    AddAddressViewModel addAddressViewModel;
+    AddressRepository addressRepository;
+    TextView tvUsename, tvType, tvPhone, tvDetail, tvAddress;
 
     public CheckOutFragment() {
         // Required empty public constructor
@@ -117,6 +126,15 @@ public class CheckOutFragment extends Fragment {
         userRepository = new UserRepository(getContext());
         cartViewModel = new CartViewModel(userRepository);
 
+        addressRepository = new AddressRepository(getContext());
+        addAddressViewModel = new AddAddressViewModel(getContext(), addressRepository);
+
+        tvType = view.findViewById(R.id.tv_type);
+        tvUsename = view.findViewById(R.id.tv_username);
+        tvPhone =  view.findViewById(R.id.tv_phone);
+        tvDetail = view.findViewById(R.id.tv_detail);
+        tvAddress = view.findViewById(R.id.tv_address);
+
         rvCheckout = view.findViewById(R.id.rv_list_order);
         rvCheckout.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         Bundle bundle = getArguments();
@@ -129,11 +147,52 @@ public class CheckOutFragment extends Fragment {
             rvCheckout.setAdapter(checkoutAdapter);
         }
 
+        cstrAddress = view.findViewById(R.id.cstr_default_address);
+        btnAddAddress = view.findViewById(R.id.btn_add_address);
+
+        addAddressViewModel.getDefaultAddress();
+        addAddressViewModel.getAddress().observe(getViewLifecycleOwner(), result -> {
+            String strAddress = bundle.getString(Constants.KEY_ADDRESS);
+            if (result != null) {
+                cstrAddress.setVisibility(View.VISIBLE);
+                btnAddAddress.setVisibility(View.GONE);
+                tvType.setText(result.getType());
+                tvUsename.setText(result.getName());
+                tvPhone.setText(result.getPhone());
+                tvDetail.setText(result.getDetail());
+                tvAddress.setText(result.toString());
+            } else if (strAddress != null &&!strAddress.isEmpty()) {
+                cstrAddress.setVisibility(View.VISIBLE);
+                btnAddAddress.setVisibility(View.GONE);
+                Address address = gson.fromJson(strAddress, Address.class);
+                tvType.setText(address.getType());
+                tvUsename.setText(address.getName());
+                tvPhone.setText(address.getPhone());
+                tvDetail.setText(address.getDetail());
+                tvAddress.setText(address.toString());
+            } else {
+                cstrAddress.setVisibility(View.GONE);
+                btnAddAddress.setVisibility(View.VISIBLE);
+            }
+        });
+
         ivAddress = view.findViewById(R.id.iv_edit_address);
         ivAddress.setOnClickListener(address ->{
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.frameContainer, new AddressFragment());
+            AddressFragment addressFragment = new AddressFragment();
+            addressFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.frameContainer, addressFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
+
+        btnAddAddress.setOnClickListener(addAddressViewModel -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            AddressFragment addressFragment = new AddressFragment();
+            addressFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.frameContainer, addressFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });
@@ -158,7 +217,7 @@ public class CheckOutFragment extends Fragment {
         });
 
         ordersViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            if (message != null && !message.isEmpty()) Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         });
 
         bottomNavigationView = bindingMain.bottomNavigation;

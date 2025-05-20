@@ -18,9 +18,12 @@ import android.widget.ImageView;
 
 import com.example.techstore.Adapter.AddressAdapter;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnItemClickListener;
 import com.example.techstore.model.Address;
 import com.example.techstore.repository.AddressRepository;
+import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.AddAddressViewModel;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -42,6 +45,7 @@ public class AddressFragment extends Fragment {
     AddressAdapter adapter;
     List<Address> listAddress;
     ImageView btnBack;
+    Gson gson;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -88,6 +92,8 @@ public class AddressFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        gson = new Gson();
+        Bundle bundle = getArguments();
         addressRepository = new AddressRepository(getContext());
         addAddressViewModel = new AddAddressViewModel(getContext(), addressRepository);
         btnBack = view.findViewById(R.id.btn_back);
@@ -100,17 +106,32 @@ public class AddressFragment extends Fragment {
         btnAdd.setOnClickListener(add -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.frameContainer, new AddAddressFragment());
+            AddAddressFragment addAddressFragment = new AddAddressFragment();
+            addAddressFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.frameContainer, addAddressFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });
 
         rvAddress = view.findViewById(R.id.rv_address);
         rvAddress.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        addAddressViewModel.getAddress();
-        addAddressViewModel.getListAddress().observe(requireActivity(), addresses -> {
+        addAddressViewModel.getAllAddress();
+        addAddressViewModel.getListAddress().observe(getViewLifecycleOwner(), addresses -> {
             listAddress = addresses;
-            adapter = new AddressAdapter(getContext(), listAddress);
+            adapter = new AddressAdapter(getContext(), listAddress, new OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    String strAdress = gson.toJson(listAddress.get(position));
+                    bundle.putString(Constants.KEY_ADDRESS, strAdress);
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    CheckOutFragment checkOutFragment = new CheckOutFragment();
+                    checkOutFragment.setArguments(bundle);
+                    fragmentTransaction.replace(R.id.frameContainer, checkOutFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            });
             rvAddress.setAdapter(adapter);
         });
     }
