@@ -179,12 +179,7 @@ public class AddAddressFragment extends Fragment {
         addAddressViewModel.getIsSuccess().observe(getViewLifecycleOwner(), result -> {
             if (result) {
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                AddressFragment addressFragment = new AddressFragment();
-                addressFragment.setArguments(bundle);
-                fragmentTransaction.replace(R.id.frameContainer, addressFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                fragmentManager.popBackStack();
             }
         });
 
