@@ -386,7 +386,7 @@ public class UserRepository {
                 .document(email)
                 .collection(Constants.KEY_COLLECTION_PRODUCT)
                 .document(String.valueOf(idProduct))
-                .set(product);
+                .set(strProduct);
     }
 
     public void unFavoriteProduct(Product product) {

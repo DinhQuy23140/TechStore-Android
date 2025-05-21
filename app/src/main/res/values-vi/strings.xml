@@ -63,6 +63,7 @@
 
 <!--    commont     -->
     <string name="common_see_all">Xem tất cả</string>
+    <string name="common_favorite">Yêu thích</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

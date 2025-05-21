@@ -65,6 +65,7 @@
 
     <!--    commont     -->
     <string name="common_see_all">See all</string>
+    <string name="common_favorite">Favorite</string>
 
     <!--    view product-->
     <string name="viewProduct_des">Description</string>
