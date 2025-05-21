@@ -90,8 +90,8 @@ public class ProductRepository {
                 .collection(Constants.KEY_COLLECTION_PRODUCT)
                 .get()
                 .addOnSuccessListener(documentSnapshots -> {
-
-                });
+                    
+                })
     }
     public void getProductByTitle(String search, Callback callback) {
         ApiService apiService = ProductClient.getInstance().create(ApiService.class);
