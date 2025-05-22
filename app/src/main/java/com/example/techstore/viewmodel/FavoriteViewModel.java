@@ -10,9 +10,11 @@ import androidx.lifecycle.ViewModel;
 import com.example.techstore.model.Product;
 import com.example.techstore.repository.ProductRepository;
 
+import java.util.List;
+
 public class FavoriteViewModel extends ViewModel {
     ProductRepository productRepository;
-    MutableLiveData<Product> favoriteProducts = new MediatorLiveData<>();
+    MutableLiveData<List<Product>> favoriteProducts = new MutableLiveData<>();
     @SuppressLint("StaticFieldLeak")
     Context context;
 
@@ -21,7 +23,13 @@ public class FavoriteViewModel extends ViewModel {
         this.productRepository = productRepository;
     }
 
+    public MutableLiveData<List<Product>> getFavoriteProducts() {
+        return favoriteProducts;
+    }
+
     public void loadFavoriteProduct() {
-        productRepository.();
+        productRepository.getFavoriteProduct(result -> {
+            favoriteProducts.setValue(result);
+        });
     }
 }

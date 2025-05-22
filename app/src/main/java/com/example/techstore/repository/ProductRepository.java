@@ -90,9 +90,16 @@ public class ProductRepository {
                 .collection(Constants.KEY_COLLECTION_PRODUCT)
                 .get()
                 .addOnSuccessListener(documentSnapshots -> {
-
-                });
+                    List<Product> result = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : documentSnapshots) {
+                        Product product = documentSnapshot.toObject(Product.class);
+                        result.add(product);
+                    }
+                    callback.onResult(result);
+                })
+                .addOnFailureListener(e -> callback.onResult(new ArrayList<>()));
     }
+
     public void getProductByTitle(String search, Callback callback) {
         ApiService apiService = ProductClient.getInstance().create(ApiService.class);
         Call<ArrayList<Product>> call = apiService.getProduct();
@@ -120,5 +127,4 @@ public class ProductRepository {
             }
         });
     }
-
 }
