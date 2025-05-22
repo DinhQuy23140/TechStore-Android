@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -85,6 +86,7 @@ public class HomeFragment extends Fragment {
     List<Product> listProduct;
     ProductAdapter productAdapter;
     ConstraintLayout ctrSearch;
+    Button btnFavorite;
 
     TextView tvSeeAll;
 
@@ -290,6 +292,15 @@ public class HomeFragment extends Fragment {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frameContainer, new PopularProductFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
+
+        btnFavorite = view.findViewById(R.id.homeFrg_btn_favorite);
+        btnFavorite.setOnClickListener(favorite -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameContainer, new ManageFavoriteFragment());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });

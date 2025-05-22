@@ -12,10 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
 import com.example.techstore.model.Product;
+import com.example.techstore.repository.ProductRepository;
+import com.example.techstore.viewmodel.FavoriteViewModel;
 
 import java.util.List;
 
@@ -31,6 +34,8 @@ public class ManageFavoriteFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    FavoriteViewModel favoriteViewModel;
+    ProductRepository productRepository;
     ImageView ivBack;
     RecyclerView rvFavorite;
     List<Product> listProduct;
@@ -82,9 +87,16 @@ public class ManageFavoriteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
-        ivBack = view.findViewById(R.id.iv_back);
+        productRepository = new ProductRepository(getContext());
+        favoriteViewModel = new FavoriteViewModel(getContext(), productRepository);
+        favoriteViewModel.loadFavoriteProduct();
+        favoriteViewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), result -> {
+//            if (result != null && !result.isEmpty()) {
+//                Toast.makeText(getContext(), Integer.toString(result.size()), Toast.LENGTH_SHORT).show();
+//            }
+            Toast.makeText(getContext(), Integer.toString(result.size()), Toast.LENGTH_SHORT).show();
+        });
+        ivBack = view.findViewById(R.id.btn_back);
         ivBack.setOnClickListener(back -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.popBackStack();
