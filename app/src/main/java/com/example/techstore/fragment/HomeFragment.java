@@ -275,12 +275,12 @@ public class HomeFragment extends Fragment {
                 productAdapter = new ProductAdapter(getContext(), listProduct, new OnClickFavorite() {
                     @Override
                     public void onClickFavorite(int position) {
-                        userRepository.addFavoriteProduct(listProduct.get(position));
+                        homeViewModel.addFavoriteProduct(listProduct.get(position));
                     }
 
                     @Override
                     public void onClickUnFavorite(int position) {
-                        userRepository.unFavoriteProduct(listProduct.get(position));
+                        homeViewModel.unFavoriteProduct(listProduct.get(position));
                     }
                 });
                 homeFrg_rv_product.setAdapter(productAdapter);

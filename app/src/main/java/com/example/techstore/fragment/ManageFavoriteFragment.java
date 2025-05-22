@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -16,8 +18,11 @@ import android.widget.Toast;
 
 import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.R;
+import com.example.techstore.interfaces.OnClickFavorite;
 import com.example.techstore.model.Product;
 import com.example.techstore.repository.ProductRepository;
+import com.example.techstore.repository.UserRepository;
+import com.example.techstore.untilities.GridSpacingItemDecoration;
 import com.example.techstore.viewmodel.FavoriteViewModel;
 
 import java.util.List;
@@ -36,6 +41,7 @@ public class ManageFavoriteFragment extends Fragment {
 
     FavoriteViewModel favoriteViewModel;
     ProductRepository productRepository;
+    UserRepository userRepository;
     ImageView ivBack;
     RecyclerView rvFavorite;
     List<Product> listProduct;
@@ -88,13 +94,29 @@ public class ManageFavoriteFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         productRepository = new ProductRepository(getContext());
-        favoriteViewModel = new FavoriteViewModel(getContext(), productRepository);
+        userRepository = new UserRepository(getContext());
+        favoriteViewModel = new FavoriteViewModel(getContext(), productRepository, userRepository);
+        rvFavorite = view.findViewById(R.id.rv_favorite);
+        rvFavorite.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        rvFavorite.addItemDecoration(new GridSpacingItemDecoration(2, 10));
         favoriteViewModel.loadFavoriteProduct();
         favoriteViewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), result -> {
-//            if (result != null && !result.isEmpty()) {
-//                Toast.makeText(getContext(), Integer.toString(result.size()), Toast.LENGTH_SHORT).show();
-//            }
-            Toast.makeText(getContext(), Integer.toString(result.size()), Toast.LENGTH_SHORT).show();
+            if (result != null && !result.isEmpty()) {
+                listProduct = result;
+                Toast.makeText(getContext(), Integer.toString(result.size()), Toast.LENGTH_SHORT).show();
+                productAdapter = new ProductAdapter(getContext(), listProduct, new OnClickFavorite() {
+                    @Override
+                    public void onClickFavorite(int position) {
+
+                    }
+
+                    @Override
+                    public void onClickUnFavorite(int position) {
+
+                    }
+                });
+                rvFavorite.setAdapter(productAdapter);
+            }
         });
         ivBack = view.findViewById(R.id.btn_back);
         ivBack.setOnClickListener(back -> {

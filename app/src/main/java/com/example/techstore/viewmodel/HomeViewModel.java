@@ -90,4 +90,8 @@ public class HomeViewModel {
     public void addFavoriteProduct(Product product){
         userRepository.addFavoriteProduct(product);
     }
+
+    public void unFavoriteProduct(Product product) {
+        userRepository.unFavoriteProduct(product);
+    }
 }

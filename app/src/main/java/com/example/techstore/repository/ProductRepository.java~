@@ -127,7 +127,7 @@ public class ProductRepository {
 
             @Override
             public void onFailure(Call<ArrayList<Product>> call, Throwable throwable) {
-                callback.onResult(new ArrayList<>());
+
             }
         });
     }
