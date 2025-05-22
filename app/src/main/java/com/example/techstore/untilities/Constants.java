@@ -47,4 +47,7 @@ public class Constants {
     public static final String KEY_COLLECTION_SEARCH = "search";
     public static final String KEY_COLLECTION_FAVORITE = "favorite";
 
+    // key
+    public static final String KEY_VALUE = "value";
+    public static final String KEY_TIME_STAMP = "time_stamp";
 }

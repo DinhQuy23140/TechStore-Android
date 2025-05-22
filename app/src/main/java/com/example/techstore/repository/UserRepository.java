@@ -381,12 +381,13 @@ public class UserRepository {
         Map<String ,Object> mapSearch = new HashMap<>();
         String strProduct = gson.toJson(product);
         int idProduct = product.getId();
-        mapSearch.put(strProduct, FieldValue.serverTimestamp());
+        mapSearch.put(Constants.KEY_VALUE, strProduct);
+        mapSearch.put(Constants.KEY_TIME_STAMP, FieldValue.serverTimestamp());
         firebaseFirestore.collection(Constants.KEY_COLLECTION_FAVORITE)
                 .document(email)
                 .collection(Constants.KEY_COLLECTION_PRODUCT)
                 .document(String.valueOf(idProduct))
-                .set(strProduct);
+                .set(mapSearch);
     }
 
     public void unFavoriteProduct(Product product) {

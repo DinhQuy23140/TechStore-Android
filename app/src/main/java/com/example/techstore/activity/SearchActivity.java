@@ -150,12 +150,12 @@ public class SearchActivity extends AppCompatActivity {
                         rvResult.setAdapter(new ProductAdapter(this, listSearch, new OnClickFavorite() {
                             @Override
                             public void onClickFavorite(int position) {
-                                userRepository.addFavoriteProduct(listSearch.get(position));
+                                searchViewModel.addFavoriteProduct(listSearch.get(position));
                             }
 
                             @Override
                             public void onClickUnFavorite(int position) {
-                                userRepository.unFavoriteProduct(listSearch.get(position));
+                                searchViewModel.unFavoriteProduct(listSearch.get(position));
                             }
                         }));
                     }

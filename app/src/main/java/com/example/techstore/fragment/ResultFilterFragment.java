@@ -116,12 +116,12 @@ public class ResultFilterFragment extends Fragment {
                 productAdapter = new ProductAdapter(getContext(), resultProduct, new OnClickFavorite() {
                     @Override
                     public void onClickFavorite(int position) {
-                        userRepository.addFavoriteProduct(resultProduct.get(position));
+                        homeViewModel.addFavoriteProduct(resultProduct.get(position));
                     }
 
                     @Override
                     public void onClickUnFavorite(int position) {
-                        userRepository.unFavoriteProduct(resultProduct.get(position));
+                        homeViewModel.unFavoriteProduct(resultProduct.get(position));
                     }
                 });
                 rvProduct.setAdapter(productAdapter);

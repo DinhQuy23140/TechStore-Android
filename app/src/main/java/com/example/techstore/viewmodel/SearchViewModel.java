@@ -47,4 +47,12 @@ public class SearchViewModel extends ViewModel {
             listProduct.setValue(result);
         });
     }
+
+    public void addFavoriteProduct(Product product) {
+        userRepository.addFavoriteProduct(product);
+    }
+
+    public void unFavoriteProduct(Product product) {
+        userRepository.unFavoriteProduct(product);
+    }
 }
