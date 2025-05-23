@@ -107,12 +107,12 @@ public class ManageFavoriteFragment extends Fragment {
                 productAdapter = new ProductAdapter(getContext(), listProduct, new OnClickFavorite() {
                     @Override
                     public void onClickFavorite(int position) {
-
+                        favoriteViewModel.addFavoriteProduct(listProduct.get(position));
                     }
 
                     @Override
                     public void onClickUnFavorite(int position) {
-
+                        favoriteViewModel.unFavoriteProduct(listProduct.get(position));
                     }
                 });
                 rvFavorite.setAdapter(productAdapter);
