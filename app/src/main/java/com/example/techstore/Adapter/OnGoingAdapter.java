@@ -50,12 +50,12 @@ public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.OnGoingV
         holder.tvTitle.setText(product.getTitle());
         holder.tvSize.setText("Size = " + product.getSize());
         holder.tvQuantity.setText("Qty = " + product.getQuantity());
-        holder.tvStatus.setText("Status");
+//        holder.tvStatus.setText("Status");
         holder.tvPrice.setText(product.getPrice() + "$");
         holder.cvColor.setCardBackgroundColor(product.getColor());
-        holder.btnTrack.setOnClickListener(track -> {
-            onClickWidgetItem.onClick(position);
-        });
+//        holder.btnTrack.setOnClickListener(track -> {
+//            onClickWidgetItem.onClick(position);
+//        });
     }
 
     @Override
@@ -74,9 +74,9 @@ public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.OnGoingV
             tvTitle = itemView.findViewById(R.id.tv_cart_title);
             tvSize = itemView.findViewById(R.id.tv_size_product);
             tvQuantity = itemView.findViewById(R.id.tv_quantity);
-            tvStatus = itemView.findViewById(R.id.tv_status);
+//            tvStatus = itemView.findViewById(R.id.tv_status);
             tvPrice = itemView.findViewById(R.id.tv_price_total);
-            btnTrack = itemView.findViewById(R.id.btn_track_order);
+//            btnTrack = itemView.findViewById(R.id.btn_track_order);
         }
     }
 }

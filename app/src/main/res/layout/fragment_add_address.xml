@@ -286,10 +286,14 @@
         <Button
             android:id="@+id/btn_add"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginStart="80dp"
             android:layout_marginEnd="80dp"
+            android:backgroundTint="@color/white"
             android:text="@string/address_add"
-            android:textStyle="bold" />
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="10dp" />
     </LinearLayout>
 </FrameLayout>
