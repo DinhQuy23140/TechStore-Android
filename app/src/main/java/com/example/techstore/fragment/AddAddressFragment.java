@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.techstore.R;
@@ -28,6 +29,7 @@ import com.example.techstore.model.Province;
 import com.example.techstore.model.Ward;
 import com.example.techstore.repository.AddressRepository;
 import com.example.techstore.repository.UserRepository;
+import com.example.techstore.untilities.Constants;
 import com.example.techstore.viewmodel.AddAddressViewModel;
 
 import java.util.ArrayList;
@@ -44,20 +46,13 @@ public class AddAddressFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    AddAddressViewModel addAddressViewModel;
-    AddressRepository addressRepository;
-    UserRepository userRepository;
-    List<Province> provinces;
-    List<District> districts;
-    List<Ward> wards;
-    AutoCompleteTextView avtProvince, avtDistrict, avtWard;
-    ArrayAdapter adapterProvince, adapterDistrict, adapterWard;
-    String nameProvince = "", nameDistrict = "", nameWard = "", detail = "", type = "";
-    EditText edtDetail;
-    Button btnAdd;
+    EditText edtUsername, edtPhone, edtDetail;
+    TextView tvProvince;
     ImageView btnBack;
     RadioGroup rgType;
     Switch swDefault;
+    String type = "";
+    Button btnAdd;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -104,48 +99,30 @@ public class AddAddressFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        addressRepository = new AddressRepository(getContext());
-        addAddressViewModel = new AddAddressViewModel(getContext(), addressRepository);
-        provinces = new ArrayList<>();
-
-        avtProvince = view.findViewById(R.id.av_province);
-        avtDistrict = view.findViewById(R.id.av_district);
-        avtWard = view.findViewById(R.id.av_ward);
         edtDetail = view.findViewById(R.id.edt_detail);
         swDefault = view.findViewById(R.id.switch_set_default);
         Bundle bundle = getArguments();
-        addAddressViewModel.loadAddress();
-        addAddressViewModel.getListProvince().observe(getViewLifecycleOwner(), result -> {
-            if (!result.isEmpty()) {
-                provinces = result;
-                adapterProvince = new ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, provinces);
-                avtProvince.setAdapter(adapterProvince);
-                //Toast.makeText(requireContext(), Integer.toString(provinces.size()), Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        avtProvince.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Province province = provinces.get(position);
-                nameProvince = province.getName();
-                districts = province.getDistricts();
-                adapterDistrict = new ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, districts);
-                avtDistrict.setAdapter(adapterDistrict);
+        edtUsername = view.findViewById(R.id.edt_username);
+        edtPhone = view.findViewById(R.id.edt_phone);
+        tvProvince = view.findViewById(R.id.tv_choose_address);
+        if (bundle != null) {
+            String province = bundle.getString(Constants.KEY_PROVINCE);
+            String district = bundle.getString(Constants.KEY_DISTRICT);
+            String ward = bundle.getString(Constants.KEY_WARD);
+            if (province != null && district != null && ward != null) {
+                String address = province + "\n" + district + "\n" + ward;
+                tvProvince.setText(address);
             }
+        }
+        tvProvince.setOnClickListener(selectProvince -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            ChooseProvinceFragment chooseProvinceFragment = new ChooseProvinceFragment();
+            chooseProvinceFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.frameContainer, chooseProvinceFragment);
+            fragmentTransaction.commit();
         });
-
-        avtDistrict.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                wards = districts.get(position).getWards();
-                nameDistrict = districts.get(position).getName();
-                adapterWard = new ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, wards);
-                avtWard.setAdapter(adapterWard);
-            }
-        });
-
-        avtWard.setOnItemClickListener((parent, view1, position, id) -> nameWard = wards.get(position).getName());
 
         rgType = view.findViewById(R.id.rg_type);
         rgType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -161,26 +138,13 @@ public class AddAddressFragment extends Fragment {
 
         btnAdd = view.findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(add -> {
-            detail = edtDetail.getText().toString();
-            boolean isDefault = swDefault.isChecked();
-            if (nameProvince.isEmpty() || nameDistrict.isEmpty() || nameWard.isEmpty() || detail.isEmpty() || type.isEmpty()) {
-                Toast.makeText(requireContext(), getString(R.string.all_input_failure), Toast.LENGTH_SHORT).show();
-            } else {
-                addAddressViewModel.addAddress(nameProvince, nameDistrict, nameWard, detail, type, isDefault);
-            }
-        });
-
-        addAddressViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {
-            if (!message.isEmpty()) {
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        addAddressViewModel.getIsSuccess().observe(getViewLifecycleOwner(), result -> {
-            if (result) {
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack();
-            }
+//            detail = edtDetail.getText().toString();
+//            boolean isDefault = swDefault.isChecked();
+//            if (nameProvince.isEmpty() || nameDistrict.isEmpty() || nameWard.isEmpty() || detail.isEmpty() || type.isEmpty()) {
+//                Toast.makeText(requireContext(), getString(R.string.all_input_failure), Toast.LENGTH_SHORT).show();
+//            } else {
+//                addAddressViewModel.addAddress(nameProvince, nameDistrict, nameWard, detail, type, isDefault);
+//            }
         });
 
         btnBack = view.findViewById(R.id.btn_back);

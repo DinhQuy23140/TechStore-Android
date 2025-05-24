@@ -17,6 +17,9 @@ public class Constants {
     public static final String KEY_SHARE_ORDER = "order";
     public static final String KEY_TITLE_SCREEN = "title";
     public static final String KEY_SEX = "sex";
+    public static final String KEY_PROVINCE = "province";
+    public static final String KEY_DISTRICT = "district";
+    public static final String KEY_WARD = "ward";
 
     //product
     public static final String KEY_ID_PRODUCT = "id_product";

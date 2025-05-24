@@ -75,101 +75,93 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/margin_left"
                                 android:layout_marginTop="5dp"
+                                android:text="@string/user_username"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_username"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:layout_marginStart="@dimen/margin_left"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="@dimen/margin_right"
+                                android:background="@drawable/background_input_text"
+                                android:paddingStart="@dimen/input_padding" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_left"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/user_phone"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:layout_marginStart="@dimen/margin_left"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="@dimen/margin_right"
+                                android:background="@drawable/background_input_text"
+                                android:paddingStart="@dimen/input_padding" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_left"
+                                android:layout_marginTop="5dp"
                                 android:text="@string/address_province"
                                 android:textColor="@color/white"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_left"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="@dimen/margin_right"
-                                app:hintTextAppearance="@style/MyHintAppearance">
+                                android:layout_height="match_parent">
 
-                                <AutoCompleteTextView
-                                    android:id="@+id/av_province"
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_choose_address"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_margin="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
                                     android:background="@drawable/background_input_text"
                                     android:paddingStart="@dimen/input_padding"
-                                    android:text="@string/address_province" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintHeight_min="55dp"
+                                    app:layout_constraintStart_toStartOf="parent" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="15dp"
+                                    android:src="@drawable/baseline_arrow_right_alt_24"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="@+id/tv_choose_address"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_left"
-                                android:layout_marginTop="5dp"
-                                android:text="@string/address_district"
-                                android:textColor="@color/white"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_left"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="@dimen/margin_right"
-                                app:hintTextAppearance="@style/MyHintAppearance">
-
-                                <AutoCompleteTextView
-                                    android:id="@+id/av_district"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_margin="0dp"
-                                    android:background="@drawable/background_input_text"
-                                    android:paddingStart="@dimen/input_padding"
-                                    android:text="@string/address_district" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:orientation="vertical">
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_left"
-                                android:layout_marginTop="5dp"
-                                android:text="@string/address_ward"
-                                android:textColor="@color/white"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_left"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="@dimen/margin_right"
-                                app:hintTextAppearance="@style/MyHintAppearance">
-
-                                <AutoCompleteTextView
-                                    android:id="@+id/av_ward"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_margin="0dp"
-                                    android:background="@drawable/background_input_text"
-                                    android:paddingStart="@dimen/input_padding"
-                                    android:text="@string/address_ward" />
-                            </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
 
                         <LinearLayout
@@ -290,7 +282,7 @@
             android:layout_marginStart="80dp"
             android:layout_marginEnd="80dp"
             android:backgroundTint="@color/white"
-            android:text="@string/address_add"
+            android:text="@string/completed"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
