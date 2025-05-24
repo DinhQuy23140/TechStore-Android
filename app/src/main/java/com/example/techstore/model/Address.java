@@ -30,6 +30,8 @@ public class Address {
         this.isDefault = isDefault;
     }
 
+
+
     public String getDetail() {
         return detail;
     }
