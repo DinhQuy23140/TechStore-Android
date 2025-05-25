@@ -51,6 +51,7 @@ import com.example.techstore.viewmodel.HomeViewModel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -86,7 +87,7 @@ public class HomeFragment extends Fragment {
     List<Product> listProduct;
     ProductAdapter productAdapter;
     ConstraintLayout ctrSearch;
-    Button btnFavorite;
+    Button btnFavorite, btnNotify;
 
     TextView tvSeeAll;
 
@@ -298,9 +299,18 @@ public class HomeFragment extends Fragment {
 
         btnFavorite = view.findViewById(R.id.homeFrg_btn_favorite);
         btnFavorite.setOnClickListener(favorite -> {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frameContainer, new ManageFavoriteFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
+
+        btnNotify = view.findViewById(R.id.homeFrg_btn_notifi);
+        btnNotify.setOnClickListener(notify -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameContainer, new NotifyFragment());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });

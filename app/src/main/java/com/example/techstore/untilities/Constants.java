@@ -20,6 +20,7 @@ public class Constants {
     public static final String KEY_PROVINCE = "province";
     public static final String KEY_DISTRICT = "district";
     public static final String KEY_WARD = "ward";
+    public static final String KEY_DETAIL = "detail";
 
     //product
     public static final String KEY_ID_PRODUCT = "id_product";

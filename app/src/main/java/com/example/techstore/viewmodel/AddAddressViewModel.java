@@ -59,10 +59,7 @@ public class AddAddressViewModel extends ViewModel {
         listProvince = addressRepository.getListAddress();
     }
 
-    public void addAddress(String nameProvince, String nameDistrict, String nameWard, String detail, String type, boolean isDefault) {
-        String name = sharedPrefManager.getUserName();
-        String phone = sharedPrefManager.getPhone();
-        Address address = new Address(detail, nameDistrict, name, phone, nameProvince, type, nameWard, isDefault);
+    public void addAddress(Address address) {
         addressRepository.addAddress(address, result -> {
             if (result) {
                 message.setValue(context.getString(R.string.address_add_success));
