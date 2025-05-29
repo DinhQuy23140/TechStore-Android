@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.techstore.Adapter.CheckoutAdapter;
 import com.example.techstore.Adapter.OrderStatusAdapter;
 import com.example.techstore.Adapter.OrdersAdapter;
 import com.example.techstore.R;
@@ -32,6 +33,9 @@ import com.example.techstore.viewmodel.OrdersViewModel;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.gson.Gson;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -59,8 +63,8 @@ public class TrackOrdersFragment extends Fragment {
     OrderStatusAdapter orderStatusAdapter;
     OrdersViewModel ordersViewModel;
     OrdersRepository ordersRepository;
-    OrdersAdapter ordersAdapter;
-    List<ProductOrders> listOrders;
+    CheckoutAdapter ordersAdapter;
+    List<ProductInCart> listOrders;
     Gson gson;
 
     public TrackOrdersFragment() {
@@ -138,19 +142,6 @@ public class TrackOrdersFragment extends Fragment {
             fragmentManager.popBackStack();
         });
 
-        linearProgressIndicator = view.findViewById(R.id.progress_timeline);
-        linearProgressIndicator.setProgress(80);
-        rvOrderStatus = view.findViewById(R.id.rv_order_status);
-        rvOrderStatus.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        List<OrderStatus> statusList = new ArrayList<>();
-        statusList.add(new OrderStatus("Đặt hàng thành công", "10:00"));
-        statusList.add(new OrderStatus("Người bán xác nhận", "10:05"));
-        statusList.add(new OrderStatus("Đang đóng gói", "10:30"));
-        statusList.add(new OrderStatus("Đang vận chuyển", "11:00"));
-        statusList.add(new OrderStatus("Giao thành công", "13:00"));
-        orderStatusAdapter = new OrderStatusAdapter(requireContext(), statusList);
-        rvOrderStatus.setAdapter(orderStatusAdapter);
-
         rvOrders = view.findViewById(R.id.rv_orders);
         rvOrders.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 //        ordersViewModel.getOrders();
@@ -183,13 +174,43 @@ public class TrackOrdersFragment extends Fragment {
         String strOrders = bundle.getString(Constants.KEY_SHARE_ORDER);
         ProductOrders productOrders = gson.fromJson(strOrders, ProductOrders.class);
         listOrders = new ArrayList<>();
-        listOrders.add(productOrders);
-        ordersAdapter = new OrdersAdapter(requireContext(), listOrders, new OnClickWidgetItem() {
-            @Override
-            public void onClick(int position) {
-                ProductOrders productOrders = listOrders.get(position);
-            }
-        });
+        listOrders = productOrders.getProducts();
+        ordersAdapter = new CheckoutAdapter(getContext(), listOrders);
         rvOrders.setAdapter(ordersAdapter);
+
+        linearProgressIndicator = view.findViewById(R.id.progress_timeline);
+        linearProgressIndicator.setProgress(80);
+        rvOrderStatus = view.findViewById(R.id.rv_order_status);
+        rvOrderStatus.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        List<OrderStatus> statusList = productOrders.getOrdersStatus();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        OrderStatus pendingStatus = statusList.get(0);
+        LocalDateTime pendingTime = LocalDateTime.parse(pendingStatus.getTimestamp(), formatter);
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(pendingTime, now);
+        long hours = duration.toHours();
+        if (hours >= 1 && !containsStatus(statusList, getString(R.string.status_confirmed))) {
+            statusList.add(new OrderStatus(getString(R.string.status_confirmed), pendingTime.plusHours(1).format(formatter)));
+        }
+        if (hours >= 2 && !containsStatus(statusList, getString(R.string.status_shipping))) {
+            statusList.add(new OrderStatus(getString(R.string.status_shipping), pendingTime.plusHours(2).format(formatter)));
+        }
+        if (hours >= 12 && !containsStatus(statusList, getString(R.string.status_delivered))) {
+            statusList.add(new OrderStatus(getString(R.string.status_delivered), pendingTime.plusHours(12).format(formatter)));
+        }
+
+        orderStatusAdapter = new OrderStatusAdapter(requireContext(), statusList);
+        rvOrderStatus.setAdapter(orderStatusAdapter);
     }
+
+    private boolean containsStatus(List<OrderStatus> list, String status) {
+        for (OrderStatus s : list) {
+            if (s.getStatus().equalsIgnoreCase(status)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

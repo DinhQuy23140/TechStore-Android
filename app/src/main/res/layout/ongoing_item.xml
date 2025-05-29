@@ -58,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintBottom_toTopOf="@+id/tv_price_total"
             app:layout_constraintStart_toEndOf="@+id/materialCardView3"
             app:layout_constraintTop_toBottomOf="@+id/tv_cart_title">
@@ -66,55 +67,62 @@
                 android:id="@+id/cv_color_product"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:visibility="visible"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/tvColor"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center|start"
                 android:text="Color"
                 android:textColor="@color/white"
                 android:textSize="12sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/tv_quantity"
                 app:layout_constraintStart_toEndOf="@+id/cv_color_product"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/ln_space"
                 android:layout_width="1.5dp"
                 android:layout_height="10dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toEndOf="@+id/textView9"
+                android:visibility="visible"
+                app:layout_constraintStart_toEndOf="@+id/tvColor"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_size_product"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:gravity="center|start"
                 android:text="Size = M"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_quantity"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center|start"
                 android:text="Qty = 1"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@+id/textView9"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvColor"
                 tools:layout_editor_absoluteX="25dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -123,13 +131,13 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
             android:text="Price"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/materialCardView3" />
+            app:layout_constraintStart_toEndOf="@+id/materialCardView3"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

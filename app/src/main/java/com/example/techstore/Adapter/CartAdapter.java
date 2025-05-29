@@ -9,11 +9,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -56,12 +58,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 .load(image)
                 .into(holder.ivImg);
         holder.tvTitle.setText(productInCart.getTitle());
-        holder.tvSize.setText("Size = " + productInCart.getSize());
+        if (productInCart.getSize().isEmpty()) {
+            holder.tvSize.setVisibility(View.GONE);
+            holder.lnSpace.setVisibility(View.GONE);
+        } else {
+            holder.tvSize.setText("Size = " + productInCart.getSize());
+        }
         holder.edtQuantity.setText(Integer.toString(productInCart.getQuantity()));
         float pricePro = productInCart.getQuantity() * productInCart.getPrice();
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         holder.tvPrice.setText(decimalFormat.format(pricePro) + "$");
-        holder.cvColor.setCardBackgroundColor(productInCart.getColor());
+        if (productInCart.getColor() == 0) {
+            holder.cvColor.setVisibility(View.GONE);
+            holder.tvColor.setVisibility(View.GONE);
+            holder.lnSpace.setVisibility(View.GONE);
+        } else {
+            holder.cvColor.setCardBackgroundColor(productInCart.getColor());
+        }
         holder.btnDecrease.setOnClickListener(decrease -> {
             int quantity = productInCart.getQuantity();
             if (quantity > 0) {
@@ -114,11 +127,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView ivImg, ivDelete;
         CardView cvColor;
-        TextView tvTitle, tvSize, tvPrice;
+        TextView tvTitle, tvSize, tvPrice, tvColor;
         EditText edtQuantity;
         ImageButton btnIncrease, btnDecrease;
         CheckBox cbSelectProduct;
-
+        LinearLayout lnSpace;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -127,11 +140,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             ivDelete = itemView.findViewById(R.id.iv_delete);
             tvTitle = itemView.findViewById(R.id.tv_cart_title);
             tvSize = itemView.findViewById(R.id.tv_size_product);
+            tvColor = itemView.findViewById(R.id.tvColor);
             tvPrice = itemView.findViewById(R.id.tv_price_total);
             edtQuantity = itemView.findViewById(R.id.tv_quantity);
             btnIncrease = itemView.findViewById(R.id.btn_increase);
             btnDecrease = itemView.findViewById(R.id.btn_decrease);
             cbSelectProduct = itemView.findViewById(R.id.cb_select_product);
+            lnSpace = itemView.findViewById(R.id.ln_space);
         }
     }
 }

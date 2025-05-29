@@ -208,7 +208,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -220,7 +220,7 @@
                     android:id="@+id/textView15"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center"
                     android:text="Orders Status"
                     android:textColor="@color/white"
@@ -248,7 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/status_detail"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -256,13 +256,13 @@
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progress_timeline"
+                style="@style/Widget.MaterialComponents.LinearProgressIndicator"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:progress="20"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:max="100"
-                style="@style/Widget.MaterialComponents.LinearProgressIndicator" />
+                android:progress="20" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_order_status"

@@ -5,13 +5,14 @@ import java.util.List;
 
 public class ProductOrders {
     private String orderId;
-    private OrdersStatus ordersStatus;
+    private List<OrderStatus> ordersStatus;
     private String orderDate;
     private String shippingAddress;
     private double totalAmount;
     private List<ProductInCart> products;
+//    private boolean isComplete;
 
-    public ProductOrders(String orderDate, String orderId, OrdersStatus ordersStatus, List<ProductInCart> products, String shippingAddress, double totalAmount) {
+    public ProductOrders(String orderDate, String orderId, List<OrderStatus> ordersStatus, List<ProductInCart> products, String shippingAddress, double totalAmount) {
         this.orderDate = orderDate;
         this.orderId = orderId;
         this.ordersStatus = ordersStatus;
@@ -36,11 +37,11 @@ public class ProductOrders {
         this.orderId = orderId;
     }
 
-    public OrdersStatus getOrdersStatus() {
+    public List<OrderStatus> getOrdersStatus() {
         return ordersStatus;
     }
 
-    public void setOrdersStatus(OrdersStatus ordersStatus) {
+    public void setOrdersStatus(List<OrderStatus> ordersStatus) {
         this.ordersStatus = ordersStatus;
     }
 

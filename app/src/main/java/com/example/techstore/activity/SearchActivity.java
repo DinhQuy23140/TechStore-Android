@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.techstore.Adapter.HistoryAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
+import com.example.techstore.Enum.ActionType;
 import com.example.techstore.R;
 import com.example.techstore.interfaces.OnClickFavorite;
 import com.example.techstore.interfaces.OnClickWidgetItem;
@@ -90,9 +91,8 @@ public class SearchActivity extends AppCompatActivity {
         searchViewModel.getHistory();
         searchViewModel.getSearch().observe(this, rvResult -> {
             listSearch = rvResult;
-            historyAdapter = new HistoryAdapter(this, listSearch, new OnClickWidgetItem() {
-                @Override
-                public void onClick(int position) {
+            historyAdapter = new HistoryAdapter(this, listSearch, (position, actionType) -> {
+                if (actionType == ActionType.SEARCH){
                     String history = listSearch.get(position);
                     searchViewModel.deleteHistory(history);
                     searchViewModel.getHistory();

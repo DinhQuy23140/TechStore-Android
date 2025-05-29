@@ -88,7 +88,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/tvColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -100,14 +100,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/ln_space"
                 android:layout_width="1.5dp"
                 android:layout_height="11dp"
                 android:layout_marginStart="5dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView9"
+                app:layout_constraintStart_toEndOf="@+id/tvColor"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

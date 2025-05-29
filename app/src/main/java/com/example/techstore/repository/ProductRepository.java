@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import retrofit2.Call;
@@ -42,25 +43,40 @@ public class ProductRepository {
     public LiveData<List<Product>> getListProduct() { return listProduct; } // List<Product>>
 
     public void loadProduct() {
-        ApiService apiService = ProductClient.getInstance().create(ApiService.class);
-        Call<ArrayList<Product>> call = apiService.getProduct();
-
-        call.enqueue(new retrofit2.Callback<ArrayList<Product>>() {
-            @Override
-            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
-                if (response.isSuccessful() && !response.body().isEmpty()) {
-                    List<Product> result = response.body();
-                    listenToFavoriteChange(result);
-                } else {
-                    listProduct.setValue(new ArrayList<>());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<Product>> call, Throwable throwable) {
-                listProduct.setValue(new ArrayList<>());
-            }
-        });
+//        ApiService apiService = ProductClient.getInstance().create(ApiService.class);
+//        Call<ArrayList<Product>> call = apiService.getProduct();
+//
+//        call.enqueue(new retrofit2.Callback<ArrayList<Product>>() {
+//            @Override
+//            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+//                if (response.isSuccessful() && !response.body().isEmpty()) {
+//                    List<Product> result = response.body();
+//                    listenToFavoriteChange(result);
+//                } else {
+//                    listProduct.setValue(new ArrayList<>());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ArrayList<Product>> call, Throwable throwable) {
+//                listProduct.setValue(new ArrayList<>());
+//            }
+//        });
+        Gson gson = new Gson();
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_PRODUCT)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        List<Product> result = new ArrayList<>();
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                            Map<String, Object> data = documentSnapshot.getData();
+                            String json = gson.toJson(data);
+                            Product product = gson.fromJson(json, Product.class);
+                            result.add(product);
+                        }
+                        listenToFavoriteChange(result);
+                    }
+                });
     }
 
     private void listenToFavoriteChange(List<Product> apiPorducts) {

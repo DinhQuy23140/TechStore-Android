@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.techstore.Enum.ActionType;
 import com.example.techstore.R;
 import com.example.techstore.interfaces.OnClickWidgetItem;
 
@@ -41,7 +42,7 @@ public class PersonAdapter extends RecyclerView .Adapter<PersonAdapter.PersonVie
         int pathImg = listIcon.get(position);
         holder.tvTitle.setText(title);
         holder.ivIcon.setImageResource(pathImg);
-        holder.ivShowMore.setOnClickListener(click -> listener.onClick(position));
+        holder.ivShowMore.setOnClickListener(click -> listener.onClick(position, ActionType.VIEW_STATUS));
     }
 
     @Override

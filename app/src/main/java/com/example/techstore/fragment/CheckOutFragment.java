@@ -23,7 +23,7 @@ import com.example.techstore.Adapter.CheckoutAdapter;
 import com.example.techstore.R;
 import com.example.techstore.databinding.ActivityMainBinding;
 import com.example.techstore.model.Address;
-import com.example.techstore.model.OrdersStatus;
+import com.example.techstore.model.OrderStatus;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.ProductOrders;
 import com.example.techstore.repository.AddressRepository;
@@ -39,6 +39,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -209,7 +210,9 @@ public class CheckOutFragment extends Fragment {
                 String ordersId = generateRandomId();
                 String getCurrentTime = getCurrentDateTime();
                 double total = getTotal(listProduct);
-                ProductOrders productOrders = new ProductOrders(getCurrentTime, ordersId, OrdersStatus.PENDING, listProduct, "ADDRESS", total);
+                List<OrderStatus> ordersStatuses = new ArrayList<>();
+                ordersStatuses.add(new OrderStatus(getString(R.string.status_pending), getCurrentTime));
+                ProductOrders productOrders = new ProductOrders(getCurrentTime, ordersId, ordersStatuses, listProduct, "ADDRESS", total);
                 ordersViewModel.addOrders(productOrders);
                 cartViewModel.clearCart(listProduct);
             } else {
