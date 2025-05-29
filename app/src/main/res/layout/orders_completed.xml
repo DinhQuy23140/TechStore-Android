@@ -16,7 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="20dp">
 
             <TextView
                 android:id="@+id/tv_title_status"
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="status"
+                android:text="@string/status_pending"
                 android:textColor="@color/white"
                 android:textSize="@dimen/size_text"
                 android:textStyle="bold"
@@ -86,40 +86,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="20dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/tv_cancel"
+            <TextView
+                android:id="@+id/tv_rating"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
-                android:backgroundTint="@color/btn_orders"
+                android:background="@drawable/background_btn_orders"
                 android:gravity="center"
-                android:text="@string/order_cancel"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/product_rating"
                 android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:visibility="visible"
-                app:cornerRadius="5dp"
-                app:iconPadding="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tv_submit"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/tv_submit"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="@color/btn_orders"
-                android:gravity="center"
-                android:text="@string/order_submit"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:visibility="visible"
-                app:cornerRadius="5dp"
-                app:iconPadding="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

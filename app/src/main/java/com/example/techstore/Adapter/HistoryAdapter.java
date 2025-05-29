@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.techstore.Enum.ActionType;
 import com.example.techstore.R;
 import com.example.techstore.interfaces.OnClickWidgetItem;
 
@@ -38,7 +39,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.tvHistory.setText(listHistory.get(position));
         holder.cvClear.setOnClickListener(delete -> {
-            if (onClickWidgetItem != null) onClickWidgetItem.onClick(position);
+            if (onClickWidgetItem != null) onClickWidgetItem.onClick(position, ActionType.VIEW_STATUS);
         });
     }
 

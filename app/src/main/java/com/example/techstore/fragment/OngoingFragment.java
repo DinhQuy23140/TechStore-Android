@@ -14,11 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.techstore.Adapter.CartAdapter;
 import com.example.techstore.Adapter.OnGoingAdapter;
 import com.example.techstore.Adapter.OrdersAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
+import com.example.techstore.Enum.ActionType;
 import com.example.techstore.R;
 import com.example.techstore.interfaces.OnClickProductInCart;
 import com.example.techstore.interfaces.OnClickWidgetItem;
@@ -32,7 +34,11 @@ import com.example.techstore.viewmodel.CartViewModel;
 import com.example.techstore.viewmodel.OrdersViewModel;
 import com.google.gson.Gson;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -112,6 +118,7 @@ public class OngoingFragment extends Fragment {
         userRepository = new UserRepository(getContext());
         cartViewModel = new CartViewModel(userRepository);
         tvMessage = view.findViewById(R.id.tv_message);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         rvProduct = view.findViewById(R.id.recyclerOngoing);
         rvProduct.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
@@ -123,13 +130,18 @@ public class OngoingFragment extends Fragment {
                     ProductOrders productOrders = gson.fromJson(order, ProductOrders.class);
                     listOrders.add(productOrders);
                 }
-                ordersAdapter = new OrdersAdapter(getContext(), listOrders, new OnClickWidgetItem() {
-                    @Override
-                    public void onClick(int position) {
-                        ProductOrders productOrders = listOrders.get(position);
+                Collections.sort(listOrders, (o1, o2) -> {
+                    LocalDateTime localDateTime1 = LocalDateTime.parse(o1.getOrderDate(), formatter);
+                    LocalDateTime localDateTime2 = LocalDateTime.parse(o2.getOrderDate(), formatter);
+                    return localDateTime2.compareTo(localDateTime1);
+                });
+                ordersAdapter = new OrdersAdapter(getContext(), listOrders, (position, actionType) -> {
+                    ProductOrders getProductOrders = listOrders.get(position);
+                    String strOrders = gson.toJson(getProductOrders);
+                    if (actionType == ActionType.VIEW_STATUS) {
                         TrackOrdersFragment trackOrdersFragment = new TrackOrdersFragment();
                         Bundle bundle = new Bundle();
-                        String strOrders = gson.toJson(productOrders);
+                        Toast.makeText(getContext(), strOrders, Toast.LENGTH_SHORT).show();
                         bundle.putString(Constants.KEY_SHARE_ORDER, strOrders);
                         trackOrdersFragment.setArguments(bundle);
                         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -137,8 +149,17 @@ public class OngoingFragment extends Fragment {
                         fragmentTransaction.replace(R.id.frameContainer, trackOrdersFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
+                    } else if (actionType == ActionType.SUBMIT) {
+                        ordersViewModel.addCompleteOrders(listOrders.get(position));
+                        ordersViewModel.deleteOrders(listOrders.get(position));
+                        ordersViewModel.getOrders();
+                    } else if (actionType == ActionType.CANCEL) {
+                        ordersViewModel.addCancelOrders(listOrders.get(position));
+                        ordersViewModel.deleteOrders(listOrders.get(position));
+                        ordersViewModel.getOrders();
                     }
                 });
+
                 rvProduct.setVisibility(View.VISIBLE);
                 tvMessage.setVisibility(View.GONE);
                 rvProduct.setAdapter(ordersAdapter);

@@ -1,4 +1,4 @@
-package com.example.techstore.model;
+package com.example.techstore.Enum;
 
 public enum OrdersStatus {
     PENDING,

@@ -12,4 +12,7 @@
     <color name="item_cart">#40454D</color>
     <color name="quantity_item">#8E8F93</color>
     <color name="btn_orders">#5D6171</color>
+    <color name="btn_orders_text">#FFFFFFFF</color>
+    <color name="btn_orders_enable">#5D6171</color>
+    <color name="btn_orders_text_enable">#FFFFFFFF</color>
 </resources>

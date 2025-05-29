@@ -15,6 +15,7 @@ public class OrdersViewModel extends ViewModel {
     MutableLiveData<String> message = new MediatorLiveData<>("");
     MutableLiveData<Boolean> isSuccess = new MediatorLiveData<>(false);
     MutableLiveData<List<String>> listOrders = new MediatorLiveData<>();
+    MutableLiveData<List<String>> listCompleteOrders = new MediatorLiveData<>();
     OrdersRepository ordersRepository;
 
     public MutableLiveData<Boolean> getIsSuccess() {
@@ -27,6 +28,10 @@ public class OrdersViewModel extends ViewModel {
 
     public MutableLiveData<List<String>> getListOrders() {
         return listOrders;
+    }
+
+    public MutableLiveData<List<String>> getListCompleteOrders() {
+        return listCompleteOrders;
     }
 
     public OrdersViewModel(OrdersRepository ordersRepository) {
@@ -45,6 +50,14 @@ public class OrdersViewModel extends ViewModel {
         });
     }
 
+    public void addCompleteOrders(ProductOrders productOrders){
+        ordersRepository.addOrdersComplete(productOrders);
+    }
+
+    public void addCancelOrders(ProductOrders productOrders) {
+        ordersRepository.addOrdersCancel(productOrders);
+    }
+
     public void getOrders() {
         ordersRepository.getOrders(result -> {
             if (result != null && !result.isEmpty()) {
@@ -53,5 +66,19 @@ public class OrdersViewModel extends ViewModel {
                 listOrders.setValue(new ArrayList<>());
             }
         });
+    }
+
+    public void getCompleteOrders() {
+        ordersRepository.getCompleteOrders(result -> {
+            if (result != null && !result.isEmpty()) {
+                listCompleteOrders.setValue(result);
+            } else {
+                listCompleteOrders.setValue(new ArrayList<>());
+            }
+        });
+    }
+
+    public void deleteOrders(ProductOrders productOrders){
+        ordersRepository.deleteOrders(productOrders);
     }
 }

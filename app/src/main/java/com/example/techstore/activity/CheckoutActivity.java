@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.techstore.Adapter.CheckoutAdapter;
 import com.example.techstore.R;
-import com.example.techstore.model.OrdersStatus;
+import com.example.techstore.model.OrderStatus;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.ProductOrders;
 import com.example.techstore.repository.OrdersRepository;
@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -85,7 +86,9 @@ public class CheckoutActivity extends AppCompatActivity {
             String ordersId = generateRandomId();
             String getCurrentTime = getCurrentDateTime();
             Double total = getTotal(listProduct);
-            ProductOrders productOrders = new ProductOrders(getCurrentTime, ordersId, OrdersStatus.PENDING, listProduct, "ADDRESS", total);
+            List<OrderStatus> ordersStatuses = new ArrayList<>();
+            ordersStatuses.add(new OrderStatus(getString(R.string.status_pending), getCurrentTime));
+            ProductOrders productOrders = new ProductOrders(getCurrentTime, ordersId, ordersStatuses, listProduct, "ADDRESS", total);
             ordersViewModel.addOrders(productOrders);
         });
 
