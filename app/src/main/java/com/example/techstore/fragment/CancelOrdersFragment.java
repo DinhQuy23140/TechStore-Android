@@ -16,15 +16,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.techstore.Adapter.CartAdapter;
-import com.example.techstore.Adapter.OnGoingAdapter;
 import com.example.techstore.Adapter.OrdersAdapter;
-import com.example.techstore.Adapter.ProductAdapter;
 import com.example.techstore.Enum.ActionType;
 import com.example.techstore.R;
-import com.example.techstore.interfaces.OnClickProductInCart;
-import com.example.techstore.interfaces.OnClickWidgetItem;
-import com.example.techstore.model.Product;
 import com.example.techstore.model.ProductInCart;
 import com.example.techstore.model.ProductOrders;
 import com.example.techstore.repository.OrdersRepository;
@@ -35,7 +29,6 @@ import com.example.techstore.viewmodel.OrdersViewModel;
 import com.google.gson.Gson;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,10 +36,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link OngoingFragment#newInstance} factory method to
+ * Use the {@link CancelOrdersFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OngoingFragment extends Fragment {
+public class CancelOrdersFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,7 +62,8 @@ public class OngoingFragment extends Fragment {
     OrdersViewModel ordersViewModel;
     OrdersRepository ordersRepository;
 
-    public OngoingFragment() {
+
+    public CancelOrdersFragment() {
         // Required empty public constructor
     }
 
@@ -79,11 +73,11 @@ public class OngoingFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment OngoingFragment.
+     * @return A new instance of fragment CancelOrdersFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static OngoingFragment newInstance(String param1, String param2) {
-        OngoingFragment fragment = new OngoingFragment();
+    public static CancelOrdersFragment newInstance(String param1, String param2) {
+        CancelOrdersFragment fragment = new CancelOrdersFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -104,7 +98,7 @@ public class OngoingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ongoing, container, false);
+        return inflater.inflate(R.layout.fragment_cancel_orders, container, false);
     }
 
     @Override
@@ -117,11 +111,11 @@ public class OngoingFragment extends Fragment {
         cartViewModel = new CartViewModel(userRepository);
         tvMessage = view.findViewById(R.id.tv_message);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        rvProduct = view.findViewById(R.id.recyclerOngoing);
+        rvProduct = view.findViewById(R.id.recyclerCancel);
         rvProduct.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        ordersViewModel.getOrders();
-        ordersViewModel.getListOrders().observe(getViewLifecycleOwner(), result -> {
+        ordersViewModel.getCancelOrders();
+        ordersViewModel.getListCancelOrders().observe(getViewLifecycleOwner(), result -> {
             if (result != null &&!result.isEmpty()) {
                 listOrders = new ArrayList<>();
                 for (String order : result) {

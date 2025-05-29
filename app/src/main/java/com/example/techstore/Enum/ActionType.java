@@ -4,5 +4,6 @@ public enum ActionType {
     VIEW_STATUS,
     SUBMIT,
     SEARCH,
-    CANCEL
+    CANCEL,
+    BUYBACK
 }
