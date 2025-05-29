@@ -247,7 +247,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/colorProduct"
+                            android:id="@+id/typeProduct"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/viewProduct_color"
@@ -256,7 +256,7 @@
                             android:textStyle="bold" />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/colorRecyclerView"
+                            android:id="@+id/typeRecyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"

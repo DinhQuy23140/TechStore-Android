@@ -9,6 +9,7 @@ public class Product {
     private String image;
     private Rating rating;
     private boolean isFavorite;
+    private Variant variant;
 
     public Product(String category, String description, int id, String image, float price, Rating rating, String title, boolean isFavorite) {
         this.category = category;
@@ -19,6 +20,26 @@ public class Product {
         this.rating = rating;
         this.title = title;
         this.isFavorite = isFavorite;
+    }
+
+    public Product(String category, String description, int id, String image, boolean isFavorite, float price, Rating rating, String title, Variant variant) {
+        this.category = category;
+        this.description = description;
+        this.id = id;
+        this.image = image;
+        this.isFavorite = isFavorite;
+        this.price = price;
+        this.rating = rating;
+        this.title = title;
+        this.variant = variant;
+    }
+
+    public Variant getVariant() {
+        return variant;
+    }
+
+    public void setVariant(Variant variant) {
+        this.variant = variant;
     }
 
     public String getCategory() {

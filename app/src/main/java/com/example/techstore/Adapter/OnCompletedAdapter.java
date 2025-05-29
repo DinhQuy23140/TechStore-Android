@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,11 +46,24 @@ public class OnCompletedAdapter extends RecyclerView.Adapter<OnCompletedAdapter.
                 .placeholder(R.drawable.background_image_default)
                 .into(holder.ivImg);
         holder.tvTitle.setText(product.getTitle());
-        holder.tvSize.setText("Size = " + product.getSize());
+//        holder.tvSize.setText("Size = " + product.getSize());
+        if (product.getSize().isEmpty()) {
+            holder.tvSize.setVisibility(View.GONE);
+            holder.lnSpace.setVisibility(View.GONE);
+        } else {
+            holder.tvSize.setText("Size = " + product.getSize());
+        }
         holder.tvQuantity.setText("Qty = " + product.getQuantity());
 //        holder.tvStatus.setText(context.getString(R.string.status_comp));
         holder.tvPrice.setText(product.getPrice() + "$");
-        holder.cvColor.setCardBackgroundColor(product.getColor());
+//        holder.cvColor.setCardBackgroundColor(product.getColor());
+        if (product.getColor() == 0) {
+            holder.cvColor.setVisibility(View.GONE);
+            holder.tvColor.setVisibility(View.GONE);
+            holder.lnSpace.setVisibility(View.GONE);
+        } else {
+            holder.cvColor.setCardBackgroundColor(product.getColor());
+        }
 //        holder.btnTrack.setText(context.getString(R.string.leave_review));
     }
 
@@ -61,7 +75,8 @@ public class OnCompletedAdapter extends RecyclerView.Adapter<OnCompletedAdapter.
     public static class OnCompletedViewHolder extends RecyclerView.ViewHolder {
         ImageView ivImg;
         CardView cvColor;
-        TextView tvTitle, tvSize, tvQuantity, tvStatus, tvPrice, btnTrack;
+        LinearLayout lnSpace;
+        TextView tvTitle, tvSize, tvQuantity, tvStatus, tvPrice, btnTrack, tvColor;
         public OnCompletedViewHolder(@NonNull View itemView) {
             super(itemView);
             ivImg = itemView.findViewById(R.id.iv_img_product);
@@ -72,6 +87,8 @@ public class OnCompletedAdapter extends RecyclerView.Adapter<OnCompletedAdapter.
 //            tvStatus = itemView.findViewById(R.id.tv_status);
             tvPrice = itemView.findViewById(R.id.tv_price_total);
 //            btnTrack = itemView.findViewById(R.id.btn_track_order);
+            lnSpace = itemView.findViewById(R.id.ln_space);
+            tvColor = itemView.findViewById(R.id.tvColor);
         }
     }
 }

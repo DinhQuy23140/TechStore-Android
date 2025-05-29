@@ -35,6 +35,8 @@ import com.example.techstore.Adapter.CategoryAdapter;
 import com.example.techstore.Adapter.CategoryNameAdapter;
 import com.example.techstore.Adapter.FilterAdapter;
 import com.example.techstore.Adapter.ProductAdapter;
+import com.example.techstore.ApiService.ApiService;
+import com.example.techstore.Client.ProductClient;
 import com.example.techstore.R;
 import com.example.techstore.activity.SearchActivity;
 import com.example.techstore.databinding.ActivityMainBinding;
@@ -47,11 +49,18 @@ import com.example.techstore.untilities.Constants;
 import com.example.techstore.untilities.Decoration;
 import com.example.techstore.untilities.GridSpacingItemDecoration;
 import com.example.techstore.viewmodel.HomeViewModel;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -139,6 +148,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //writeToFirebase();
         productRepository = new ProductRepository(getContext());
         userRepository = new UserRepository(getContext());
         homeViewModel = new HomeViewModel(productRepository, userRepository);
@@ -347,4 +357,32 @@ public class HomeFragment extends Fragment {
             tvTime.setText(R.string.setTimeNight);
         }
     }
+
+    public void writeToFirebase() {
+        ApiService apiService = ProductClient.getInstance().create(ApiService.class);
+        Call<ArrayList<Product>> call = apiService.getProduct();
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        Gson gson = new Gson();
+        call.enqueue(new retrofit2.Callback<ArrayList<Product>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                if (response.isSuccessful() && !response.body().isEmpty()) {
+                    List<Product> result = response.body();
+                    for(Product product : result) {
+                        Map<String, Object> bookMap = gson.fromJson(gson.toJson(product), new TypeToken<Map<String, Object>>(){}.getType());
+                        firebaseFirestore.collection(Constants.KEY_COLLECTION_PRODUCT)
+                                .document(String.valueOf(product.getId()))
+                                .set(bookMap);
+                    }
+                } else {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Product>> call, Throwable throwable) {
+            }
+        });
+    }
+
+
 }

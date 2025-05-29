@@ -3,6 +3,7 @@ package com.example.techstore.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +32,7 @@ import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -41,18 +43,22 @@ public class ViewProductActivity extends AppCompatActivity {
     UserRepository userRepository;
     ImageView btnBack, favorite, starRating;
     ImageView imageProduct, favoriteBtn;
-    TextView nameProduct, rating, ratingCount, description, tvPriceProduct, tvQuantity;
+    TextView nameProduct, rating, ratingCount, description, tvPriceProduct, tvQuantity, typeProduct, sizeProduct;
     ImageButton btnUp, btnDown;
     LinearLayout addToCart;
     RecyclerView rvColor, rvSize;
     ColorAdapter colorAdapter;
     List<Integer> colors;
-    List<String> sizes;
+    List<String> sizes, types;
     SizeAdapter sizeAdapter;
     int defaultQuantity = 1;
     float priceProduct;
     int getColor = 0;
     String getSize = "";
+    String type = "";
+    String size = "";
+    List<String> listSize = new ArrayList<>();
+    List<String> listType = new ArrayList<>();
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -69,6 +75,8 @@ public class ViewProductActivity extends AppCompatActivity {
         userRepository = new UserRepository(getApplicationContext());
         cartViewModel = new CartViewModel(userRepository);
 
+        typeProduct = findViewById(R.id.typeProduct);
+        sizeProduct = findViewById(R.id.sizeProduct);
         btnBack = findViewById(R.id.productBack);
         favoriteBtn = findViewById(R.id.favoriteBtn);
         imageProduct = findViewById(R.id.imgVP);
@@ -128,39 +136,60 @@ public class ViewProductActivity extends AppCompatActivity {
             }
         });
 
-        colors = Arrays.asList(
-                ContextCompat.getColor(this, R.color.black),
-                ContextCompat.getColor(this, R.color.gray),
-                ContextCompat.getColor(this, R.color.default_background_color),
-                ContextCompat.getColor(this, R.color.default_error_message),
-                ContextCompat.getColor(this, R.color.bgBottomNavigation),
-                ContextCompat.getColor(this, R.color.backgroundItemNotification),
-                ContextCompat.getColor(this, R.color.quantity_color)
-        );
-
-        colorAdapter = new ColorAdapter(this, colors, position -> getColor = colors.get(position));
-        rvColor = findViewById(R.id.colorRecyclerView);
-        rvColor.setLayoutManager(new GridLayoutManager(getApplicationContext(), 5));
-        rvColor.addItemDecoration(new GridSpacingItemDecoration(5, 10));
-        rvColor.setAdapter(colorAdapter);
+        if (product.getVariant() != null) {
+            type = product.getVariant().getType();
+            size = product.getVariant().getSize();
+            listSize = product.getVariant().getListSize();
+            listType = product.getVariant().getListType();
+        } else {
+            type = null;
+            size = null;
+            listSize = null;
+            listType = null;
+        }
 
         rvSize = findViewById(R.id.rvSize);
+        rvColor = findViewById(R.id.typeRecyclerView);
+        if (type != null) {
+            typeProduct.setText(type);
+        } else typeProduct.setVisibility(View.GONE);
+
+        if (size != null) sizeProduct.setText(size);
+        else sizeProduct.setVisibility(View.GONE);
+
+        if (listSize != null) {
+            sizes = listSize;
+        } else rvSize.setVisibility(View.GONE);
+
+        if (listType != null) {
+            types = listType;
+        } else rvColor.setVisibility(View.GONE);
+
+//        colorAdapter = new ColorAdapter(this, types, position -> getColor = colors.get(position));
+//        rvColor.setLayoutManager(new GridLayoutManager(getApplicationContext(), 5));
+//        rvColor.addItemDecoration(new GridSpacingItemDecoration(5, 10));
+//        rvColor.setAdapter(colorAdapter);
+
         rvSize.setLayoutManager(new GridLayoutManager(this, 4));
         rvSize.addItemDecoration(new GridSpacingItemDecoration(4, 20));
-        sizes = Arrays.asList("S", "M", "L", "XL", "XXL", "XXXL");
         sizeAdapter = new SizeAdapter(this, sizes, position -> getSize = sizes.get(position));
         rvSize.setAdapter(sizeAdapter);
-        Toast.makeText(this, "Note size: " + getSize + ", Color:  " + getColor, Toast.LENGTH_SHORT).show();
 
         addToCart = findViewById(R.id.addToCart);
         addToCart.setOnClickListener(addToCart -> {
-            if (getColor != 0 && !
-                    getSize.isEmpty()) {
+//            if (getSize.isEmpty()) {
+//                String id = generateRandomId();
+//                ProductInCart productInCart = new ProductInCart(getColor, id, product.getId(), product.getImage(), product.getPrice(), defaultQuantity, getSize, product.getTitle());
+//                cartViewModel.addOrUpdateCart(productInCart);
+//            } else {
+//                Toast.makeText(this, "Vui lòng lựa chọn kích thước và màu sắc!", Toast.LENGTH_SHORT).show();
+//            }
+            if (size != null && getSize ==  "") {
+                Toast.makeText(this, "Vui lòng lựa chọn kích thước và màu sắc!", Toast.LENGTH_SHORT).show();
+            } else {
                 String id = generateRandomId();
                 ProductInCart productInCart = new ProductInCart(getColor, id, product.getId(), product.getImage(), product.getPrice(), defaultQuantity, getSize, product.getTitle());
                 cartViewModel.addOrUpdateCart(productInCart);
-            } else {
-                Toast.makeText(this, "Vui lòng lựa chọn kích thước và màu sắc!", Toast.LENGTH_SHORT).show();
             }
         });
         cartViewModel.getMessage().observe(this, message -> {
