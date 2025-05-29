@@ -84,8 +84,11 @@ public class OrdersFragment extends Fragment {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             if (position == 0)
                 tab.setText(getString(R.string.on_going));
-            else
+            else if (position == 1)
                 tab.setText(getString(R.string.completed));
+            else {
+                tab.setText(getString(R.string.canceled));
+            }
         }).attach();
     }
 }

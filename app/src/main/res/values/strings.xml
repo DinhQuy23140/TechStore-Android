@@ -89,10 +89,12 @@
     <string name="status_status">Status</string>
     <string name="on_going">Ongoing</string>
     <string name="completed">Completed</string>
+    <string name="canceled">Canceled</string>
     <string name="status_detail">Orders Status Detail</string>
     <string name="orders_no_orders">No orders!</string>
     <string name="order_cancel">Cancel order</string>
     <string name="order_submit">Submit</string>
+    <string name="order_buy_back">Buy back</string>
 
     <!--    person framgent-->
     <string name="person_profile">Edit Profile</string>
