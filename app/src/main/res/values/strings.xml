@@ -137,6 +137,7 @@
     <string name="product_rating">Rating</string>
     <string name="default_quantity">1</string>
     <string name="product_no_product">No product selected</string>
+    <string name="no_product_in_cart">No product in cart</string>
 
     <!--    address     -->
     <string name="address_home">Home</string>
@@ -155,6 +156,13 @@
     <!--    search-activity-->
     <string name="search_recent">Recent</string>
     <string name="search_clear">Clear</string>
+
+    <!--  search common  -->
+    <string name="search_common_cart">Search for products in cart</string>
+    <string name="search_common_orders">Search for products in cart</string>
+    <string name="search_common_orders_ongoing">Search for products in cart</string>
+    <string name="search_common_orders_completed">Search for products in cart</string>
+    <string name="search_common_oredrs_cancel">Search for products in cart</string>
 
 
     <string name="all_input_failure">Please enter complete information</string>

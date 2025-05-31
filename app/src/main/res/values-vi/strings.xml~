@@ -160,8 +160,8 @@
     <!--    search common   -->
     <string name="search_common_cart">Tìm kiếm trong giỏ hàng</string>
     <string name="search_common_orders">Tìm kiếm đơn hàng</string>
-    <string name="search_common_orders_completed">Tìm kiếm đơn hàng đã hoàn thành</string>
-    <string name="search_common_oredrs_cancel">Tìm kiếm đơn hàng đã hủy</string>
+    <string name="search_common_orders_completed">Tìm kiếm đơn hàng</string>
+    <string name="search_common_oredrs_cancel">Tìm kiếm đơn hàng</string>
 
 
     <string name="all_input_failure">Vui lòng nhập đầy đủ thông tin</string>

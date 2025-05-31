@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.example.techstore.Adapter.CartAdapter;
 import com.example.techstore.R;
 import com.example.techstore.activity.CheckoutActivity;
+import com.example.techstore.activity.SearchCommonActivity;
 import com.example.techstore.interfaces.OnClickCheckBox;
 import com.example.techstore.interfaces.OnClickProductInCart;
 import com.example.techstore.interfaces.OnClickWidgetItem;
@@ -52,6 +54,7 @@ public class CartFragment extends Fragment {
     private String mParam2;
     RecyclerView rvCartItem;
     CartAdapter cartAdapter;
+    ImageView ivSeach;
     TextView tvTotal, tvMessage;
     LinearLayout lnCheckout;
     List<ProductInCart> listProductInCart, listSelectProductInCart;
@@ -152,6 +155,13 @@ public class CartFragment extends Fragment {
                 rvCartItem.setVisibility(View.GONE);
                 tvMessage.setVisibility(View.VISIBLE);
             }
+        });
+
+        ivSeach = view.findViewById(R.id.iv_search);
+        ivSeach.setOnClickListener(search -> {
+            Intent intent = new Intent(getContext(), SearchCommonActivity.class);
+            intent.putExtra(Constants.KEY_SEARCH_COMMON, Constants.KEY_COLLECTION_CART);
+            startActivity(intent);
         });
 
         lnCheckout = view.findViewById(R.id.ln_checkout);

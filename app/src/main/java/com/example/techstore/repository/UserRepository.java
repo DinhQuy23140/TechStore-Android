@@ -86,6 +86,10 @@ public class UserRepository {
         void onResult(List<String> result);
     }
 
+    public interface ProductsCallBack {
+        void onResult(List<ProductInCart> result);
+    }
+
     public void checkEmailisExits(String email, Callback callback) {
         firebaseFirestore.collection(Constants.KEY_COLLECTION_USER)
                 .whereEqualTo(Constants.KEY_EMAIL, email)
@@ -398,5 +402,27 @@ public class UserRepository {
                 .collection(Constants.KEY_COLLECTION_PRODUCT)
                 .document(String.valueOf(idProduct))
                 .delete();
+    }
+
+    public void seachProductInCart(String keySearch, ProductsCallBack listCallback) {
+        String email = sharedPrefManager.getEmail();
+        List<ProductInCart> listResult = new ArrayList<>();
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_CART)
+                .document(email)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    List<String> listProductInCart = (List<String>) documentSnapshot.get(Constants.KEY_SHARE_PRODUCT);
+                    if (listProductInCart != null && !listProductInCart.isEmpty()) {
+                        for (String strProductInCart : listProductInCart) {
+                            ProductInCart productInCart = gson.fromJson(strProductInCart, ProductInCart.class);
+                            if (productInCart.getTitle().toLowerCase().contains(keySearch.toLowerCase())) {
+                                listResult.add(productInCart);
+                            } else listCallback.onResult(new ArrayList<>());
+                        }
+                        listCallback.onResult(listResult);
+                    } else {
+                        listCallback.onResult(new ArrayList<>());
+                    }
+                });
     }
 }
