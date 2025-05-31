@@ -136,7 +136,8 @@
     <string name="product_review">Review</string>
     <string name="product_rating">Rating</string>
     <string name="default_quantity">1</string>
-    <string name="product_no_product">No product selected</string>
+    <string name="product_no_product_selected">No product selected</string>
+    <string name="product_no_product">No product!</string>
     <string name="no_product_in_cart">No product in cart</string>
 
     <!--    address     -->

@@ -136,7 +136,8 @@
     <string name="product_review">Đánh giá</string>
     <string name="product_rating">Đánh giá</string>
     <string name="default_quantity">1</string>
-    <string name="product_no_product">Vui lòng chọn sản phẩm</string>
+    <string name="product_no_product_selected">Vui lòng chọn sản phẩm</string>
+    <string name="product_no_product">Không có sản phẩm!</string>
     <string name="no_product_in_cart">Không có sản phẩm trong giỏ hàng</string>
 
     <!--    address     -->
