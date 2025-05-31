@@ -5,11 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,12 +26,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class OrdersCancel extends RecyclerView.Adapter<OrdersCancel.OrdersCancelViewHolder> {
+public class OrdersCancelAdapter extends RecyclerView.Adapter<OrdersCancelAdapter.OrdersCancelViewHolder> {
     Context context;
     List<ProductOrders> listCancelOrders;
     OnClickWidgetItem listener;
 
-    public OrdersCancel(Context context, List<ProductOrders> listCancelOrders, OnClickWidgetItem listener) {
+    public OrdersCancelAdapter(Context context, List<ProductOrders> listCancelOrders, OnClickWidgetItem listener) {
         this.context = context;
         this.listCancelOrders = listCancelOrders;
         this.listener = listener;

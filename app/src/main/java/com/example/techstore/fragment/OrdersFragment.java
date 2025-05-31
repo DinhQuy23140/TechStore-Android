@@ -1,5 +1,6 @@
 package com.example.techstore.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,9 +11,12 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.techstore.Adapter.ViewPagerAdapter;
 import com.example.techstore.R;
+import com.example.techstore.activity.SearchCommonActivity;
+import com.example.techstore.untilities.Constants;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -29,6 +33,9 @@ public class OrdersFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    ImageView ivSeach;
+    int positionFragment = 0;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -77,18 +84,60 @@ public class OrdersFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
         ViewPager2 viewPager = view.findViewById(R.id.viewPager);
+        ivSeach = view.findViewById(R.id.iv_search);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity());
         viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            if (position == 0)
+            if (position == 0) {
                 tab.setText(getString(R.string.on_going));
+            }
             else if (position == 1)
                 tab.setText(getString(R.string.completed));
             else {
                 tab.setText(getString(R.string.canceled));
             }
         }).attach();
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                positionFragment = tab.getPosition();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        ivSeach.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), SearchCommonActivity.class);
+            switch (positionFragment) {
+                case 0: {
+                    intent.putExtra(Constants.KEY_SEARCH_COMMON, Constants.KEY_NAME_FILED_ORDERS);
+                    break;
+                }
+                case 1: {
+                    intent.putExtra(Constants.KEY_SEARCH_COMMON, Constants.KEY_COLLECTION_ORDER_COMPLETE);
+                    break;
+                }
+                case 2: {
+                    intent.putExtra(Constants.KEY_SEARCH_COMMON, Constants.KEY_COLLECTION_ORDER_CANCEL);
+                    break;
+                }
+                default: {
+                    intent.putExtra(Constants.KEY_SEARCH_COMMON, Constants.KEY_NAME_FILED_ORDERS);
+                    break;
+                }
+            }
+            startActivity(intent);
+        });
     }
 }

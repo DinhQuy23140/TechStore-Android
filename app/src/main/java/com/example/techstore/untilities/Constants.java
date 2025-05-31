@@ -56,4 +56,5 @@ public class Constants {
     // key
     public static final String KEY_VALUE = "value";
     public static final String KEY_TIME_STAMP = "time_stamp";
+    public static final String KEY_SEARCH_COMMON = "search_common";
 }
