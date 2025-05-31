@@ -113,6 +113,7 @@ public class ProductRepository {
                     for (DocumentSnapshot documentSnapshot : documentSnapshots) {
                         String strProduct = documentSnapshot.getString(Constants.KEY_VALUE);
                         Product product = gson.fromJson(strProduct, Product.class);
+                        product.setFavorite(true);
                         result.add(product);
                     }
                     callback.onResult(result);

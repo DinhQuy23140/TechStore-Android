@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.techstore.Adapter.ProductAdapter;
@@ -43,6 +44,7 @@ public class ManageFavoriteFragment extends Fragment {
     ProductRepository productRepository;
     UserRepository userRepository;
     ImageView ivBack;
+    TextView tvMessage;
     RecyclerView rvFavorite;
     List<Product> listProduct;
     ProductAdapter productAdapter;
@@ -93,6 +95,7 @@ public class ManageFavoriteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        tvMessage = view.findViewById(R.id.tv_message);
         productRepository = new ProductRepository(getContext());
         userRepository = new UserRepository(getContext());
         favoriteViewModel = new FavoriteViewModel(getContext(), productRepository, userRepository);
@@ -108,14 +111,21 @@ public class ManageFavoriteFragment extends Fragment {
                     @Override
                     public void onClickFavorite(int position) {
                         favoriteViewModel.addFavoriteProduct(listProduct.get(position));
+                        favoriteViewModel.loadFavoriteProduct();
                     }
 
                     @Override
                     public void onClickUnFavorite(int position) {
                         favoriteViewModel.unFavoriteProduct(listProduct.get(position));
+                        favoriteViewModel.loadFavoriteProduct();
                     }
                 });
+                rvFavorite.setVisibility(View.VISIBLE);
+                tvMessage.setVisibility(View.GONE);
                 rvFavorite.setAdapter(productAdapter);
+            } else {
+                rvFavorite.setVisibility(View.GONE);
+                tvMessage.setVisibility(View.VISIBLE);
             }
         });
         ivBack = view.findViewById(R.id.btn_back);
